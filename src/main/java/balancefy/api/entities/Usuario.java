@@ -8,6 +8,7 @@ public class Usuario {
     private String email;
     private String senha;
     private LocalDate dataNascimento;
+    private String token;
 
     public boolean autenticar(String email, String senha) {
         return email.equals(this.email) && senha.equals(this.senha);
@@ -47,5 +48,13 @@ public class Usuario {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
