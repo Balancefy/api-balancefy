@@ -1,6 +1,15 @@
 package balancefy.api.entities;
 
+import balancefy.api.entities.dto.LoginDto;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.security.Key;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Usuario {
     private int idUsuario;
@@ -8,10 +17,27 @@ public class Usuario {
     private String email;
     private String senha;
     private LocalDate dataNascimento;
-    private String token;
+    private String token = "";
 
-    public boolean autenticar(String email, String senha) {
-        return email.equals(this.email) && senha.equals(this.senha);
+    public boolean autenticar(LoginDto login) {
+        boolean validacao = login.getEmail().equals(this.email) && login.getSenha().equals(this.senha);
+        token = validacao ? gerarToken() : "";
+
+        return validacao;
+    }
+
+    private String gerarToken() {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary("secret123");
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+        JwtBuilder builder = Jwts.builder()
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(this.nome)
+                .signWith(signatureAlgorithm, signingKey);
+
+        return builder.compact();
     }
 
     public int getIdUsuario() {
