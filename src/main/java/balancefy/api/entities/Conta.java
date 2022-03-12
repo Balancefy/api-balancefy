@@ -5,36 +5,44 @@ import java.util.List;
 
 public class Conta {
     private int idUsuario;
+    private int idConta;
     private Double saldo = 0.;
     private Double renda = 0.;
     private int qtdObjetivosCompletos = 0;
     private Double progresso = 0.;
 
-//    private List<Movimentacao> movimentacao = new ArrayList<Movimentacao>();
+
+
+
+    private List<MovimentacaoFixa> movimentacoesFixas = new ArrayList<>();
+    private List<Dica> dicas = new ArrayList<>();
 //    private List<Objetivo> objetivos = new ArrayList<Objetivo>();
 
-//    public void registrarMovimentacaoFixa(Movimentacao m){
-//        movimentacao.add(m);
-//    }
+    public void cadastrarMovimentacaoFixa(MovimentacaoFixa m){
+        movimentacoesFixas.add(m);
+    }
 
-//    public void atualizarMovimentacaoFixa(Movimentacao m, Double valorTotal, String tipo){
-//        m.setTipo(tipo);
-//        m.setValorTotal(valorTotal);
-//    } 
+    public void atualizarMovimentacaoFixa( int indiceMov, MovimentacaoFixa m){
+        movimentacoesFixas.set(indiceMov, m);
+    }
 
-//    public void removerMovimentacaoFixa(Movimentacao m){
-//        movimentacao.remove(m);
-//    }
+    public void deletarMovimentacaoFixa(int indiceMov){
+        movimentacoesFixas.remove(indiceMov);
+    }
+
+    public List<MovimentacaoFixa> listaMovimentacaoFixa(){
+        return movimentacoesFixas;
+    }
 
 //    public void adicionarObjetivo(Objetivo o){
 //        objetivos.add(o);
 //    }
-
+//
 //    public void alterarObjetivo(Objetivo o, Double valorTotal, Double valorInicial){
 //        objetivos.setValorTotal(valorTotal);
 //        objetivos.setValorInicial(valorInicial);
 //    }
-
+//
 //    public void removerObjetivo(Objetivo o){
 //        objetivos.remove(o);
 //    }
@@ -46,6 +54,14 @@ public class Conta {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public int getIdConta() {
+        return idConta;
+    }
+
+    public void setIdConta(int idConta) {
+        this.idConta = idConta;
     }
 
     public Double getSaldo() {
