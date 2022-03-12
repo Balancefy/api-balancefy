@@ -14,6 +14,11 @@ public class BalancefyController {
 
     @PostMapping
     public ResponseEntity cadastrar(@RequestBody Usuario usuario) {
+        for (Usuario u : usuarios){
+            if (u.getEmail().equals(usuario.getEmail())){
+                return ResponseEntity.status(409).body("Usuario ja cadastrado");
+            }
+        }
         usuarios.add(usuario);
 
         return ResponseEntity.status(201).build();
