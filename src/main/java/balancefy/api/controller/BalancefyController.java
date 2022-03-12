@@ -159,10 +159,6 @@ public class BalancefyController {
         return contas.get(indiceConta).listaMovimentacaoFixa();
     }
 
-    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
-    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
-    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
-
     @PostMapping("/conta/objetivo/{indiceConta}")
     public ResponseEntity cadastrarObjetivo(
             @RequestBody Objetivo o,
