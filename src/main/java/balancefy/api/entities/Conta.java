@@ -13,10 +13,9 @@ public class Conta {
 
 
 
-
     private List<MovimentacaoFixa> movimentacoesFixas = new ArrayList<>();
     private List<Dica> dicas = new ArrayList<>();
-//    private List<Objetivo> objetivos = new ArrayList<Objetivo>();
+    private List<Objetivo> objetivos = new ArrayList<>();
 
     public void cadastrarMovimentacaoFixa(MovimentacaoFixa m){
         movimentacoesFixas.add(m);
@@ -34,19 +33,21 @@ public class Conta {
         return movimentacoesFixas;
     }
 
-//    public void adicionarObjetivo(Objetivo o){
-//        objetivos.add(o);
-//    }
-//
-//    public void alterarObjetivo(Objetivo o, Double valorTotal, Double valorInicial){
-//        objetivos.setValorTotal(valorTotal);
-//        objetivos.setValorInicial(valorInicial);
-//    }
-//
-//    public void removerObjetivo(Objetivo o){
-//        objetivos.remove(o);
-//    }
+    public void cadastrarObjetivo(Objetivo o){
+        objetivos.add(o);
+    }
 
+    public void atualizarObjetivo(int indiceObj, Objetivo o){
+        objetivos.set(indiceObj, o);
+    }
+
+    public void deletarObjetivo(int indiceObj){
+        objetivos.remove(indiceObj);
+    }
+
+    public List<Objetivo> listarObjetivosPorConta(){
+        return objetivos;
+    }
 
     public int getIdUsuario() {
         return idUsuario;

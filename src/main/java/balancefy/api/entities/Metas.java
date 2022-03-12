@@ -5,17 +5,7 @@ public abstract class Metas {
     private Integer id;
     private String nome;
     private String descricao;
-    private Boolean done;
-
-    @Override
-    public String toString() {
-        return "Metas{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", done=" + done +
-                '}';
-    }
+    private boolean done;
 
     public Integer getId() {return id;}
 
