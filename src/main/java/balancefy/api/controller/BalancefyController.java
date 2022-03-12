@@ -1,10 +1,7 @@
 package balancefy.api.controller;
 
-import balancefy.api.entities.Conta;
-import balancefy.api.entities.MovimentacaoFixa;
-import balancefy.api.entities.Usuario;
+import balancefy.api.entities.*;
 import balancefy.api.entities.dto.LoginDto;
-import balancefy.api.entities.Objetivo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +54,6 @@ public class BalancefyController {
         return ResponseEntity.status(201).build();
     }
 
-}
     @DeleteMapping("/logOffUsuario/{email}")
     public ResponseEntity logOffUsuario(@PathVariable String email) {
         for (Usuario u : usuarios) {
@@ -98,7 +94,7 @@ public class BalancefyController {
                 // CONTA CADASTRADA !!!!
             }
         }
-        return ResponseEntity.status(400).body("http.cat/400");
+        return ResponseEntity.status(404).body("Usuario inexistente!!!");
     }
 
     @DeleteMapping("/conta/{indice}")
@@ -118,6 +114,14 @@ public class BalancefyController {
         if (indiceConta < 0 || indiceConta >= contas.size()) {
             return ResponseEntity.status(400).body("indice da conta nao encontrado");
         }
+        Optional<MovimentacaoFixa> movimentacaoExists = contas.get(indiceConta).listaMovimentacaoFixa().stream().filter(movimentacaoFixa ->
+                movimentacaoFixa.getIdMovimentacaoFixa() == mf.getIdMovimentacaoFixa())
+                .findFirst();
+
+        if (movimentacaoExists.isPresent()){
+            return ResponseEntity.status(409).body("movimentacao ja existente");
+        }
+
         contas.get(indiceConta).cadastrarMovimentacaoFixa(mf);
         return ResponseEntity.status(200).body("movimentacao cadastrada");
     }
@@ -153,5 +157,63 @@ public class BalancefyController {
     @GetMapping("/conta/movimentacaoFixa/{indiceConta}")
     public List<MovimentacaoFixa> listaMovimentacaoConta(@PathVariable int indiceConta) {
         return contas.get(indiceConta).listaMovimentacaoFixa();
+    }
+
+    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
+    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
+    // OBJETIVO ( vou remover manokyo eh so para eu n me perder :D )
+
+    @PostMapping("/conta/objetivo/{indiceConta}")
+    public ResponseEntity cadastrarObjetivo(
+            @RequestBody Objetivo o,
+            @PathVariable int indiceConta) {
+        if (indiceConta < 0 || indiceConta >= contas.size()) {
+            return ResponseEntity.status(400).body("indice da conta nao encontrado");
+        }
+
+        Optional<Objetivo> objetivoExists = contas.get(indiceConta).listarObjetivosPorConta().stream().filter(objetivo ->
+                        objetivo.getId() == o.getId())
+                        .findFirst();
+
+        if (objetivoExists.isPresent()){
+            return ResponseEntity.status(409).body("Objetivo ja existente");
+        }
+
+
+        contas.get(indiceConta).cadastrarObjetivo(o);
+        return ResponseEntity.status(200).body("Objetivo cadastrada");
+    }
+
+    @PutMapping("/conta/objetivo/{indiceConta}/{indiceObj}")
+    public ResponseEntity alterarObjetivo(
+            @RequestBody Objetivo o,
+            @PathVariable int indiceConta,
+            @PathVariable int indiceObj) {
+
+        if (indiceConta < 0 || indiceConta >= contas.size()) {
+            return ResponseEntity.status(400).body("indice nao encontrado");
+        }
+
+        contas.get(indiceConta).atualizarObjetivo(indiceObj, o);
+        return ResponseEntity.status(200).body("Objetivo alterada");
+    }
+
+    @DeleteMapping("/conta/objetivo/{indiceConta}/{indiceObj}")
+    public ResponseEntity deletarObjetivo(
+            @PathVariable int indiceConta,
+            @PathVariable int indiceObj) {
+        if (indiceConta < 0 || indiceConta >= contas.size()) {
+            return ResponseEntity.status(400).body("indiceConta nao encontrado");
+        }
+        if (indiceObj < 0 || indiceObj >= contas.size()) {
+            return ResponseEntity.status(404).body("indiceObj nao existe");
+        }
+        contas.get(indiceObj).deletarObjetivo(indiceObj);
+        return ResponseEntity.status(200).body("Objetivo deletado");
+    }
+
+    @GetMapping("/conta/objetivo/{indiceConta}")
+    public List<Objetivo> listaObjetivosPorConta(@PathVariable int indiceConta) {
+        return contas.get(indiceConta).listarObjetivosPorConta();
     }
 }

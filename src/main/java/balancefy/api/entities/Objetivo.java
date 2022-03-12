@@ -1,11 +1,10 @@
 package balancefy.api.entities;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class Objetivo extends Metas {
 
-    private Double valotTotal;
+    private Double valorTotal;
     private Double valorInicial;
     private Integer mesesEstimado;
 
@@ -23,9 +22,9 @@ public class Objetivo extends Metas {
     }
 
 
-    public Double getValotTotal() {return valotTotal;}
+    public Double getValorTotal() {return valorTotal;}
 
-    public void setValotTotal(Double valotTotal) {this.valotTotal = valotTotal;}
+    public void setValorTotal(Double valorTotal) {this.valorTotal = valorTotal;}
 
     public Double getValorInicial() {return valorInicial;}
 
