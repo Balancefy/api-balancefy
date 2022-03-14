@@ -47,13 +47,6 @@ public class BalancefyController {
         return ResponseEntity.status(usuarios.isEmpty() ? 204 : 200).body(usuarios);
     }
 
-    @PostMapping("/cadastrar/objetivo")
-    public ResponseEntity cadastrarMetas(@RequestBody Objetivo objetivo){
-        objetivos.add(objetivo);
-
-        return ResponseEntity.status(201).build();
-    }
-
     @DeleteMapping("/logOffUsuario/{email}")
     public ResponseEntity logOffUsuario(@PathVariable String email) {
         for (Usuario u : usuarios) {
@@ -147,10 +140,10 @@ public class BalancefyController {
         if (indiceConta < 0 || indiceConta >= contas.size()) {
             return ResponseEntity.status(400).body("indiceConta nao encontrado");
         }
-        if (indiceMov < 0 || indiceMov >= contas.size()) {
+        if (indiceMov < 0 || indiceMov >= contas.get(indiceConta).listaMovimentacaoFixa().size()) {
             return ResponseEntity.status(404).body("indiceMovimentacao nao existe");
         }
-        contas.get(indiceMov).deletarMovimentacaoFixa(indiceMov);
+        contas.get(indiceConta).deletarMovimentacaoFixa(indiceMov);
         return ResponseEntity.status(200).body("movimentacao deletada");
     }
 
@@ -200,10 +193,11 @@ public class BalancefyController {
         if (indiceConta < 0 || indiceConta >= contas.size()) {
             return ResponseEntity.status(400).body("indiceConta nao encontrado");
         }
-        if (indiceObj < 0 || indiceObj >= contas.size()) {
-            return ResponseEntity.status(404).body("indiceObj nao existe");
+        if (indiceObj < 0 || indiceObj >= contas.get(indiceConta).listarObjetivosPorConta().size()) {
+            return ResponseEntity.status(404).body("indiceObj na" +
+                    "o existe");
         }
-        contas.get(indiceObj).deletarObjetivo(indiceObj);
+        contas.get(indiceConta).deletarObjetivo(indiceObj);
         return ResponseEntity.status(200).body("Objetivo deletado");
     }
 
