@@ -49,6 +49,11 @@ public class Conta {
         return objetivos;
     }
 
+    public void getObjetivoByIndice(int indiceObj){
+        Objetivo objetivo = objetivos.get(indiceObj);
+        objetivo.concluir();
+    }
+
     public int getIdUsuario() {
         return idUsuario;
     }

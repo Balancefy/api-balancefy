@@ -174,10 +174,9 @@ public class BalancefyController {
         if (objetivoExists.isPresent()){
             return ResponseEntity.status(409).body("Objetivo ja existente");
         }
-
-
+        o.criarTasks();
         contas.get(indiceConta).cadastrarObjetivo(o);
-        return ResponseEntity.status(200).body("Objetivo cadastrada");
+        return ResponseEntity.status(201).body("Objetivo cadastrado");
     }
 
     @PutMapping("/conta/objetivo/{indiceConta}/{indiceObj}")
@@ -206,6 +205,13 @@ public class BalancefyController {
         }
         contas.get(indiceObj).deletarObjetivo(indiceObj);
         return ResponseEntity.status(200).body("Objetivo deletado");
+    }
+
+    @PutMapping("/conta/objetivo/concluir/{indiceConta}/{indiceObjetivo}")
+    public ResponseEntity concluirObjetivo(@PathVariable int indiceConta, @PathVariable int indiceObjetivo) {
+        contas.get(indiceConta).getObjetivoByIndice(indiceObjetivo);
+
+        return ResponseEntity.status(200).build();
     }
 
     @GetMapping("/conta/objetivo/{indiceConta}")

@@ -7,20 +7,29 @@ public class Objetivo extends Metas {
     private Double valorTotal;
     private Double valorInicial;
     private Integer mesesEstimado;
+    private Double pontuacao = 0.0;
 
     ArrayList<Task> tasks = new ArrayList<>();
 
 
-    public void CriarTasks(){
+    public void criarTasks(){
 
         for(int i = 0; i < mesesEstimado; i++){
-
            Task task  = new Task();
+           task.setDone(true);
 
            tasks.add(task);
        }
     }
 
+    public void concluir() {
+        for(Task task: tasks) {
+            if(!task.getDone()) {
+                return;
+            }
+        }
+        setDone(true);
+    }
 
     public Double getValorTotal() {return valorTotal;}
 
