@@ -1,6 +1,6 @@
 package balancefy.api.entities;
 
-public class Task extends Metas {
+public class Task extends Meta {
 
     private Double qtdDesconto;
 

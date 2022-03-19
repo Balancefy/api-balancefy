@@ -2,7 +2,7 @@ package balancefy.api.entities;
 
 import java.util.ArrayList;
 
-public class Objetivo extends Metas {
+public class Objetivo extends Meta {
 
     private Double valorTotal;
     private Double valorInicial;

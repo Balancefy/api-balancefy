@@ -4,19 +4,34 @@ import balancefy.api.entities.dto.LoginDto;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.persistence.*;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.time.LocalDate;
 import java.util.Date;
 
+@Entity
 public class Usuario {
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private int idUsuario;
+
+    @Column(length = 100)
     private String nome;
+
+    @Column(length = 100)
     private String email;
+
+    @Column(length = 155)
     private String senha;
+
+    @Column
     private LocalDate dataNascimento;
+
     private String token = "";
 
     public boolean autenticar(LoginDto login) {

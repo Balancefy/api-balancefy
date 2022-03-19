@@ -1,6 +1,6 @@
 package balancefy.api.entities;
 
-public abstract class Metas {
+public abstract class Meta {
 
     private Integer id;
     private String nome;
