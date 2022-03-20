@@ -1,97 +1,38 @@
 package balancefy.api.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "conta", indexes = {
+        @Index(name = "fk_Conta_Usuario1_idx", columnList = "fk_usuario")
+})
 public class Conta {
-    private int idUsuario;
-    private int idConta;
-    private Double saldo = 0.;
-    private Double renda = 0.;
-    private int qtdObjetivosCompletos = 0;
-    private Double progresso = 0.;
+    @Id
+    @Column(name = "id_conta", nullable = false)
+    private Integer id;
 
+    @Column(name = "saldo", nullable = false)
+    private Double saldo;
 
+    @Column(name = "renda", nullable = false)
+    private Double renda;
 
-    private List<MovimentacaoFixa> movimentacoesFixas = new ArrayList<>();
-    private List<Dica> dicas = new ArrayList<>();
-    private List<Objetivo> objetivos = new ArrayList<>();
+    @Column(name = "qtd_objetivos_completos")
+    private Integer qtdObjetivosCompletos;
 
-    public void cadastrarMovimentacaoFixa(MovimentacaoFixa m){
-        movimentacoesFixas.add(m);
+    @Column(name = "progresso", nullable = false)
+    private Double progresso;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_usuario", nullable = false)
+    private Usuario fkUsuario;
+
+    public Usuario getFkUsuario() {
+        return fkUsuario;
     }
 
-    public void atualizarMovimentacaoFixa( int indiceMov, MovimentacaoFixa m){
-        movimentacoesFixas.set(indiceMov, m);
-    }
-
-    public void deletarMovimentacaoFixa(int indiceMov){
-        movimentacoesFixas.remove(indiceMov);
-    }
-
-    public List<MovimentacaoFixa> listaMovimentacaoFixa(){
-        return movimentacoesFixas;
-    }
-
-    public void cadastrarObjetivo(Objetivo o){
-        objetivos.add(o);
-    }
-
-    public void atualizarObjetivo(int indiceObj, Objetivo o){
-        objetivos.set(indiceObj, o);
-    }
-
-    public void deletarObjetivo(int indiceObj){
-        objetivos.remove(indiceObj);
-    }
-
-    public List<Objetivo> listarObjetivosPorConta(){
-        return objetivos;
-    }
-
-    public void getObjetivoByIndice(int indiceObj){
-        Objetivo objetivo = objetivos.get(indiceObj);
-        objetivo.concluir();
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public int getIdConta() {
-        return idConta;
-    }
-
-    public void setIdConta(int idConta) {
-        this.idConta = idConta;
-    }
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
-
-    public Double getRenda() {
-        return renda;
-    }
-
-    public void setRenda(Double renda) {
-        this.renda = renda;
-    }
-
-    public int getQtdObjetivosCompletos() {
-        return qtdObjetivosCompletos;
-    }
-
-    public void setQtdObjetivosCompletos(int qtdObjetivosCompletos) {
-        this.qtdObjetivosCompletos = qtdObjetivosCompletos;
+    public void setFkUsuario(Usuario fkUsuario) {
+        this.fkUsuario = fkUsuario;
     }
 
     public Double getProgresso() {
@@ -102,4 +43,35 @@ public class Conta {
         this.progresso = progresso;
     }
 
+    public Integer getQtdObjetivosCompletos() {
+        return qtdObjetivosCompletos;
+    }
+
+    public void setQtdObjetivosCompletos(Integer qtdObjetivosCompletos) {
+        this.qtdObjetivosCompletos = qtdObjetivosCompletos;
+    }
+
+    public Double getRenda() {
+        return renda;
+    }
+
+    public void setRenda(Double renda) {
+        this.renda = renda;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
