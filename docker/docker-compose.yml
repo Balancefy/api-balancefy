@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  balancefydb:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=balancefy
+    ports:
+      - 3307
+    volumes:
+      - db:/var/lib/mysql
+  balancefy-service:
+    depends_on:
+      - balancefydb
+    build: ../
+    restart: on-failure
+    env_file: ../.env
+    ports:
+      - 6868
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/balancefy?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+volumes:
+  db:
