@@ -1,27 +1,43 @@
 package balancefy.api.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "dica", indexes = {
+        @Index(name = "fk_Dica_Conta1_idx", columnList = "fk_conta")
+})
 public class Dica {
-    int idDica;
-    String titulo;
-    String descricao;
-    String tema;
+    @Id
+    @Column(name = "id_dicas", nullable = false)
+    private Integer id;
 
+    @Column(name = "titulo", length = 45)
+    private String titulo;
 
+    @Column(name = "descricao")
+    private String descricao;
 
-    public int getIdDica() {
-        return idDica;
+    @Column(name = "tema", length = 45)
+    private String tema;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_conta", nullable = false)
+    private Conta fkConta;
+
+    public Conta getFkConta() {
+        return fkConta;
     }
 
-    public void setIdDica(int idDica) {
-        this.idDica = idDica;
+    public void setFkConta(Conta fkConta) {
+        this.fkConta = fkConta;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTema() {
+        return tema;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTema(String tema) {
+        this.tema = tema;
     }
 
     public String getDescricao() {
@@ -32,11 +48,19 @@ public class Dica {
         this.descricao = descricao;
     }
 
-    public String getTema() {
-        return tema;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTema(String tema) {
-        this.tema = tema;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

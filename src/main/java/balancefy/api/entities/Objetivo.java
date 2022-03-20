@@ -1,46 +1,100 @@
 package balancefy.api.entities;
 
-import java.util.ArrayList;
+import javax.persistence.*;
+import java.time.Instant;
 
-public class Objetivo extends Meta {
+@Entity
+@Table(name = "objetivo", indexes = {
+        @Index(name = "fk_Objetivo_Conta1_idx", columnList = "fkConta")
+})
+public class Objetivo {
+    @Id
+    @Column(name = "id_objetivo", nullable = false)
+    private Integer id;
 
+    @Column(name = "nome", length = 100)
+    private String nome;
+
+    @Column(name = "descricao", length = 100)
+    private String descricao;
+
+    @Column(name = "done")
+    private Integer done;
+
+    @Column(name = "valorTotal")
     private Double valorTotal;
+
+    @Column(name = "valorInicial")
     private Double valorInicial;
-    private Integer mesesEstimado;
-    private Double pontuacao = 0.0;
 
-    ArrayList<Task> tasks = new ArrayList<>();
+    @Column(name = "tempo_estimado")
+    private Instant tempoEstimado;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fkConta", nullable = false)
+    private Conta fkConta;
 
-    public void criarTasks(){
-
-        for(int i = 0; i < mesesEstimado; i++){
-           Task task  = new Task();
-           task.setDone(true);
-
-           tasks.add(task);
-       }
+    public Conta getFkConta() {
+        return fkConta;
     }
 
-    public void concluir() {
-        for(Task task: tasks) {
-            if(!task.getDone()) {
-                return;
-            }
-        }
-        setDone(true);
+    public void setFkConta(Conta fkConta) {
+        this.fkConta = fkConta;
     }
 
-    public Double getValorTotal() {return valorTotal;}
+    public Instant getTempoEstimado() {
+        return tempoEstimado;
+    }
 
-    public void setValorTotal(Double valorTotal) {this.valorTotal = valorTotal;}
+    public void setTempoEstimado(Instant tempoEstimado) {
+        this.tempoEstimado = tempoEstimado;
+    }
 
-    public Double getValorInicial() {return valorInicial;}
+    public Double getValorInicial() {
+        return valorInicial;
+    }
 
-    public void setValorInicial(Double valorInicial) {this.valorInicial = valorInicial;}
+    public void setValorInicial(Double valorInicial) {
+        this.valorInicial = valorInicial;
+    }
 
-    public Integer getMesesEstimado() {return mesesEstimado;}
+    public Double getValorTotal() {
+        return valorTotal;
+    }
 
-    public void setMesesEstimado(Integer mesesEstimado) {this.mesesEstimado = mesesEstimado;}
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
+    public Integer getDone() {
+        return done;
+    }
+
+    public void setDone(Integer done) {
+        this.done = done;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
