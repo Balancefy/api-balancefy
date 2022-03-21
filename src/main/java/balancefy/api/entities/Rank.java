@@ -4,10 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "rank", indexes = {
-        @Index(name = "fk_Rank_Usuario_idx", columnList = "fk_usuario")
+        @Index(name = "fk_usuario", columnList = "fk_usuario")
 })
 public class Rank {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rank", nullable = false)
     private Integer id;
 
