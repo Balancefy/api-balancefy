@@ -2,6 +2,7 @@ package balancefy.api.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comentario", indexes = {
@@ -14,17 +15,17 @@ public class Comentario {
     @Column(name = "id_comentario", nullable = false)
     private Integer id;
 
-    @Column(name = "qtd_curtidas")
+    @Column(name = "curtida")
     private Integer qtdCurtidas;
 
-    @Column(name = "qtdVisualizacoes")
+    @Column(name = "visualizacao")
     private Integer qtdVisualizacoes;
-
-    @Column(name = "data")
-    private Instant data;
 
     @Column(name = "conteudo")
     private String conteudo;
+
+    @Column(name = "created_at")
+    private LocalDateTime createAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_conta", nullable = false)
@@ -42,16 +43,16 @@ public class Comentario {
         return fkComentario;
     }
 
-    public void setFkComentario(Comentario fkComentario) {
-        this.fkComentario = fkComentario;
+    public void setFkComentario(Comentario comentario) {
+        this.fkComentario = comentario;
     }
 
     public Topico getFkTopico() {
         return fkTopico;
     }
 
-    public void setFkTopico(Topico fkTopico) {
-        this.fkTopico = fkTopico;
+    public void setFkTopico(Topico topico) {
+        this.fkTopico = topico;
     }
 
     public Conta getFkConta() {
@@ -70,12 +71,8 @@ public class Comentario {
         this.conteudo = conteudo;
     }
 
-    public Instant getData() {
-        return data;
-    }
-
-    public void setData(Instant data) {
-        this.data = data;
+    public LocalDateTime getData() {
+        return createAt;
     }
 
     public Integer getQtdVisualizacoes() {

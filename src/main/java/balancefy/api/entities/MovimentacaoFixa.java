@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "movimentacao", indexes = {
-        @Index(name = "fk_Movimentacao_Objetivo1_idx", columnList = "fk_objetivo")
+@Table(name = "movimentacaoFixa", indexes = {
+        @Index(name = "fk_Movimentacao_Conta1_idx", columnList = "fk_conta")
 })
-public class Movimentacao {
+public class MovimentacaoFixa {
     @Id
-    @Column(name = "id_movimentacao", nullable = false)
+    @Column(name = "id_movimentacao_fixa", nullable = false)
     private Integer id;
 
     @Column(name = "valor")
@@ -28,23 +28,19 @@ public class Movimentacao {
     private LocalDateTime createAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_objetivo", nullable = false)
-    private Objetivo fkObjetivo;
+    @JoinColumn(name = "fk_conta", nullable = false)
+    private Conta fkConta;
 
-    public Objetivo getFkObjetivo() {
-        return fkObjetivo;
+    public Conta getFkObjetivo() {
+        return fkConta;
     }
 
-    public void setFkObjetivo(Objetivo fkObjetivo) {
-        this.fkObjetivo = fkObjetivo;
+    public void setFkObjetivo(Conta fkConta) {
+        this.fkConta = fkConta;
     }
 
     public LocalDateTime getCreateAt() {
         return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
     }
 
     public String getTipo() {

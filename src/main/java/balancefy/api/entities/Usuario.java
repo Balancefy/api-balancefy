@@ -20,6 +20,12 @@ public class Usuario {
     @Column(name = "senha", length = 100)
     private String senha;
 
+    @Column(name = "profile_image", length = 100)
+    private String profileImage;
+
+    @Column(name = "banner", length = 100)
+    private String banner;
+
     @Column(name = "data_nasc")
     private LocalDate dataNasc;
 
