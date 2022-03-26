@@ -1,17 +1,23 @@
 package balancefy.api.entities;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "dica", indexes = {
         @Index(name = "fk_Dica_Conta1_idx", columnList = "fk_conta")
 })
 public class Dica {
     @Id
-    @Column(name = "id_dicas", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_dica", nullable = false)
     private Integer id;
 
     @Column(name = "titulo", length = 45)
+    @NotNull
     private String titulo;
 
     @Column(name = "descricao")

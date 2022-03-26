@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
 );
 
 CREATE TABLE IF NOT EXISTS Dica (
-    id_dicas SERIAL PRIMARY KEY,
+    id_dica SERIAL PRIMARY KEY,
     titulo VARCHAR(45) NULL,
     descricao VARCHAR(255) NULL,
     tema VARCHAR(45) NULL,
@@ -98,7 +98,13 @@ CREATE TABLE IF NOT EXISTS Comentario (
 );
 
 INSERT INTO Usuario (nome, email, senha, data_nasc)
-VALUES('minokyo', 'a@gmail.com', 'senhaboa', '1999-03-22');
+VALUES('Uesli', 'a@gmail.com', 'senhaboa', '1999-03-22');
 
 INSERT INTO Usuario (nome, email, senha, data_nasc)
-VALUES('matuais', 'b@gmail.com', 'senhaboa', '2009-03-22');
+VALUES('Verdinher', 'b@gmail.com', 'senhaboa', '2009-03-22');
+
+INSERT INTO Conta (renda, progresso, fk_usuario)
+VALUES(50, 0, 1);
+
+INSERT INTO Dica (titulo, descricao, tema, fk_conta)
+VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia', 1);

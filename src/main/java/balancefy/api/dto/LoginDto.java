@@ -1,4 +1,4 @@
-package balancefy.api.entities.dto;
+package balancefy.api.dto;
 
 public class LoginDto {
     private String email;
