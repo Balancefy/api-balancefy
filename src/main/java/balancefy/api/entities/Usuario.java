@@ -1,59 +1,48 @@
 package balancefy.api.entities;
 
-import balancefy.api.entities.dto.LoginDto;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
+@Entity
+@Table(name = "usuario")
 public class Usuario {
-    private int idUsuario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario", nullable = false)
+    private Integer id;
+
+    @Column(name = "nome", length = 100)
     private String nome;
+
+    @Column(name = "email", length = 100)
     private String email;
+
+    @Column(name = "senha", length = 100)
     private String senha;
-    private LocalDate dataNascimento;
-    private String token = "";
 
-    public boolean autenticar(LoginDto login) {
-        boolean validacao = login.getEmail().equals(this.email) && login.getSenha().equals(this.senha);
-        token = validacao ? gerarToken() : "";
+    @Column(name = "profile_image", length = 100)
+    private String profileImage;
 
-        return validacao;
+    @Column(name = "banner", length = 100)
+    private String banner;
+
+    @Column(name = "data_nasc")
+    private LocalDate dataNasc;
+
+    public LocalDate getDataNasc() {
+        return dataNasc;
     }
 
-    private String gerarToken() {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary("secret123");
-        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
-        JwtBuilder builder = Jwts.builder()
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setSubject(this.nome)
-                .signWith(signatureAlgorithm, signingKey);
-
-        return builder.compact();
+    public void setDataNasc(LocalDate dataNasc) {
+        this.dataNasc = dataNasc;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getEmail() {
@@ -64,23 +53,19 @@ public class Usuario {
         this.email = email;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public String getNome() {
+        return nome;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public Integer getId() {
+        return id;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
