@@ -4,9 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "movimentacaoFixa", indexes = {
-        @Index(name = "fk_Movimentacao_Conta1_idx", columnList = "fk_conta")
-})
+@Table(name = "movimentacaoFixa")
 public class MovimentacaoFixa {
     @Id
     @Column(name = "id_movimentacao_fixa", nullable = false)
@@ -27,7 +25,7 @@ public class MovimentacaoFixa {
     @Column(name = "create_at")
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "fk_conta", nullable = false)
     private Conta fkConta;
 

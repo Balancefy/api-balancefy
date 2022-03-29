@@ -3,9 +3,7 @@ package balancefy.api.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "task", indexes = {
-        @Index(name = "fk_Task_Objetivo1_idx", columnList = "fk_objetivo")
-})
+@Table(name = "task")
 public class Task {
     @Id
     @Column(name = "id_task", nullable = false)
@@ -23,7 +21,7 @@ public class Task {
     @Column(name = "qtd_desconto")
     private Double qtdDesconto;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "fk_objetivo", nullable = false)
     private Objetivo fkObjetivo;
 

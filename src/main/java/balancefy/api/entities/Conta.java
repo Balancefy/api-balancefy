@@ -3,11 +3,10 @@ package balancefy.api.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "conta", indexes = {
-        @Index(name = "fk_Conta_Usuario1_idx", columnList = "fk_usuario")
-})
+@Table(name = "conta")
 public class Conta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_conta", nullable = false)
     private Integer id;
 
@@ -17,7 +16,7 @@ public class Conta {
     @Column(name = "progresso", nullable = false)
     private Double progresso;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne
     @JoinColumn(name = "fk_usuario", nullable = false)
     private Usuario fkUsuario;
 
