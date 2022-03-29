@@ -5,11 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comentario", indexes = {
-        @Index(name = "fk_Comentario_Comentario1_idx", columnList = "fk_comentario"),
-        @Index(name = "fk_Comentario_Conta1_idx", columnList = "fk_conta"),
-        @Index(name = "fk_Comentario_Topico1_idx", columnList = "fk_topico")
-})
+@Table(name = "comentario")
 public class Comentario {
     @Id
     @Column(name = "id_comentario", nullable = false)
@@ -27,16 +23,16 @@ public class Comentario {
     @Column(name = "created_at")
     private LocalDateTime createAt = LocalDateTime.now();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_conta", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "fk_conta")
     private Conta fkConta;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_topico", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "fk_topico")
     private Topico fkTopico;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_comentario", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "fk_comentario")
     private Comentario fkComentario;
 
     public Comentario getFkComentario() {

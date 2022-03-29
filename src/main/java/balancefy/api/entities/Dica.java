@@ -1,15 +1,10 @@
 package balancefy.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "dica", indexes = {
-        @Index(name = "fk_Dica_Conta1_idx", columnList = "fk_conta")
-})
+@Table(name = "dica")
 public class Dica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +21,7 @@ public class Dica {
     @Column(name = "tema", length = 45)
     private String tema;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "fk_conta", nullable = false)
     private Conta fkConta;
 

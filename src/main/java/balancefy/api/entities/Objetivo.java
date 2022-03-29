@@ -4,9 +4,7 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "objetivo", indexes = {
-        @Index(name = "fk_Objetivo_Conta1_idx", columnList = "fkConta")
-})
+@Table(name = "objetivo")
 public class Objetivo {
     @Id
     @Column(name = "id_objetivo", nullable = false)
@@ -30,7 +28,7 @@ public class Objetivo {
     @Column(name = "tempo_estimado")
     private Instant tempoEstimado;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "fkConta", nullable = false)
     private Conta fkConta;
 
