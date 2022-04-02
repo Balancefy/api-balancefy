@@ -108,3 +108,10 @@ VALUES(50, 0, 1);
 
 INSERT INTO Dica (titulo, descricao, tema, fk_conta)
 VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia', 1);
+
+INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
+VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
+
+INSERT INTO Task (nome, descricao, done, qtd_desconto, fk_objetivo)
+VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
+
