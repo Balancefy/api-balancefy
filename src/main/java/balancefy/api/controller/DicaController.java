@@ -1,5 +1,6 @@
 package balancefy.api.controller;
 
+import balancefy.api.dto.response.DicaResponseDto;
 import balancefy.api.entities.Dica;
 import balancefy.api.entities.Usuario;
 import balancefy.api.repositories.DicaRepository;
@@ -16,13 +17,8 @@ public class DicaController {
     private DicaService dicaService;
 
 
-//    @GetMapping()
-//    public ResponseEntity listaDicas(){
-//        return ResponseEntity.status(200).body(dicaRepository.findAll());
-//    }
-
     @GetMapping
-    public @ResponseBody Iterable<Dica> getAllDicas() {
+    public @ResponseBody Iterable<DicaResponseDto> getAllDicas() {
         return dicaService.getDicas();
     }
 
@@ -31,4 +27,5 @@ public class DicaController {
 
         return ResponseEntity.status(200).build();
     }
+
 }

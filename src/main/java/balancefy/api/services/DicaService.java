@@ -1,5 +1,6 @@
 package balancefy.api.services;
 
+import balancefy.api.dto.response.DicaResponseDto;
 import balancefy.api.entities.Dica;
 import balancefy.api.repositories.DicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ public class DicaService {
     @Autowired
     private DicaRepository dicaRepository;
 
-    public List<Dica> getDicas(){
-        return dicaRepository.findAll();
-    }
+    public List<DicaResponseDto> getDicas() { return dicaRepository.listAllDicas(); }
 
 }

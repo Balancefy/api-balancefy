@@ -4,7 +4,16 @@ public class DicaResponseDto {
     private Integer id;
     private String titulo;
     private String tema;
-    private ContaResponseDto conta;
+    private String descricao;
+    private Integer fk_conta;
+
+    public DicaResponseDto(Integer id, String titulo, String tema, String descricao, Integer fk_conta) {
+        this.id = id;
+        this.titulo = titulo;
+        this.tema = tema;
+        this.descricao = descricao;
+        this.fk_conta = fk_conta;
+    }
 
     public Integer getId() {
         return id;
@@ -16,10 +25,6 @@ public class DicaResponseDto {
 
     public String getTema() {
         return tema;
-    }
-
-    public ContaResponseDto getConta() {
-        return conta;
     }
 
     public void setId(Integer id) {
@@ -34,7 +39,17 @@ public class DicaResponseDto {
         this.tema = tema;
     }
 
-    public void setConta(ContaResponseDto conta) {
-        this.conta = conta;
+    public String getDescricao(){ return descricao; }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Integer getFk_conta() {
+        return fk_conta;
+    }
+
+    public void setFk_conta(Integer fk_conta) {
+        this.fk_conta = fk_conta;
     }
 }
