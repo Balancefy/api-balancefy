@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     nome VARCHAR(100),
     email VARCHAR(100),
     senha VARCHAR(100),
-    profile_image VARCHAR(100),
-    banner VARCHAR(100),
+    avatar VARCHAR(255),
+    banner VARCHAR(255),
     data_nasc DATE
 );
 
@@ -41,16 +41,16 @@ CREATE TABLE IF NOT EXISTS Task (
     nome VARCHAR(100),
     descricao VARCHAR(100),
     done INT,
-    qtd_desconto DECIMAL(10,2),
+    pontuacao DECIMAL(10,2),
     fk_objetivo INT NOT NULL,
     FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
 
 CREATE TABLE IF NOT EXISTS Movimentacao (
     id_movimentacao SERIAL PRIMARY KEY,
-    valor DECIMAL(10,2),
-    topico VARCHAR(100),
+    categoria VARCHAR(100),
     descricao VARCHAR(100),
+    valor DECIMAL(10,2),
     tipo VARCHAR(100),
     create_at TIMESTAMP(0) NULL,
     fk_objetivo INT NOT NULL,
@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS Movimentacao (
 
 CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
     id_movimentacao_fixa SERIAL PRIMARY KEY,
-    valor DECIMAL(10,2),
-    topico VARCHAR(100),
+    categoria VARCHAR(100),
     descricao VARCHAR(100),
+    valor DECIMAL(10,2),
     tipo VARCHAR(100),
     create_at TIMESTAMP(0) NULL,
     fk_conta INT NOT NULL,
@@ -80,13 +80,18 @@ CREATE TABLE IF NOT EXISTS Dica (
 CREATE TABLE IF NOT EXISTS Topico (
     id_topico SERIAL PRIMARY KEY,
     titulo VARCHAR(45) NULL,
-    descricao VARCHAR(255) NULL
+    conteudo VARCHAR(255) NULL,
+    like INT NULL,
+    view INT NULL,
+    create_at TIMESTAMP(0),
+    fk_conta INT NOT NULL,
+    FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
 );
 
 CREATE TABLE IF NOT EXISTS Comentario (
     id_comentario SERIAL PRIMARY KEY,
-    curtida INT,
-    visualizacao INT NULL,
+    like INT,
+    view INT NULL,
     conteudo VARCHAR(255),
     create_at TIMESTAMP(0),
     fk_conta INT NOT NULL,

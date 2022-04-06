@@ -1,5 +1,7 @@
 package balancefy.api.dto.response;
 
+import balancefy.api.entities.Usuario;
+
 import java.time.LocalDate;
 
 public class UsuarioResponseDto {
@@ -8,10 +10,10 @@ public class UsuarioResponseDto {
     private String nome;
     private LocalDate dataNasc;
 
-    public UsuarioResponseDto(Integer id, String nome, LocalDate dataNasc) {
-        this.id = id;
-        this.nome = nome;
-        this.dataNasc = dataNasc;
+    public UsuarioResponseDto(Usuario usuario) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.dataNasc = usuario.getDataNasc();
     }
 
     public Integer getId() {

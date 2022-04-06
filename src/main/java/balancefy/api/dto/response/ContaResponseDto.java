@@ -1,11 +1,20 @@
 package balancefy.api.dto.response;
 
+import balancefy.api.entities.Conta;
+
 public class ContaResponseDto {
 
     private Integer id;
     private Double renda;
     private Double progresso;
     private UsuarioResponseDto usuario;
+
+    public ContaResponseDto(Conta conta) {
+        this.id = conta.getId();
+        this.renda = conta.getRenda();
+        this.progresso = conta.getProgresso();
+        this.usuario = new UsuarioResponseDto(conta.getFkUsuario());
+    }
 
     public Integer getId() {
         return id;
