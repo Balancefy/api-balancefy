@@ -2,7 +2,7 @@ package balancefy.api.dto.response;
 
 import balancefy.api.entities.Conta;
 
-public class ContaResponseDto {
+public class ContaResponseDto extends ResponseDto {
 
     private Integer id;
     private Double renda;
@@ -10,10 +10,15 @@ public class ContaResponseDto {
     private UsuarioResponseDto usuario;
 
     public ContaResponseDto(Conta conta) {
-        this.id = conta.getId();
-        this.renda = conta.getRenda();
-        this.progresso = conta.getProgresso();
-        this.usuario = new UsuarioResponseDto(conta.getFkUsuario());
+        super("Sucesso");
+        this.id = id;
+        this.renda = renda;
+        this.progresso = progresso;
+        this.usuario = usuario;
+    }
+
+    public ContaResponseDto(Exception ex) {
+        super(ex.getMessage());
     }
 
     public Integer getId() {

@@ -1,6 +1,8 @@
 package balancefy.api.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "conta")
@@ -11,13 +13,15 @@ public class Conta {
     private Integer id;
 
     @Column(name = "renda", nullable = false)
+    @NotBlank
     private Double renda;
 
     @Column(name = "progresso", nullable = false)
-    private Double progresso;
+    private Double progresso = 0.0;
 
     @OneToOne
     @JoinColumn(name = "fk_usuario", nullable = false)
+    @NotNull
     private Usuario fkUsuario;
 
     public Usuario getFkUsuario() {
