@@ -1,6 +1,9 @@
 package balancefy.api.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity
@@ -12,12 +15,15 @@ public class Usuario {
     private Integer id;
 
     @Column(name = "nome", length = 100)
+    @NotBlank
     private String nome;
 
     @Column(name = "email", length = 100)
+    @NotBlank
     private String email;
 
     @Column(name = "senha", length = 100)
+    @Pattern(regexp = "/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/", message = "Senha inválida")
     private String senha;
 
     @Column(name = "profile_image", length = 100)
@@ -27,6 +33,7 @@ public class Usuario {
     private String banner;
 
     @Column(name = "data_nasc")
+    @PastOrPresent
     private LocalDate dataNasc;
 
     public LocalDate getDataNasc() {
