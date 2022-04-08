@@ -5,14 +5,7 @@ import balancefy.api.entities.Conta;
 import balancefy.api.services.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.webjars.NotFoundException;
@@ -79,5 +72,18 @@ public class ContaController {
         }
     }
 
-    // ATUALIZAR PROGRESSO
+    @PatchMapping("/{id}/{progValue}")
+    public ResponseEntity updateProgress(@PathVariable Integer id,
+            @PathVariable Double progValue){
+        try {
+            contaService.updateProgress(id ,progValue);
+            return ResponseEntity.status(200).build();
+        } catch (HttpClientErrorException.NotFound ex) {
+            return ResponseEntity.status(404).body(ex.getMessage());
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
 }

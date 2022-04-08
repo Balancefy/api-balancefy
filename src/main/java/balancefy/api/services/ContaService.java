@@ -42,4 +42,15 @@ public class ContaService {
             throw ex;
         }
     }
+
+    public void updateProgress(Integer id, Double progValue){
+        try {
+            if (contaRepository.existsById(id)){
+                contaRepository.atualizarProgresso(id, progValue);
+            }
+            return;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
 }

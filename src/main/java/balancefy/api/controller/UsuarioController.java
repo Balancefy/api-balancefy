@@ -72,7 +72,7 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/authenticate")
     public ResponseEntity<UsuarioResponseDto> authenticate(@RequestBody LoginDto loginDto) {
         try {
             UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.getUsuarioByLogin(loginDto));
