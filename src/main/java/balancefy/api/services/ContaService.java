@@ -1,6 +1,7 @@
 package balancefy.api.services;
 
 import balancefy.api.entities.Conta;
+import balancefy.api.exceptions.NotFoundException;
 import balancefy.api.repositories.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,12 +44,13 @@ public class ContaService {
         }
     }
 
-    public void updateProgress(Integer id, Double progValue){
+    public Conta updateProgress(Integer id, Double progValue) throws NotFoundException{
         try {
             if (contaRepository.existsById(id)){
-                contaRepository.atualizarProgresso(id, progValue);
+                return contaRepository.atualizarProgresso(id, progValue);
             }
-            return;
+            throw new NotFoundException("Conta não encontrada");
+
         } catch (Exception ex) {
             throw ex;
         }

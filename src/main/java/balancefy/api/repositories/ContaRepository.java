@@ -12,5 +12,5 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
     @Transactional // do pacote org.spring....
     @Modifying
     @Query("update Conta c set c.progresso = ?2 where c.id = ?1")
-    void atualizarProgresso(Integer id, double progresso);
+    Conta atualizarProgresso(Integer id, double progresso);
 }

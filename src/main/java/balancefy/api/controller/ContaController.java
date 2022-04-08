@@ -78,7 +78,7 @@ public class ContaController {
         try {
             contaService.updateProgress(id ,progValue);
             return ResponseEntity.status(200).build();
-        } catch (HttpClientErrorException.NotFound ex) {
+        } catch (NotFoundException ex) {
             return ResponseEntity.status(404).body(ex.getMessage());
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(ex.getMessage());
