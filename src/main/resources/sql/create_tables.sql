@@ -121,3 +121,9 @@ VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timest
 
 INSERT INTO Task (nome, descricao, done, qtd_desconto, fk_objetivo)
 VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
+
+INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
+
+INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);
