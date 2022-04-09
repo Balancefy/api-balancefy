@@ -1,19 +1,13 @@
 package balancefy.api.controller;
 
 import balancefy.api.dto.request.LoginDto;
+import balancefy.api.dto.response.ResponseDto;
 import balancefy.api.dto.response.UsuarioResponseDto;
 import balancefy.api.entities.Usuario;
 import balancefy.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.webjars.NotFoundException;
@@ -83,6 +77,49 @@ public class UsuarioController {
             return ResponseEntity.status(500).body(new UsuarioResponseDto(ex));
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
+        }
+    }
+
+    @PatchMapping("/pass/{id}/{password}")
+    public ResponseEntity<ResponseDto> updatePassword(@PathVariable int id, @PathVariable String password) {
+        try {
+            // precisa verificar o token
+            usuarioService.updatePassword(id, password);
+            return ResponseEntity.status(200).body(new ResponseDto("Sucesso"));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ResponseDto(ex.getMessage()));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ResponseDto(ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ResponseDto(ex.getMessage()));
+        }
+    }
+
+    @PatchMapping("/avatar/{id}/{avatar}")
+    public ResponseEntity<ResponseDto> updateAvatar(@PathVariable int id, @PathVariable String avatar) {
+        try {
+            usuarioService.updateAvatar(id, avatar);
+            return ResponseEntity.status(200).body(new ResponseDto("Sucesso"));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ResponseDto(ex.getMessage()));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ResponseDto(ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ResponseDto(ex.getMessage()));
+        }
+    }
+
+    @PatchMapping("/avatar/{id}/{banner}")
+    public ResponseEntity<ResponseDto> updateBanner(@PathVariable int id, @PathVariable String banner) {
+        try {
+            usuarioService.updateBanner(id, banner);
+            return ResponseEntity.status(200).body(new ResponseDto("Sucesso"));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ResponseDto(ex.getMessage()));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ResponseDto(ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ResponseDto(ex.getMessage()));
         }
     }
 }

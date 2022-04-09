@@ -20,4 +20,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query("update Usuario u set u.status = 0 where u.id = ?1")
     void deactiveUser(Integer idUsuario);
+
+    @Transactional
+    @Modifying
+    @Query("update Usuario u set u.avatar =?2 where u.id = ?1")
+    void updateAvatar(Integer idUsuario, String avatar);
+
+    @Transactional
+    @Modifying
+    @Query("update Usuario u set u.senha =?2 where u.id = ?1")
+    void updateSenha(Integer idUsuario, String pass);
+
+    @Transactional
+    @Modifying
+    @Query("update Usuario u set u.banner =?2 where u.id = ?1")
+    void updateBanner(int id, String banner);
 }

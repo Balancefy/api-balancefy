@@ -1,6 +1,6 @@
 package balancefy.api.dto.response;
 
-public abstract class ResponseDto {
+public class ResponseDto {
     private String message;
 
     public ResponseDto(String message) {

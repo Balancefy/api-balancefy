@@ -61,9 +61,36 @@ public class UsuarioService {
         }
     }
 
+    public void updateAvatar(int id, String avatar) {
+        try {
+            usuarioRepository.updateAvatar(id, avatar);
+            return;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public void updatePassword(int id, String pass) {
+        try {
+            usuarioRepository.updateSenha(id, pass);
+            return;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
     public void delete(Integer id) {
         try {
             usuarioRepository.deactiveUser(id);
+            return;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public void updateBanner(int id, String banner) {
+        try {
+            usuarioRepository.updateBanner(id, banner);
             return;
         } catch (Exception ex) {
             throw ex;

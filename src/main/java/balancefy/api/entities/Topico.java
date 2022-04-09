@@ -1,9 +1,6 @@
 package balancefy.api.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,26 +13,28 @@ public class Topico {
     @Column(name = "titulo", length = 45)
     private String titulo;
 
-    @Column(name = "descricao")
-    private String descricao;
+    @Column(name = "conteudo")
+    private String conteudo;
+
+    @Column(name = "curtida")
+    private Integer qtdCurtidas;
+
+    @Column(name = "visualizacao")
+    private Integer qtdVisualizacoes;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    @ManyToOne
+    @JoinColumn(name = "fk_conta")
+    private Conta fkConta;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -46,11 +45,43 @@ public class Topico {
         this.titulo = titulo;
     }
 
-    public Integer getId() {
-        return id;
+    public String getConteudo() {
+        return conteudo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public Integer getQtdCurtidas() {
+        return qtdCurtidas;
+    }
+
+    public void setQtdCurtidas(Integer qtdCurtidas) {
+        this.qtdCurtidas = qtdCurtidas;
+    }
+
+    public Integer getQtdVisualizacoes() {
+        return qtdVisualizacoes;
+    }
+
+    public void setQtdVisualizacoes(Integer qtdVisualizacoes) {
+        this.qtdVisualizacoes = qtdVisualizacoes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Conta getFkConta() {
+        return fkConta;
+    }
+
+    public void setFkConta(Conta fkConta) {
+        this.fkConta = fkConta;
     }
 }
