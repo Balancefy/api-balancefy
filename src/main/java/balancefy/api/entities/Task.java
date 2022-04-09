@@ -19,8 +19,8 @@ public class Task {
     @Column(name = "done")
     private Integer done;
 
-    @Column(name = "qtd_desconto")
-    private Double qtdDesconto;
+    @Column(name = "pontuacao")
+    private Double pontuacao;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -37,12 +37,12 @@ public class Task {
         this.fkObjetivo = fkObjetivo;
     }
 
-    public Double getQtdDesconto() {
-        return qtdDesconto;
+    public Double getPontuacao() {
+        return pontuacao;
     }
 
-    public void setQtdDesconto(Double qtdDesconto) {
-        this.qtdDesconto = qtdDesconto;
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
     }
 
     public Integer getDone() {

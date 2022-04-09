@@ -52,17 +52,14 @@ CREATE TABLE IF NOT EXISTS Task (
 
 CREATE TABLE IF NOT EXISTS Movimentacao (
     id_movimentacao SERIAL PRIMARY KEY,
-    categoria VARCHAR(100),
-    descricao VARCHAR(100),
     valor DECIMAL(10,2),
+    topico VARCHAR(100),
+    descricao VARCHAR(100),
     tipo VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_objetivo INT NOT NULL,
     FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
-
-INSERT INTO Movimentacao (categoria, descricao, valor, tipo, fk_objetivo)
-VALUES('Lazer', 'Kart', 50.0, 'Saida', 1);
 
 CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
     id_movimentacao_fixa SERIAL PRIMARY KEY,
@@ -122,11 +119,11 @@ VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
 VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
 
-INSERT INTO Task (nome, descricao, done, qtd_desconto, fk_objetivo)
+INSERT INTO Task (nome, descricao, done, pontuacao, fk_objetivo)
 VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
 
-INSERT INTO Movimentacao (categoria, descricao, valor, tipo, fk_objetivo)
-VALUES('Lazer', 'Kart', 50.0, 'Saida', 1);
+INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
 
-INSERT INTO Movimentacao (categoria, descricao, valor, tipo, fk_objetivo)
-VALUES('Renda', 'Mesada', 50.0, 'Entrada', 1);
+INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);

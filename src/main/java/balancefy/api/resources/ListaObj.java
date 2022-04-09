@@ -81,7 +81,6 @@ public class ListaObj<T> {
             return null;
         }
         else {
-            System.out.println(vetor[indice]);
             return vetor[indice];
         }
     }

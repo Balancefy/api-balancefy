@@ -14,7 +14,7 @@ public class Movimentacao {
     private Double valor;
 
     @Column(name = "topico")
-    private Double topico;
+    private String topico;
 
     @Column(name = "descricao")
     private Double descricao;
@@ -37,11 +37,11 @@ public class Movimentacao {
         this.valor = valor;
     }
 
-    public Double getTopico() {
+    public String getTopico() {
         return topico;
     }
 
-    public void setTopico(Double topico) {
+    public void setTopico(String topico) {
         this.topico = topico;
     }
 
