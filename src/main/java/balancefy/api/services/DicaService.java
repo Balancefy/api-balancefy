@@ -29,4 +29,8 @@ public class DicaService {
             throw ex;
         }
     }
+
+    public List<Dica> getAllDicas() {
+        return dicaRepository.findAll();
+    }
 }
