@@ -22,17 +22,22 @@ public class DicaController {
     @Autowired
     private DicaService dicaService;
 
-
     @GetMapping
     public @ResponseBody
     Iterable<DicaResponseDto> getAllDicas() {
         return dicaService.getDicas();
     }
 
-    @PostMapping()
-    public ResponseEntity criarDica() {
-
-        return ResponseEntity.status(200).build();
+    @PostMapping
+    public ResponseEntity<DicaResponseDto> create(@RequestBody Dica dica) {
+        try {
+            DicaResponseDto account = new DicaResponseDto(dicaService.create(dica));
+            return ResponseEntity.status(201).body(account);
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new DicaResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new DicaResponseDto(ex));
+        }
     }
 
     @GetMapping("/{titulo}")

@@ -13,6 +13,6 @@ public interface DicaRepository extends JpaRepository<Dica, Integer> {
     @Query("select new balancefy.api.dto.response.DicaResponseDto(d) FROM Dica d")
     List<DicaResponseDto> listAllDicas();
 
-    @Query("select new balancefy.api.dto.response.DicaResponseDto(d) from Dica d WHERE d.titulo = ?1")
+    @Query("select new balancefy.api.dto.response.DicaResponseDto(d) from Dica d WHERE d.tema = ?1")
     List<DicaResponseDto> findByTitulo(String titulo);
 }
