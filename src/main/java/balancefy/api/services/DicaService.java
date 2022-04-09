@@ -16,4 +16,7 @@ public class DicaService {
 
     public List<DicaResponseDto> getDicas() { return dicaRepository.listAllDicas(); }
 
+    public List<DicaResponseDto> getDicaByTitulo(String titulo){
+        return dicaRepository.findByTitulo(titulo);
+    }
 }

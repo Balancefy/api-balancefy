@@ -1,6 +1,7 @@
 package balancefy.api.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "task")
@@ -20,6 +21,9 @@ public class Task {
 
     @Column(name = "qtd_desconto")
     private Double qtdDesconto;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "fk_objetivo", nullable = false)
@@ -71,5 +75,13 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -21,18 +21,6 @@ public class Dica {
     @Column(name = "tema", length = 45)
     private String tema;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_conta", nullable = false)
-    private Conta fkConta;
-
-    public Conta getFkConta() {
-        return fkConta;
-    }
-
-    public void setFkConta(Conta fkConta) {
-        this.fkConta = fkConta;
-    }
-
     public String getTema() {
         return tema;
     }

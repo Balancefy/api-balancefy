@@ -17,7 +17,7 @@ public class UsuarioService {
 
     public List<UsuarioResponseDto> getUsuarios(){
         try {
-            return usuarioRepository.findAllUsuarioDto();
+            return usuarioRepository.findAllActiveUsuarioDto();
         } catch (Exception ex) {
             throw ex;
         }
@@ -63,7 +63,7 @@ public class UsuarioService {
 
     public void delete(Integer id) {
         try {
-            usuarioRepository.deleteById(id);
+            usuarioRepository.deactiveUser(id);
             return;
         } catch (Exception ex) {
             throw ex;

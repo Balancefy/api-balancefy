@@ -21,7 +21,7 @@ public class ContaController {
         try {
             Integer id = 1;
             ContaResponseDto account = new ContaResponseDto(contaService.getContaById(id));
-            return ResponseEntity.status(201).body(account);
+            return ResponseEntity.status(200).body(account);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(404).body(new ContaResponseDto(ex));
         } catch (HttpServerErrorException.InternalServerError ex) {

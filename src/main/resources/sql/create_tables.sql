@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS usuario (
     senha VARCHAR(100),
     avatar VARCHAR(255),
     banner VARCHAR(255),
-    data_nasc DATE
+    data_nasc DATE,
+    status INT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS Rank (
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Objetivo (
     valor_inicial DECIMAL(10,2),
     tempo_estimado TIMESTAMP(0),
     pontuacao DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
 );
@@ -42,6 +45,7 @@ CREATE TABLE IF NOT EXISTS Task (
     descricao VARCHAR(100),
     done INT,
     pontuacao DECIMAL(10,2),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_objetivo INT NOT NULL,
     FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
@@ -52,7 +56,7 @@ CREATE TABLE IF NOT EXISTS Movimentacao (
     descricao VARCHAR(100),
     valor DECIMAL(10,2),
     tipo VARCHAR(100),
-    create_at TIMESTAMP(0) NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_objetivo INT NOT NULL,
     FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
@@ -63,7 +67,7 @@ CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
     descricao VARCHAR(100),
     valor DECIMAL(10,2),
     tipo VARCHAR(100),
-    create_at TIMESTAMP(0) NULL,
+    create_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
 );
@@ -72,28 +76,26 @@ CREATE TABLE IF NOT EXISTS Dica (
     id_dica SERIAL PRIMARY KEY,
     titulo VARCHAR(45) NULL,
     descricao VARCHAR(255) NULL,
-    tema VARCHAR(45) NULL,
-    fk_conta INT NOT NULL,
-    FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
+    tema VARCHAR(45) NULL
 );
 
 CREATE TABLE IF NOT EXISTS Topico (
     id_topico SERIAL PRIMARY KEY,
     titulo VARCHAR(45) NULL,
     conteudo VARCHAR(255) NULL,
-    like INT NULL,
-    view INT NULL,
-    create_at TIMESTAMP(0),
+    liked INT NULL,
+    viewed INT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
 );
 
 CREATE TABLE IF NOT EXISTS Comentario (
     id_comentario SERIAL PRIMARY KEY,
-    like INT,
-    view INT NULL,
+    liked INT,
+    viewed INT NULL,
     conteudo VARCHAR(255),
-    create_at TIMESTAMP(0),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     fk_topico INT NOT NULL,
     fk_comentario INT NOT NULL,
@@ -102,21 +104,20 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc)
-VALUES('Uesli', 'a@gmail.com', 'senhaboa', '1999-03-22');
+INSERT INTO Usuario (nome, email, senha, data_nasc, status)
+VALUES('Uesli', 'a@gmail.com', 'Senhaboa1*', '1999-03-22', 1);
 
-INSERT INTO Usuario (nome, email, senha, data_nasc)
-VALUES('Verdinher', 'b@gmail.com', 'senhaboa', '2009-03-22');
+INSERT INTO Usuario (nome, email, senha, data_nasc, status)
+VALUES('Verdinher', 'b@gmail.com', 'Senhaboa1*', '2009-03-22', 1);
 
 INSERT INTO Conta (renda, progresso, fk_usuario)
 VALUES(50, 0, 1);
 
-INSERT INTO Dica (titulo, descricao, tema, fk_conta)
-VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia', 1);
+INSERT INTO Dica (titulo, descricao, tema)
+VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 
 INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
 VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
 
 INSERT INTO Task (nome, descricao, done, qtd_desconto, fk_objetivo)
 VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
-
