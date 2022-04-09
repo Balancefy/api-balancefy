@@ -22,12 +22,44 @@ public class Movimentacao {
     @Column(name = "tipo", length = 100)
     private String tipo;
 
-    @Column(name = "create_at")
-    private LocalDateTime createAt = LocalDateTime.now();
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "fk_objetivo", nullable = false)
     private Objetivo fkObjetivo;
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Double getTopico() {
+        return topico;
+    }
+
+    public void setTopico(Double topico) {
+        this.topico = topico;
+    }
+
+    public Double getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(Double descricao) {
+        this.descricao = descricao;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Objetivo getFkObjetivo() {
         return fkObjetivo;
@@ -35,14 +67,6 @@ public class Movimentacao {
 
     public void setFkObjetivo(Objetivo fkObjetivo) {
         this.fkObjetivo = fkObjetivo;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
     }
 
     public String getTipo() {

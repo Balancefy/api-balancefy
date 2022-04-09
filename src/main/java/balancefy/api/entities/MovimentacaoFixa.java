@@ -22,8 +22,8 @@ public class MovimentacaoFixa {
     @Column(name = "tipo", length = 100)
     private String tipo;
 
-    @Column(name = "create_at")
-    private LocalDateTime createAt = LocalDateTime.now();
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "fk_conta", nullable = false)
@@ -37,8 +37,44 @@ public class MovimentacaoFixa {
         this.fkConta = fkConta;
     }
 
-    public LocalDateTime getCreateAt() {
-        return createAt;
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Double getTopico() {
+        return topico;
+    }
+
+    public void setTopico(Double topico) {
+        this.topico = topico;
+    }
+
+    public Double getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(Double descricao) {
+        this.descricao = descricao;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Conta getFkConta() {
+        return fkConta;
+    }
+
+    public void setFkConta(Conta fkConta) {
+        this.fkConta = fkConta;
     }
 
     public String getTipo() {

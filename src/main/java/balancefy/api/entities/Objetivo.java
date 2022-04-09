@@ -2,6 +2,7 @@ package balancefy.api.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "objetivo")
@@ -28,9 +29,20 @@ public class Objetivo {
     @Column(name = "tempo_estimado")
     private Instant tempoEstimado;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @ManyToOne
     @JoinColumn(name = "fkConta", nullable = false)
     private Conta fkConta;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Conta getFkConta() {
         return fkConta;

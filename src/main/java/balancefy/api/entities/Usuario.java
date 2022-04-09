@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuario")
@@ -23,11 +24,11 @@ public class Usuario {
     private String email;
 
     @Column(name = "senha", length = 100)
-    @Pattern(regexp = "/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/", message = "Senha inválida")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$", message = "Senha inválida")
     private String senha;
 
-    @Column(name = "profile_image", length = 100)
-    private String profileImage;
+    @Column(name = "avatar", length = 100)
+    private String avatar;
 
     @Column(name = "banner", length = 100)
     private String banner;
@@ -35,6 +36,12 @@ public class Usuario {
     @Column(name = "data_nasc")
     @PastOrPresent
     private LocalDate dataNasc;
+
+    @Column(name = "status")
+    private Integer status = 1;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     public LocalDate getDataNasc() {
         return dataNasc;
@@ -74,5 +81,37 @@ public class Usuario {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

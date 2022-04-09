@@ -21,7 +21,7 @@ public class Comentario {
     private String conteudo;
 
     @Column(name = "created_at")
-    private LocalDateTime createAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "fk_conta")
@@ -68,7 +68,7 @@ public class Comentario {
     }
 
     public LocalDateTime getData() {
-        return createAt;
+        return createdAt;
     }
 
     public Integer getQtdVisualizacoes() {
