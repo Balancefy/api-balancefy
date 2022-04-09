@@ -6,6 +6,7 @@ import balancefy.api.dto.response.UsuarioResponseDto;
 import balancefy.api.entities.Dica;
 import balancefy.api.entities.Usuario;
 import balancefy.api.repositories.DicaRepository;
+import balancefy.api.resources.ListaObj;
 import balancefy.api.services.DicaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/dicas")
 public class DicaController {
-
     @Autowired
     private DicaService dicaService;
 
@@ -54,5 +54,18 @@ public class DicaController {
         catch (Exception ex) {
             return ResponseEntity.status(400).body(new ListaDicaResponseDto(ex));
         }
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity exportCsv(){
+        List<Dica> dicas = dicaService.getAllDicas();
+        ListaObj<Dica> lista = new ListaObj<>(dicas.size());
+
+        for (Dica d : dicas){
+            lista.adiciona(d);
+        }
+
+        ListaObj.gravaArquivoCsv(lista, "Dicas");
+        return ResponseEntity.status(200).body("Arquivo CSV criado");
     }
 }
