@@ -5,6 +5,7 @@ import balancefy.api.entities.Dica;
 import balancefy.api.entities.Usuario;
 import balancefy.api.exceptions.AlreadyExistsException;
 import balancefy.api.repositories.DicaRepository;
+import balancefy.api.resources.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,16 @@ public class DicaService {
 
     public List<Dica> getAllDicas() {
         return dicaRepository.findAll();
+    }
+
+    public void createDicaCsv() {
+        List<Dica> dicas = getAllDicas();
+        ListaObj<Dica> lista = new ListaObj<>(dicas.size());
+
+        for (Dica d : dicas){
+            lista.adiciona(d);
+        }
+
+        ListaObj.gravaArquivoCsv(lista, "dicas");
     }
 }
