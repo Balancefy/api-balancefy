@@ -9,11 +9,16 @@ import balancefy.api.repositories.DicaRepository;
 import balancefy.api.resources.ListaObj;
 import balancefy.api.services.DicaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 import org.webjars.NotFoundException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -58,14 +63,20 @@ public class DicaController {
 
     @GetMapping("/export")
     public ResponseEntity exportCsv(){
-        List<Dica> dicas = dicaService.getAllDicas();
-        ListaObj<Dica> lista = new ListaObj<>(dicas.size());
+        try {
+            dicaService.createDicaCsv();
 
-        for (Dica d : dicas){
-            lista.adiciona(d);
+            var file = new File("dicas.csv");
+            var path = Paths.get(file.getAbsolutePath());
+            var resource = new ByteArrayResource(Files.readAllBytes(path));
+
+            return ResponseEntity
+                    .status(200)
+                    .header("content-type", "text/csv")
+                    .header("content-disposition", "filename=\"dicas.csv\"")
+                    .body(resource);
+        } catch (IOException ex) {
+            return ResponseEntity.notFound().build();
         }
-
-        ListaObj.gravaArquivoCsv(lista, "Dicas");
-        return ResponseEntity.status(200).body("Arquivo CSV criado");
     }
 }

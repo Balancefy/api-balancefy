@@ -94,6 +94,7 @@ public class ListaObj<T> {
         Formatter saida = null;
         Boolean deuRuim = false;
         nomeArq += ".csv";
+
         try {
             arq = new FileWriter(nomeArq);
             saida = new Formatter(arq);
@@ -105,7 +106,7 @@ public class ListaObj<T> {
         try {
             for (int i = 0; i < lista.getTamanho(); i++) {
                 DicaResponseDto dicas = new DicaResponseDto(lista.getElemento(i));
-                saida.format("%d;%s;%s;%s\n",dicas.getId(),dicas.getTitulo(),
+                saida.format("%d,%s,%s,%s\n",dicas.getId(),dicas.getTitulo(),
                         dicas.getDescricao(), dicas.getTema());
             }
         }
@@ -136,7 +137,7 @@ public class ListaObj<T> {
 
         try {
             arq = new FileReader(nomeArq);
-            entrada = new Scanner(arq).useDelimiter(";|\n");
+            entrada = new Scanner(arq).useDelimiter(",|\n");
         } catch (FileNotFoundException ex) {
             System.out.println("Arquivo não encontrado!");
             System.exit(1);
