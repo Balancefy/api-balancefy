@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS Conta (
     id_conta SERIAL PRIMARY KEY,
     renda DECIMAL(10,2) NOT NULL,
     progresso DECIMAL(10,2) NOT NULL,
+    status INT,
     fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES Usuario (id_usuario)
 );
@@ -67,7 +68,7 @@ CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
     descricao VARCHAR(100),
     valor DECIMAL(10,2),
     tipo VARCHAR(100),
-    create_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
 );
@@ -124,6 +125,12 @@ VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
 
 INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
 VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
+
+INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
+    VALUES ('Lazer', 'Kart', 50.0, 'Saida', 1),
+           ('Emergencia', 'Celular', 600.0, 'Saida', 1),
+           ('Renda', 'Salario', 2000.0, 'Entrada', 1),
+           ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 1);
 
 INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
 VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);

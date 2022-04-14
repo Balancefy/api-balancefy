@@ -1,7 +1,7 @@
 package balancefy.api.resources;
 
-import balancefy.api.dto.response.DicaResponseDto;
-import balancefy.api.entities.Dica;
+import balancefy.api.application.dto.response.DicaResponseDto;
+import balancefy.api.resources.entities.Dica;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -87,46 +87,6 @@ public class ListaObj<T> {
 
     public void limpa() {
         nroElem = 0;
-    }
-
-    public static void gravaArquivoCsv(ListaObj<Dica> lista, String nomeArq) {
-        FileWriter arq = null;
-        Formatter saida = null;
-        Boolean deuRuim = false;
-        nomeArq += ".csv";
-
-        try {
-            arq = new FileWriter(nomeArq);
-            saida = new Formatter(arq);
-        }
-        catch (IOException erro) {
-            System.out.println("Erro ao abrir o arquivo");
-            System.exit(1);
-        }
-        try {
-            for (int i = 0; i < lista.getTamanho(); i++) {
-                DicaResponseDto dicas = new DicaResponseDto(lista.getElemento(i));
-                saida.format("%d,%s,%s,%s\n",dicas.getId(),dicas.getTitulo(),
-                        dicas.getDescricao(), dicas.getTema());
-            }
-        }
-        catch (FormatterClosedException erro) {
-            System.out.println("Erro ao gravar o arquivo");
-            deuRuim = true;
-        }
-        finally {
-            saida.close();
-            try {
-                arq.close();
-            }
-            catch (IOException erro) {
-                System.out.println("Erro ao fechar o arquivo");
-                deuRuim = true;
-            }
-            if (deuRuim) {
-                System.exit(1);
-            }
-        }
     }
 
     public static void exibirArquivoCsv(String nomeArq) {
