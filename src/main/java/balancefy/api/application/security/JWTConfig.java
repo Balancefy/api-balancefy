@@ -30,14 +30,20 @@ public class JWTConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/login", "/register", "/register/account", "/transaction/report", "swagger-ui/index.html").permitAll()
-                .anyRequest().authenticated()
-                .and().cors()
-                .and()
-                .addFilter(new JWTAutenticarFilter(authenticationManager()))
-                .addFilter(new JWTValidarFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/login", "/register", "/register/account", "/swagger-ui/index.html").permitAll()
+                    .anyRequest().authenticated()
+                    .and().cors()
+                    .and()
+                    .addFilter(new JWTAutenticarFilter(authenticationManager()))
+                    .addFilter(new JWTValidarFilter(authenticationManager()))
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .and();
     }
 
     @Bean

@@ -1,6 +1,8 @@
 package balancefy.api.application.controller;
 
+import balancefy.api.application.dto.request.LoginDto;
 import balancefy.api.application.dto.response.ContaResponseDto;
+import balancefy.api.application.dto.response.LoginResponseDto;
 import balancefy.api.application.dto.response.UsuarioResponseDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.services.ContaService;
@@ -18,14 +20,28 @@ import org.springframework.web.client.HttpServerErrorException;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping
 public class AutenticacaoController {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
     private ContaService contaService;
 
-    @PostMapping
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody LoginDto) {
+//        try {
+//            UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.create(usuario));
+//            return ResponseEntity.status(201).body(account);
+//        } catch (AlreadyExistsException ex) {
+//            return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
+//        } catch (HttpServerErrorException.InternalServerError ex) {
+//            return ResponseEntity.status(500).body(new UsuarioResponseDto(ex));
+//        } catch (Exception ex) {
+//            return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
+//        }
+//    }
+
+    @PostMapping("/register")
     public ResponseEntity<UsuarioResponseDto> create(@RequestBody @Valid Usuario usuario) {
         try {
             UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.create(usuario));
@@ -39,7 +55,7 @@ public class AutenticacaoController {
         }
     }
 
-    @PostMapping("/account")
+    @PostMapping("/register/account")
     public ResponseEntity<ContaResponseDto> create(@RequestBody @Valid Conta conta) {
         try {
             ContaResponseDto createdAccount = new ContaResponseDto(contaService.create(conta));
