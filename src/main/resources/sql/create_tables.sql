@@ -106,10 +106,10 @@ CREATE TABLE IF NOT EXISTS Comentario (
 );
 
 INSERT INTO Usuario (nome, email, senha, data_nasc, status)
-VALUES('Uesli', 'a@gmail.com', 'Senhaboa1*', '1999-03-22', 1);
+VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', 1);
 
 INSERT INTO Usuario (nome, email, senha, data_nasc, status)
-VALUES('Verdinher', 'b@gmail.com', 'Senhaboa1*', '2009-03-22', 1);
+VALUES('Verdinher', 'b@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '2009-03-22', 1);
 
 INSERT INTO Conta (renda, progresso, fk_usuario)
 VALUES(50, 0, 1);
