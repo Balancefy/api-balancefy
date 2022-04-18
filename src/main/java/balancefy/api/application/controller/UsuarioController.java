@@ -1,5 +1,6 @@
 package balancefy.api.application.controller;
 
+import balancefy.api.application.config.security.TokenService;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.ListaUsuarioResponseDto;
@@ -8,21 +9,19 @@ import balancefy.api.resources.entities.Usuario;
 import balancefy.api.domain.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<ListaUsuarioResponseDto> getList() {
@@ -37,9 +36,25 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<UsuarioResponseDto> update(@RequestBody Usuario usuario) {
+    @PostMapping
+    public ResponseEntity<UsuarioResponseDto> create(@RequestBody @Valid Usuario usuario) {
         try {
+            UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.create(usuario));
+            return ResponseEntity.status(201).body(account);
+        } catch (AlreadyExistsException ex) {
+            return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new UsuarioResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<UsuarioResponseDto> update(@RequestBody Usuario usuario, @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            usuario.setId(id);
             UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.update(usuario));
             return ResponseEntity.status(200).body(account);
         } catch (NotFoundException ex) {

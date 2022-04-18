@@ -4,6 +4,7 @@ import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Usuario;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class LoginResponseDto extends ResponseDto {
     private String token;
@@ -13,6 +14,10 @@ public class LoginResponseDto extends ResponseDto {
         super("Sucesso");
         this.token = token;
         this.conta = conta;
+    }
+
+    public LoginResponseDto(Exception ex) {
+        super(ex.getMessage());
     }
 
 

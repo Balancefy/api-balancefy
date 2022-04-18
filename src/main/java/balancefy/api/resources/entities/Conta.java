@@ -3,6 +3,7 @@ package balancefy.api.resources.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "conta")
@@ -13,7 +14,7 @@ public class Conta {
     private Integer id;
 
     @Column(name = "renda", nullable = false)
-    @NotBlank
+    @PositiveOrZero
     private Double renda;
 
     @Column(name = "progresso", nullable = false)

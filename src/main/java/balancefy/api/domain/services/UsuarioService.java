@@ -6,6 +6,7 @@ import balancefy.api.resources.entities.Usuario;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,6 @@ import java.util.Optional;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
-    private PasswordEncoder encoder;
-
-    public UsuarioService(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
 
     public List<UsuarioResponseDto> getUsuarios() throws NotFoundException{
         try {
@@ -49,7 +45,7 @@ public class UsuarioService {
             Optional<Usuario> foundUser = usuarioRepository.findByEmail(usuario.getEmail());
 
             if(foundUser.isEmpty()) {
-                usuario.setSenha(encoder.encode(usuario.getSenha()));
+                usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
 
                 return usuarioRepository.save(usuario);
             }

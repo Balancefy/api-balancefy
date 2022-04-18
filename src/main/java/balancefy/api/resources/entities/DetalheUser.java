@@ -1,18 +1,15 @@
-package balancefy.api.application.config;
+package balancefy.api.resources.entities;
 
-import balancefy.api.resources.entities.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
-public class DetalheUsuarioData implements UserDetails {
+public class DetalheUser implements UserDetails {
+    private final Usuario usuario;
 
-    private final Optional<Usuario> usuario;
-
-    public DetalheUsuarioData(Optional<Usuario> usuario) {
+    public DetalheUser(Usuario usuario) {
         this.usuario = usuario;
     }
 
@@ -23,16 +20,16 @@ public class DetalheUsuarioData implements UserDetails {
 
     @Override
     public String getPassword() {
-        return usuario.orElse(new Usuario()).getSenha();
+        return usuario.getSenha();
     }
 
     @Override
     public String getUsername() {
-        return usuario.orElse(new Usuario()).getEmail();
+        return usuario.getEmail();
     }
 
-    public int getId() {
-        return usuario.orElse(new Usuario()).getId();
+    public String getId() {
+        return Integer.toString(usuario.getId());
     }
 
     @Override
