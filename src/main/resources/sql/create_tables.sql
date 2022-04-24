@@ -105,11 +105,11 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, status)
-VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', 1);
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status)
+VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1);
 
 INSERT INTO Usuario (nome, email, senha, data_nasc, status)
-VALUES('Verdinher', 'b@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '2009-03-22', 1);
+VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1);
 
 INSERT INTO Conta (renda, progresso, fk_usuario)
 VALUES(50, 0, 1);
