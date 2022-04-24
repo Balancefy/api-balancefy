@@ -5,7 +5,6 @@ import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.ContaResponseDto;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.domain.services.ContaService;
-import io.swagger.v3.oas.annotations.headers.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -9,7 +9,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
-import org.webjars.NotFoundException;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,9 +43,6 @@ public class DicaController {
     public ResponseEntity<ListaDicaResponseDto> getDicaByTitulo(@PathVariable String titulo) {
         try {
             return ResponseEntity.status(200).body(new ListaDicaResponseDto(dicaService.getDicaByTitulo(titulo)));
-        }
-        catch (NotFoundException ex) {
-            return ResponseEntity.status(404).body(new ListaDicaResponseDto(ex));
         }
         catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ListaDicaResponseDto(ex));

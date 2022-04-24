@@ -3,6 +3,7 @@ package balancefy.api.application.config.security;
 import balancefy.api.resources.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @EnableWebSecurity
+@Configuration
 public class JWTConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -48,13 +50,18 @@ public class JWTConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.POST, "/accounts").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers( "/v3/api-docs/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new JWTValidarFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/**.html", "/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**", "/**.yml");
     }
 
     @Bean
