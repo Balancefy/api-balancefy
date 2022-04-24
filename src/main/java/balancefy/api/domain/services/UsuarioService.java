@@ -59,6 +59,8 @@ public class UsuarioService {
     public Usuario update(Usuario usuario) throws NotFoundException {
         try {
             if(usuarioRepository.existsById(usuario.getId())) {
+                usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+
                 return usuarioRepository.save(usuario);
             }
 
