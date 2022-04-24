@@ -1,0 +1,431 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Balancefy
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /users:
+    get:
+      tags:
+        - usuario-controller
+      operationId: getList
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ListaUsuarioResponseDto'
+    put:
+      tags:
+        - usuario-controller
+      operationId: update
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDto'
+    post:
+      tags:
+        - usuario-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsuarioResponseDto'
+  /accounts:
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - conta-controller
+      operationId: findById
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContaResponseDto'
+    put:
+      tags:
+        - conta-controller
+      operationId: update_1
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Conta'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContaResponseDto'
+    post:
+      tags:
+        - conta-controller
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Conta'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ContaResponseDto'
+  /dicas:
+    get:
+      tags:
+        - dica-controller
+      operationId: getAllDicas
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      tags:
+        - dica-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dica'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DicaResponseDto'
+  /auth:
+    post:
+      tags:
+        - autenticacao-controller
+      operationId: autenticar
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LoginResponseDto'
+  /accounts/{id}/{progValue}:
+    patch:
+      tags:
+        - conta-controller
+      operationId: updateProgress
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: progValue
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /transaction/report:
+    get:
+      tags:
+        - movimentacao-controller
+      operationId: exportCsv
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /task:
+    get:
+      tags:
+        - task-controller
+      operationId: getAllTask
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /dicas/{titulo}:
+    get:
+      tags:
+        - dica-controller
+      operationId: getDicaByTitulo
+      parameters:
+        - name: titulo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ListaDicaResponseDto'
+  /dicas/export:
+    get:
+      tags:
+        - dica-controller
+      operationId: exportCsv_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /users/{id}:
+    delete:
+      tags:
+        - usuario-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /accounts/{id}:
+    delete:
+      tags:
+        - conta-controller
+      operationId: delete_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Usuario:
+      required:
+        - email
+        - nome
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        avatar:
+          type: string
+        banner:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+        status:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+    UsuarioResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          type: integer
+          format: int32
+        nome:
+          type: string
+        dataNasc:
+          type: string
+          format: date
+    Conta:
+      required:
+        - fkUsuario
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        renda:
+          type: number
+          format: double
+        progresso:
+          type: number
+          format: double
+        fkUsuario:
+          $ref: '#/components/schemas/Usuario'
+    ContaResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          type: integer
+          format: int32
+        renda:
+          type: number
+          format: double
+        progresso:
+          type: number
+          format: double
+        usuario:
+          $ref: '#/components/schemas/UsuarioResponseDto'
+    Dica:
+      required:
+        - titulo
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        titulo:
+          type: string
+        descricao:
+          type: string
+        tema:
+          type: string
+    DicaResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        id:
+          type: integer
+          format: int32
+        titulo:
+          type: string
+        tema:
+          type: string
+        descricao:
+          type: string
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+        senha:
+          type: string
+    LoginResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        token:
+          type: string
+        conta:
+          $ref: '#/components/schemas/Conta'
+    ListaUsuarioResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsuarioResponseDto'
+    ListaDicaResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/DicaResponseDto'
