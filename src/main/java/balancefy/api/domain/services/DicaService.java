@@ -2,6 +2,7 @@ package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.response.DicaResponseDto;
 import balancefy.api.domain.exceptions.FileException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Dica;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.entities.MovimentacaoFixa;
@@ -24,8 +25,12 @@ public class DicaService {
 
     public List<DicaResponseDto> getDicas() { return dicaRepository.listAllDicas(); }
 
-    public List<DicaResponseDto> getDicaByTitulo(String titulo){
-        return dicaRepository.findByTitulo(titulo);
+    public List<DicaResponseDto> getDicaByTitulo(String titulo) throws NotFoundException {
+        List<DicaResponseDto> list = dicaRepository.findByTitulo(titulo);
+        if(list.isEmpty()) {
+            throw new NotFoundException("Dica com titulo " + titulo + " não encontrada");
+        }
+        return list;
     }
 
     public Dica create(Dica dica) throws AlreadyExistsException {

@@ -2,6 +2,7 @@ package balancefy.api.application.controller;
 
 import balancefy.api.application.dto.response.DicaResponseDto;
 import balancefy.api.application.dto.response.ListaDicaResponseDto;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Dica;
 import balancefy.api.domain.services.DicaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public class DicaController {
         }
         catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ListaDicaResponseDto(ex));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ListaDicaResponseDto(ex));
         }
         catch (Exception ex) {
             return ResponseEntity.status(400).body(new ListaDicaResponseDto(ex));
