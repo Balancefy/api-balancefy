@@ -10,64 +10,8 @@ public class Task {
     @Column(name = "id_task", nullable = false)
     private Integer id;
 
-    @Column(name = "nome", length = 100)
-    private String nome;
-
-    @Column(name = "descricao", length = 100)
-    private String descricao;
-
-    @Column(name = "done")
-    private Integer done;
-
-    @Column(name = "pontuacao")
-    private Double pontuacao;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "fk_objetivo", nullable = false)
-    private Objetivo fkObjetivo;
-
-    public Objetivo getFkObjetivo() {
-        return fkObjetivo;
-    }
-
-    public void setFkObjetivo(Objetivo fkObjetivo) {
-        this.fkObjetivo = fkObjetivo;
-    }
-
-    public Double getPontuacao() {
-        return pontuacao;
-    }
-
-    public void setPontuacao(Double pontuacao) {
-        this.pontuacao = pontuacao;
-    }
-
-    public Integer getDone() {
-        return done;
-    }
-
-    public void setDone(Integer done) {
-        this.done = done;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    @Column(name = "categoria", length = 100)
+    private String categoria;
 
     public Integer getId() {
         return id;
@@ -77,11 +21,11 @@ public class Task {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

@@ -26,8 +26,8 @@ public class Movimentacao {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "fk_objetivo", nullable = false)
-    private Objetivo fkObjetivo;
+    @JoinColumn(name = "fk_objetivo_conta", nullable = false)
+    private ObjetivoConta fkObjetivoConta;
 
     public Double getValor() {
         return valor;
@@ -61,12 +61,12 @@ public class Movimentacao {
         this.createdAt = createdAt;
     }
 
-    public Objetivo getFkObjetivo() {
-        return fkObjetivo;
+    public ObjetivoConta getFkObjetivoConta() {
+        return fkObjetivoConta;
     }
 
-    public void setFkObjetivo(Objetivo fkObjetivo) {
-        this.fkObjetivo = fkObjetivo;
+    public void setFkObjetivo(ObjetivoConta fkObjetivoConta) {
+        this.fkObjetivoConta = fkObjetivoConta;
     }
 
     public String getTipo() {

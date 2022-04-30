@@ -2,6 +2,8 @@ package balancefy.api.resources.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "comentario")
@@ -30,9 +32,13 @@ public class Comentario {
     @JoinColumn(name = "fk_topico")
     private Topico fkTopico;
 
+
     @ManyToOne
     @JoinColumn(name = "fk_comentario")
     private Comentario fkComentario;
+
+    @OneToMany(mappedBy = "fkComentario")
+    private List<Comentario> comentarios = new ArrayList<>();
 
     public Comentario getFkComentario() {
         return fkComentario;
