@@ -2,12 +2,10 @@ package balancefy.api.resources.entities;
 
 import balancefy.api.resources.entities.keys.TaskObjetivoKey;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class TaskObjetivo {
 
     @EmbeddedId

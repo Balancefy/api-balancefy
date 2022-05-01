@@ -28,7 +28,13 @@ CREATE TABLE IF NOT EXISTS Conta (
 
 CREATE TABLE IF NOT EXISTS Objetivo (
     id_objetivo SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
+    categoria VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS ObjetivoConta (
+    id_objetivo_conta SERIAL PRIMARY KEY,
+    fk_conta INT NOT NULL,
+    fk_objetivo INT NOT NULL,
     descricao VARCHAR(100),
     done INT,
     valor_total DECIMAL(10,2),
@@ -36,20 +42,37 @@ CREATE TABLE IF NOT EXISTS Objetivo (
     tempo_estimado TIMESTAMP(0),
     pontuacao DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    fk_conta INT NOT NULL,
-    FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
+    FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta),
+    FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
 
 CREATE TABLE IF NOT EXISTS Task (
     id_task SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
+    categoria VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS TaskObjetivo (
+    fk_task INT NOT NULL,
+    fk_objetivo INT NOT NULL,
+    FOREIGN KEY(fk_task) REFERENCES Task (id_task),
+    FOREIGN KEY(fk_objetivo) REFERENCES Objetivo (id_objetivo),
+    CONSTRAINT id_task_objetivo PRIMARY KEY(fk_task, fk_objetivo)
+);
+
+CREATE TABLE IF NOT EXISTS TaskObjetivoConta (
     descricao VARCHAR(100),
     done INT,
     pontuacao DECIMAL(10,2),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    fk_objetivo_conta INT NOT NULL,
+    fk_task INT NOT NULL,
     fk_objetivo INT NOT NULL,
-    FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
+    fk_task_objetivo INT NOT NULL,
+    FOREIGN KEY (fk_objetivo_conta) REFERENCES ObjetivoConta (id_objetivo_conta),
+    CONSTRAINT fk_task_objetivo FOREIGN KEY (fk_task, fk_objetivo) REFERENCES  TaskObjetivo (fk_task,fk_objetivo),
+    PRIMARY KEY (fk_objetivo_conta, fk_task_objetivo)
 );
+
 
 CREATE TABLE IF NOT EXISTS Movimentacao (
     id_movimentacao SERIAL PRIMARY KEY,
@@ -58,8 +81,8 @@ CREATE TABLE IF NOT EXISTS Movimentacao (
     descricao VARCHAR(100),
     tipo VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    fk_objetivo INT NOT NULL,
-    FOREIGN KEY (fk_objetivo) REFERENCES Objetivo (id_objetivo)
+    fk_objetivo_conta INT NOT NULL,
+    FOREIGN KEY (fk_objetivo_conta) REFERENCES ObjetivoConta (id_objetivo_conta)
 );
 
 CREATE TABLE IF NOT EXISTS MovimentacaoFixa  (
@@ -105,38 +128,38 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status)
-VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1);
-
-INSERT INTO Usuario (nome, email, senha, data_nasc, status)
-VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1);
-
-INSERT INTO Conta (renda, progresso, fk_usuario)
-VALUES(50, 0, 1);
-
-INSERT INTO Dica (titulo, descricao, tema)
-VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
-
-INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
-VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
-
-INSERT INTO Task (nome, descricao, done, pontuacao, fk_objetivo)
-VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
-
-INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
-VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
-
-INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
-    VALUES ('Lazer', 'Kart', 50.0, 'Saida', 1),
-           ('Emergencia', 'Celular', 600.0, 'Saida', 1),
-           ('Renda', 'Salario', 2000.0, 'Entrada', 1),
-           ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 1);
-
-INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
-VALUES ('Lazer', 'Kart', 50.0, 'Saida', 2),
-       ('Emergencia', 'Celular', 600.0, 'Saida', 2),
-       ('Renda', 'Salario', 2000.0, 'Entrada', 2),
-       ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 2);
-
-INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
-VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);
+-- INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status)
+-- VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1);
+--
+-- INSERT INTO Usuario (nome, email, senha, data_nasc, status)
+-- VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1);
+--
+-- INSERT INTO Conta (renda, progresso, fk_usuario)
+-- VALUES(50, 0, 1);
+--
+-- INSERT INTO Dica (titulo, descricao, tema)
+-- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
+--
+-- INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
+-- VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
+--
+-- INSERT INTO Task (nome, descricao, done, pontuacao, fk_objetivo)
+-- VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
+--
+-- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+-- VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
+--
+-- INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
+--     VALUES ('Lazer', 'Kart', 50.0, 'Saida', 1),
+--            ('Emergencia', 'Celular', 600.0, 'Saida', 1),
+--            ('Renda', 'Salario', 2000.0, 'Entrada', 1),
+--            ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 1);
+--
+-- INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
+-- VALUES ('Lazer', 'Kart', 50.0, 'Saida', 2),
+--        ('Emergencia', 'Celular', 600.0, 'Saida', 2),
+--        ('Renda', 'Salario', 2000.0, 'Entrada', 2),
+--        ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 2);
+--
+-- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
+-- VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);

@@ -5,6 +5,7 @@ import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class TaskObjetivoConta {
 
     @EmbeddedId

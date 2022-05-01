@@ -12,11 +12,11 @@ public class ObjetivoConta {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id_conta")
+    @JoinColumn(name = "fk_conta")
     private Conta conta;
 
     @ManyToOne
-    @JoinColumn(name ="id_objetivo")
+    @JoinColumn(name ="fk_objetivo")
     private Objetivo objetivo;
 
     @Column(name = "descricao", length = 100)
@@ -33,6 +33,9 @@ public class ObjetivoConta {
 
     @Column(name = "tempo_estimado")
     private Instant tempoEstimado;
+
+    @Column(name= "pontuacao")
+    private Double pontuacao;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
