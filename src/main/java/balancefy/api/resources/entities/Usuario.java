@@ -45,6 +45,9 @@ public class Usuario {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "tipo")
+    private TypeUser type = TypeUser.DEFAULT;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -60,6 +63,14 @@ public class Usuario {
         this.dataNasc = usuario.getDataNasc();
         this.status = 1;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public TypeUser getType() {
+        return type;
+    }
+
+    public void setType(TypeUser type) {
+        this.type = type;
     }
 
     public LocalDate getDataNasc() {

@@ -1,12 +1,13 @@
 CREATE TABLE IF NOT EXISTS usuario (
     id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100),
-    email VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
     senha VARCHAR(100),
     avatar VARCHAR(255),
     banner VARCHAR(255),
     data_nasc DATE,
     status INT,
+    tipo VARCHAR(50),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 

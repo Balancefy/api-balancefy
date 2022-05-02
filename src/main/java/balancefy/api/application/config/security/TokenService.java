@@ -35,6 +35,19 @@ public class TokenService {
                 .compact();
     }
 
+    public String gerarTokenRedeSocial(DetalheUser logado) {
+        Date created = new Date();
+        LocalDate dataExpiracao = created.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusMonths(1);
+
+        return Jwts.builder()
+                .setIssuer("Balancefy")
+                .setSubject(logado.getId())
+                .setIssuedAt(created)
+                .setExpiration(Date.from(dataExpiracao.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
+
     public boolean isTokenValido(String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);

@@ -2,6 +2,7 @@ package balancefy.api.domain.services;
 
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.UsuarioResponseDto;
+import balancefy.api.resources.entities.TypeUser;
 import balancefy.api.resources.entities.Usuario;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.repositories.UsuarioRepository;
@@ -45,7 +46,9 @@ public class UsuarioService {
             Optional<Usuario> foundUser = usuarioRepository.findByEmail(usuario.getEmail());
 
             if(foundUser.isEmpty()) {
-                usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+                if(usuario.getType() == TypeUser.DEFAULT) {
+                    usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+                }
 
                 return usuarioRepository.save(usuario);
             }
