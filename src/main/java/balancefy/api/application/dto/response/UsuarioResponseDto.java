@@ -2,6 +2,7 @@ package balancefy.api.application.dto.response;
 
 import balancefy.api.resources.entities.Usuario;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class UsuarioResponseDto extends ResponseDto {
@@ -9,12 +10,16 @@ public class UsuarioResponseDto extends ResponseDto {
     private Integer id;
     private String nome;
     private LocalDate dataNasc;
+    private String avatar;
+    private String banner;
 
     public UsuarioResponseDto(Usuario usuario) {
         super("Sucesso");
         this.id = usuario.getId();
         this.nome = usuario.getNome();
         this.dataNasc = usuario.getDataNasc();
+        this.avatar = usuario.getAvatar();
+        this.banner = usuario.getBanner();
     }
 
     public UsuarioResponseDto(Exception ex) {
@@ -31,5 +36,13 @@ public class UsuarioResponseDto extends ResponseDto {
 
     public LocalDate getDataNasc() {
         return dataNasc;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public String getBanner() {
+        return banner;
     }
 }

@@ -9,10 +9,14 @@ import balancefy.api.resources.entities.Usuario;
 import balancefy.api.domain.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/users")
@@ -79,4 +83,47 @@ public class UsuarioController {
             return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
+
+    @PutMapping("/upload/avatar")
+    public ResponseEntity updateAvatar(
+            @RequestParam("image")MultipartFile multipartFile,
+            @RequestHeader(value = "Authorization") String token
+    ) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            usuarioService.updateAvatar(multipartFile, id);
+
+            return ResponseEntity.ok("Upload Ok");
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(ex.getMessage());
+        } catch (IOException ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+
+    }
+
+    @PutMapping("/upload/banner")
+    public ResponseEntity updateBanner(
+            @RequestParam("image")MultipartFile multipartFile,
+            @RequestHeader(value = "Authorization") String token
+    ) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            usuarioService.updateBanner(multipartFile, id);
+
+            return ResponseEntity.ok("Upload Ok");
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(ex.getMessage());
+        } catch (IOException ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+
+    }
+
 }

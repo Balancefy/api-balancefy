@@ -52,6 +52,7 @@ public class JWTConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/accounts").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET, "/user-photos/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
