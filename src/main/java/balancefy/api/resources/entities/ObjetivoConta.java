@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "objetivoconta")
 public class ObjetivoConta {
 
     @Id

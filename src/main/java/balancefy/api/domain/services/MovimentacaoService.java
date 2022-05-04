@@ -11,8 +11,11 @@ import balancefy.api.resources.repositories.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
 import java.util.List;
@@ -82,16 +85,80 @@ public class MovimentacaoService {
         }
     }
 
-    public void exportCsv(Integer id) throws Exception {
-        try {
-            List<MovimentacaoFixa> movimentacoes = movimentacaoFixaRepository.findAllByFkConta(contaRepository.findById(id).get());
-            ListaObj<MovimentacaoFixa> lista = new ListaObj<>(movimentacoes.size());
+    public void createRegister(String registro, String nomeArq) throws FileException {
+        BufferedWriter saida = null;
 
-            for(MovimentacaoFixa m: movimentacoes) {
-                lista.adiciona(m);
+        try {
+            saida = new BufferedWriter(new FileWriter(nomeArq, true));
+        }
+        catch (IOException erro) {
+            throw new FileException("Erro ao abrir o arquivo");
+        }
+
+        try {
+            saida.append(registro + "\n");
+            saida.close();
+        }
+        catch (IOException erro) {
+            throw new FileException("Erro ao gravar o arquivo");
+        }
+    }
+
+    public void createBody(Movimentacao m, String nome) throws FileException {
+        try {
+            String body = "02";
+
+            body += String.format("%05d", m.getId());
+            body += String.format("%-7s", m.getTipo());
+            body += String.format("%-20s", m.getTopico());
+            body += String.format("%-50s", m.getDescricao());
+            body += String.format("%010.2f", m.getValor());
+            body += String.format("%-10s", m.getCreatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            body += String.format("%05d", m.getFkObjetivoConta().getId());
+            body += String.format("%-20s", m.getFkObjetivoConta().getObjetivo().getCategoria());
+            body += String.format("%-50s", m.getFkObjetivoConta().getDescricao());
+            body += String.format("%010.2f", m.getFkObjetivoConta().getValorTotal());
+            body += String.format("%08.2f", m.getFkObjetivoConta().getValorInicial());
+            body += String.format("%02d", m.getFkObjetivoConta().getDone());
+
+            createRegister(body, nome);
+        } catch (FileException ex) {
+            throw ex;
+        }
+
+    }
+
+    public void createTxt(List<Movimentacao> lista, String nomeArq) throws FileException {
+        try {
+            int registerAmount = 0;
+            double transactionAmount = 0;
+
+            String header = "00MOVIMENTACAO";
+            header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+            header += "01";
+
+            createRegister(header, nomeArq);
+
+            for (Movimentacao m : lista) {
+                createBody(m, nomeArq);
+
+                registerAmount++;
+                transactionAmount+= m.getValor();
             }
 
-            createCsv("movimentacoes", lista);
+            String trailer = "01";
+            trailer += String.format("%05d%08.2f", registerAmount, transactionAmount);
+            createRegister(trailer, nomeArq);
+        } catch (FileException ex) {
+            throw ex;
+        }
+    }
+
+    public void exportCsv(Integer id) throws Exception {
+        try {
+            List<Movimentacao> movimentacoes = movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
+
+            createTxt(movimentacoes, "movimentacoes");
         } catch (Exception ex) {
             throw ex;
         }

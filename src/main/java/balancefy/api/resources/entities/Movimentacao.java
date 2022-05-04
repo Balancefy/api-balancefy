@@ -17,7 +17,7 @@ public class Movimentacao {
     private String topico;
 
     @Column(name = "descricao")
-    private Double descricao;
+    private String descricao;
 
     @Column(name = "tipo", length = 100)
     private String tipo;
@@ -45,11 +45,11 @@ public class Movimentacao {
         this.topico = topico;
     }
 
-    public Double getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(Double descricao) {
+    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
@@ -75,14 +75,6 @@ public class Movimentacao {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public Double getValorTotal() {
-        return valor;
-    }
-
-    public void setValorTotal(Double valorTotal) {
-        this.valor = valorTotal;
     }
 
     public Integer getId() {

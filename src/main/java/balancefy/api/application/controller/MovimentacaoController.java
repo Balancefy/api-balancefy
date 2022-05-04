@@ -31,14 +31,14 @@ public class MovimentacaoController {
 
             movimentacaoService.exportCsv(id);
 
-            var file = new File("movimentacoes.csv");
+            var file = new File("movimentacoes");
             var path = Paths.get(file.getAbsolutePath());
             var resource = new ByteArrayResource(Files.readAllBytes(path));
 
             return ResponseEntity
                     .status(200)
-                    .header("content-type", "text/csv")
-                    .header("content-disposition", "filename=\"movimentacoes.csv\"")
+                    .header("content-type", "text/plain")
+                    .header("content-disposition", "filename=\"movimentacoes.txt\"")
                     .body(resource);
         } catch (IOException ex) {
             return ResponseEntity.notFound().build();
