@@ -53,11 +53,11 @@ CREATE TABLE IF NOT EXISTS Task (
 );
 
 CREATE TABLE IF NOT EXISTS TaskObjetivo (
+    id_task_objetivo INT PRIMARY KEY,
     fk_task INT NOT NULL,
     fk_objetivo INT NOT NULL,
     FOREIGN KEY(fk_task) REFERENCES Task (id_task),
-    FOREIGN KEY(fk_objetivo) REFERENCES Objetivo (id_objetivo),
-    CONSTRAINT id_task_objetivo PRIMARY KEY(fk_task, fk_objetivo)
+    FOREIGN KEY(fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
 
 CREATE TABLE IF NOT EXISTS TaskObjetivoConta (
@@ -66,11 +66,9 @@ CREATE TABLE IF NOT EXISTS TaskObjetivoConta (
     pontuacao DECIMAL(10,2),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_objetivo_conta INT NOT NULL,
-    fk_task INT NOT NULL,
-    fk_objetivo INT NOT NULL,
     fk_task_objetivo INT NOT NULL,
     FOREIGN KEY (fk_objetivo_conta) REFERENCES ObjetivoConta (id_objetivo_conta),
-    CONSTRAINT fk_task_objetivo FOREIGN KEY (fk_task, fk_objetivo) REFERENCES  TaskObjetivo (fk_task,fk_objetivo),
+    FOREIGN KEY (fk_task_objetivo)  REFERENCES  TaskObjetivo (id_task_objetivo),
     PRIMARY KEY (fk_objetivo_conta, fk_task_objetivo)
 );
 

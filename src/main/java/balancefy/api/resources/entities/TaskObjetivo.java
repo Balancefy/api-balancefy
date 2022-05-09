@@ -1,33 +1,28 @@
 package balancefy.api.resources.entities;
 
-import balancefy.api.resources.entities.keys.TaskObjetivoKey;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 public class TaskObjetivo {
 
-    @EmbeddedId
-    TaskObjetivoKey id;
+    @Id
+    Integer id;
 
     @ManyToOne
-    @MapsId("taskId")
     @JoinColumn(name = "fk_task")
     Task task;
 
     @ManyToOne
-    @MapsId("objetivoId")
     @JoinColumn(name = "fk_objetivo")
     Objetivo objetivo;
 
     private Integer ordem;
 
-    public TaskObjetivoKey getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(TaskObjetivoKey id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
