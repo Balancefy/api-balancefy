@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     banner VARCHAR(255),
     data_nasc DATE,
     status INT,
-    tipo VARCHAR(50),
+    tipo INT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -127,15 +127,15 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
--- INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status)
--- VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1);
---
--- INSERT INTO Usuario (nome, email, senha, data_nasc, status)
--- VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1);
---
--- INSERT INTO Conta (renda, progresso, fk_usuario)
--- VALUES(50, 0, 1);
---
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status, tipo)
+VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1, 0);
+
+INSERT INTO Usuario (nome, email, senha, data_nasc, status, tipo)
+VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1, 0);
+
+INSERT INTO Conta (renda, progresso, status,fk_usuario)
+VALUES(50, 0, 1, 1);
+
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 --
@@ -162,3 +162,12 @@ CREATE TABLE IF NOT EXISTS Comentario (
 --
 -- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
 -- VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);
+
+INSERT INTO Objetivo(categoria)
+VALUES ('Viagem Internacional'),
+       ('Viagem Nacional'),
+       ('Comprar casa própria'),
+       ('Comprar carro'),
+       ('Faculdade'),
+       ('Quitação de Dívida'),
+       ('Compras Gerais')
