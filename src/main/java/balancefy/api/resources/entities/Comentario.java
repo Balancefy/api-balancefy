@@ -12,11 +12,11 @@ public class Comentario {
     @Column(name = "id_comentario", nullable = false)
     private Integer id;
 
-    @Column(name = "curtida")
-    private Integer qtdCurtidas;
+    @Column(name = "liked")
+    private Integer liked;
 
-    @Column(name = "visualizacao")
-    private Integer qtdVisualizacoes;
+    @Column(name = "viewed")
+    private Integer viewed;
 
     @Column(name = "conteudo")
     private String conteudo;
@@ -76,20 +76,20 @@ public class Comentario {
         return createdAt;
     }
 
-    public Integer getQtdVisualizacoes() {
-        return qtdVisualizacoes;
+    public Integer getViewed() {
+        return viewed;
     }
 
-    public void setQtdVisualizacoes(Integer qtdVisualizacoes) {
-        this.qtdVisualizacoes = qtdVisualizacoes;
+    public void setViewed(Integer qtdVisualizacoes) {
+        this.viewed = qtdVisualizacoes;
     }
 
-    public Integer getQtdCurtidas() {
-        return qtdCurtidas;
+    public Integer getLiked() {
+        return liked;
     }
 
-    public void setQtdCurtidas(Integer qtdCurtidas) {
-        this.qtdCurtidas = qtdCurtidas;
+    public void setLiked(Integer qtdCurtidas) {
+        this.liked = qtdCurtidas;
     }
 
     public Integer getId() {
