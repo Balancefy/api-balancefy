@@ -20,13 +20,26 @@ public class TopicoController {
     private TopicoService topicoService;
 
     @PostMapping
-    public ResponseEntity<TopicoResponseDto> create(@RequestBody TopicoResponseDto topico,
+    public ResponseEntity<TopicoResponseDto> create(@RequestBody TopicoRequestDto topico,
                                                     @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            topico.setId(id);
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.create(topico));
+            TopicoResponseDto account = new TopicoResponseDto(topicoService.create(topico, id));
             return ResponseEntity.status(201).body(account);
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new TopicoResponseDto(ex));
+        }
+    }
+
+    @PatchMapping
+    public ResponseEntity<TopicoResponseDto> update(@RequestBody TopicoRequestDto topico,
+                                                    @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            TopicoResponseDto account = new TopicoResponseDto(topicoService.update(topico, id));
+            return ResponseEntity.status(200).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
         } catch (Exception ex) {
