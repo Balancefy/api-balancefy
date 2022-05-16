@@ -1,16 +1,17 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.ObjetivoDto;
+import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
+import balancefy.api.application.dto.response.TaskResponseDto;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.ObjetivoConta;
-import balancefy.api.resources.repositories.ContaRepository;
-import balancefy.api.resources.repositories.MovimentacaoRepository;
-import balancefy.api.resources.repositories.ObjetivoContaRepository;
-import balancefy.api.resources.repositories.ObjetivoRepository;
+import balancefy.api.resources.entities.TaskObjetivoConta;
+import balancefy.api.resources.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,6 +26,9 @@ public class ObjetivoService {
 
     @Autowired
     MovimentacaoRepository movimentacaoRepository;
+
+    @Autowired
+    TaskObjetivoContaRepository taskObjetivoContaRepository;
 
 
     public ObjetivoConta create(ObjetivoDto objetivoDto, Integer id) {
@@ -47,7 +51,7 @@ public class ObjetivoService {
         return newObjetivo;
     }
 
-    public ObjetivoConta accomplish(Integer id){
+    public ObjetivoConta accomplish(Integer id) {
         ObjetivoConta objetivo = objetivoRepository.getById(id);
         objetivo.setDone(1);
         objetivoRepository.save(objetivo);
@@ -55,7 +59,20 @@ public class ObjetivoService {
         return objetivo;
     }
 
-    public List<ObjetivoResponseDto> getObjetivoByConta(Integer id){
-        return null;
+    public ObjetivoResponseDto getObjetivoById(Integer id) {
+        ObjetivoContaResponseDto objetivo = objetivoRepository.findObjetivoContaById(id);
+        List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.getId());
+        List<TaskResponseDto> tasksResponse = new ArrayList<>();
+        tasks.forEach((it) -> tasksResponse.add(new TaskResponseDto(
+                it.getId().getTaskId(),
+                it.getTask().getOrdem(),
+                it.getDescricao(),
+                it.getDone(),
+                it.getPontuacao()
+        )));
+
+        return new ObjetivoResponseDto(objetivo, tasksResponse);
     }
+
+
 }
