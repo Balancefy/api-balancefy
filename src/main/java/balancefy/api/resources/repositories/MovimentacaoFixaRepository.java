@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface MovimentacaoFixaRepository extends JpaRepository<MovimentacaoFixa, Integer> {
     List<MovimentacaoFixa> findAllByFkConta(Conta conta);
+
 }
