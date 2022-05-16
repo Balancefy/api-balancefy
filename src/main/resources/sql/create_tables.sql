@@ -136,6 +136,8 @@ VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GH
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
 VALUES(50, 0, 1, 1);
 
+
+
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 --
