@@ -41,6 +41,19 @@ public class ObjetivoConta {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    public ObjetivoConta() { }
+
+    public ObjetivoConta(Conta conta, Objetivo objetivo, String descricao, Integer done, Double valorTotal, Double valorInicial, Instant tempoEstimado, Double pontuacao) {
+        this.conta = conta;
+        this.objetivo = objetivo;
+        this.descricao = descricao;
+        this.done = done;
+        this.valorTotal = valorTotal;
+        this.valorInicial = valorInicial;
+        this.tempoEstimado = tempoEstimado;
+        this.pontuacao = pontuacao;
+    }
+
     public Integer getId() {
         return id;
     }

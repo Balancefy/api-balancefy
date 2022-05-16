@@ -14,7 +14,7 @@ public class TaskObjetivoConta {
     @ManyToOne
     @MapsId("taskId")
     @JoinColumn(name = "fk_task_objetivo")
-    Task task;
+    TaskObjetivo task;
 
     @ManyToOne
     @MapsId("objetivoContaId")
@@ -41,11 +41,11 @@ public class TaskObjetivoConta {
         this.id = id;
     }
 
-    public Task getTask() {
+    public TaskObjetivo getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskObjetivo task) {
         this.task = task;
     }
 
