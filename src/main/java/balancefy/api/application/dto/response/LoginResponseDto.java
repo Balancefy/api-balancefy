@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class LoginResponseDto extends ResponseDto {
     private String token;
-    private Conta conta;
+    private ContaResponseDto conta;
 
     public LoginResponseDto(Conta conta, String token) {
         super("Sucesso");
         this.token = token;
-        this.conta = conta;
+        this.conta = new ContaResponseDto(conta);
     }
 
     public LoginResponseDto(Exception ex) {
@@ -25,7 +25,7 @@ public class LoginResponseDto extends ResponseDto {
         return token;
     }
 
-    public Conta getConta() {
+    public ContaResponseDto getConta() {
         return conta;
     }
 }
