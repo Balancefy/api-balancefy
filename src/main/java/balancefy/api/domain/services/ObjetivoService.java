@@ -48,6 +48,9 @@ public class ObjetivoService {
         );
 
         objetivoRepository.save(newObjetivo);
+
+        // TODO adicionar tasks (TaskObjetivoConta ) ao objetivo de acordo com o taskObjetivo :) reminder: procurar pelo id do objetivo
+
         return newObjetivo;
     }
 
