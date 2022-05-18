@@ -128,8 +128,8 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status, tipo)
-VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1, 0);
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status, tipo,banner)
+VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1, 0, '');
 
 INSERT INTO Usuario (nome, email, senha, data_nasc, status, tipo)
 VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1, 0);
