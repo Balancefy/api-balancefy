@@ -53,9 +53,10 @@ CREATE TABLE IF NOT EXISTS Task (
 );
 
 CREATE TABLE IF NOT EXISTS TaskObjetivo (
-    id_task_objetivo INT PRIMARY KEY,
+    id_task_objetivo SERIAL PRIMARY KEY,
     fk_task INT NOT NULL,
     fk_objetivo INT NOT NULL,
+    ordem INT NOT NULL,
     FOREIGN KEY(fk_task) REFERENCES Task (id_task),
     FOREIGN KEY(fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
@@ -144,9 +145,6 @@ VALUES(50, 0, 1, 1);
 -- INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
 -- VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
 --
--- INSERT INTO Task (nome, descricao, done, pontuacao, fk_objetivo)
--- VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
---
 -- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
 -- VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
 --
@@ -172,4 +170,21 @@ VALUES ('Viagem Internacional'),
        ('Comprar carro'),
        ('Faculdade'),
        ('Quitação de Dívida'),
-       ('Compras Gerais')
+       ('Compras Gerais');
+
+
+INSERT INTO Task(categoria)
+VALUES ('Economizar');
+
+INSERT INTO TaskObjetivo(fk_task, fk_objetivo, ordem)
+VALUES (1, 1, 1),
+       (1, 2, 1),
+       (1, 3, 1),
+       (1, 4, 1),
+       (1, 5, 1),
+       (1, 6, 1),
+       (1, 7, 1);
+
+
+
+

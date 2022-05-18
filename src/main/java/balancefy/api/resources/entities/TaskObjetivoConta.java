@@ -88,4 +88,13 @@ public class TaskObjetivoConta {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public TaskObjetivoConta(TaskObjetivoContaKey id, TaskObjetivo task, ObjetivoConta objetivoConta, String descricao, Integer done, Double pontuacao) {
+        this.id = id;
+        this.task = task;
+        this.objetivoConta = objetivoConta;
+        this.descricao = descricao;
+        this.done = done;
+        this.pontuacao = pontuacao;
+    }
 }
