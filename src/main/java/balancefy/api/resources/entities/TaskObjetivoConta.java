@@ -14,7 +14,7 @@ public class TaskObjetivoConta {
     @ManyToOne
     @MapsId("taskId")
     @JoinColumn(name = "fk_task_objetivo")
-    Task task;
+    TaskObjetivo task;
 
     @ManyToOne
     @MapsId("objetivoContaId")
@@ -41,11 +41,11 @@ public class TaskObjetivoConta {
         this.id = id;
     }
 
-    public Task getTask() {
+    public TaskObjetivo getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskObjetivo task) {
         this.task = task;
     }
 
@@ -87,5 +87,14 @@ public class TaskObjetivoConta {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public TaskObjetivoConta(TaskObjetivoContaKey id, TaskObjetivo task, ObjetivoConta objetivoConta, String descricao, Integer done, Double pontuacao) {
+        this.id = id;
+        this.task = task;
+        this.objetivoConta = objetivoConta;
+        this.descricao = descricao;
+        this.done = done;
+        this.pontuacao = pontuacao;
     }
 }
