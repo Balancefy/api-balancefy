@@ -1,5 +1,7 @@
 package balancefy.api.resources.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -7,6 +9,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "conta")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

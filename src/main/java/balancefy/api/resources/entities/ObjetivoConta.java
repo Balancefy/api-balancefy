@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public class ObjetivoConta {
 
     @Id
-    @Column(name = "id_objetivo_conta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_objetivo_conta", unique = true, nullable = false)
     private Integer id;
 
     @ManyToOne

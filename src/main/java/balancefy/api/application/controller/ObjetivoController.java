@@ -24,12 +24,12 @@ public class ObjetivoController {
 
 
     @PostMapping
-    public ResponseEntity<ObjetivoConta> create (@RequestHeader(value = "Authorization") String token, @RequestBody ObjetivoDto objetivo) {
+    public ResponseEntity create (@RequestHeader(value = "Authorization") String token, @RequestBody ObjetivoDto objetivo) {
       Integer userId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
         try{
             return ResponseEntity.status(200).body(objetivoService.create(objetivo, userId));
         }catch (HttpServerErrorException.InternalServerError ex){
-            return ResponseEntity.status(500).body(new ObjetivoConta());
+            return ResponseEntity.status(500).body("f");
         }
     }
 

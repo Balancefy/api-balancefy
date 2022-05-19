@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "taskobjetivoconta")
 public class TaskObjetivoConta {
 
     @EmbeddedId
@@ -32,6 +33,10 @@ public class TaskObjetivoConta {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public TaskObjetivoConta() {
+
+    }
 
     public TaskObjetivoContaKey getId() {
         return id;
