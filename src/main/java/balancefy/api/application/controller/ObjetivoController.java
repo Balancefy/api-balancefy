@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
-@RequestMapping("/objetivos")
+@RequestMapping("/accounts/goals")
 public class ObjetivoController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class ObjetivoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ObjetivoResponseDto> getById(@PathVariable Integer id) {
+    public ResponseEntity<ObjetivoResponseDto> findById(@PathVariable Integer id) {
         try {
            ObjetivoResponseDto objetivo = objetivoService.getObjetivoById(id);
            return ResponseEntity.status(200).body(objetivo);

@@ -73,7 +73,7 @@ public class ObjetivoService {
         List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.getId());
         List<TaskResponseDto> tasksResponse = new ArrayList<>();
         tasks.forEach((it) -> tasksResponse.add(new TaskResponseDto(
-                it.getId().getTaskId(),
+                it.getId(),
                 it.getTask().getOrdem(),
                 it.getDescricao(),
                 it.getDone(),

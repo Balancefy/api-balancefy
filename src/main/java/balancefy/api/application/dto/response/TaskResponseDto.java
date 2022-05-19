@@ -1,17 +1,19 @@
 package balancefy.api.application.dto.response;
 
 
+import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
+
 import java.time.LocalDateTime;
 
 public class TaskResponseDto {
-    private Integer id;
+    private TaskObjetivoContaKey id;
     private Integer ordem;
     private String descricao;
     private Integer done;
     private Double pontuacao;
     private LocalDateTime createdAt;
 
-    public TaskResponseDto(Integer id, Integer ordem, String descricao, Integer done, Double pontuacao) {
+    public TaskResponseDto(TaskObjetivoContaKey id, Integer ordem, String descricao, Integer done, Double pontuacao) {
         this.id = id;
         this.ordem = ordem;
         this.descricao = descricao;
@@ -19,11 +21,11 @@ public class TaskResponseDto {
         this.pontuacao = pontuacao;
     }
 
-    public Integer getId() {
+    public TaskObjetivoContaKey getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(TaskObjetivoContaKey id) {
         this.id = id;
     }
 
