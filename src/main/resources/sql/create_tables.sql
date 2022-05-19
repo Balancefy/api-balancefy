@@ -138,6 +138,8 @@ VALUES(50, 0, 1, 1);
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
 VALUES(50, 10, 1, 2);
 
+
+
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 --

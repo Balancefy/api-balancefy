@@ -1,7 +1,10 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.FileException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.ListaObj;
+import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Movimentacao;
 import balancefy.api.resources.entities.MovimentacaoFixa;
 import balancefy.api.resources.entities.Usuario;
@@ -25,11 +28,9 @@ public class MovimentacaoService {
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
     @Autowired
-    private MovimentacaoFixaRepository movimentacaoFixaRepository;
-    @Autowired
     private ContaRepository contaRepository;
 
-    public void createCsv(String nomeArq, ListaObj<MovimentacaoFixa> lista) throws FileException{
+    public void createCsv(String nomeArq, ListaObj<MovimentacaoFixa> lista) throws FileException {
         String message = "";
         FileWriter arq = null;
         Formatter saida = null;
@@ -39,8 +40,7 @@ public class MovimentacaoService {
         try {
             arq = new FileWriter(nomeArq);
             saida = new Formatter(arq);
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             throw new FileException("Erro ao abrir o arquivo");
         }
 
@@ -63,18 +63,14 @@ public class MovimentacaoService {
                         movimentacao.getCreatedAt()
                 );
             }
-        }
-        catch (FormatterClosedException erro) {
+        } catch (FormatterClosedException erro) {
             message = "Erro ao gravar o arquivo";
             error = true;
-        }
-
-        finally {
+        } finally {
             saida.close();
             try {
                 arq.close();
-            }
-            catch (IOException erro) {
+            } catch (IOException erro) {
                 message = "Erro ao fechar o arquivo";
                 error = true;
             }
@@ -90,16 +86,14 @@ public class MovimentacaoService {
 
         try {
             saida = new BufferedWriter(new FileWriter(nomeArq, true));
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             throw new FileException("Erro ao abrir o arquivo");
         }
 
         try {
             saida.append(registro + "\n");
             saida.close();
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             throw new FileException("Erro ao gravar o arquivo");
         }
     }
@@ -143,7 +137,7 @@ public class MovimentacaoService {
                 createBody(m, nomeArq);
 
                 registerAmount++;
-                transactionAmount+= m.getValor();
+                transactionAmount += m.getValor();
             }
 
             String trailer = "01";
@@ -164,4 +158,29 @@ public class MovimentacaoService {
         }
 
     }
+
+    public List<Movimentacao> getAllMovimentacao(Integer id) {
+        return movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
+    }
+
+    public Movimentacao create(Movimentacao movimentacao) throws AlreadyExistsException {
+        try {
+            return movimentacaoRepository.save(movimentacao);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public void deleteMovimentacao(Integer id) throws NotFoundException {
+        try {
+            if (movimentacaoRepository.existsById(id)) {
+                movimentacaoRepository.delete(movimentacaoRepository.getById(id));
+                return;
+            }
+            throw new NotFoundException("Movimentação não encontrada");
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
 }
