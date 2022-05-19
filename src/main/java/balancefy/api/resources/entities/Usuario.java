@@ -42,9 +42,6 @@ public class Usuario {
     @PastOrPresent
     private LocalDate dataNasc;
 
-    @Column(name = "status")
-    private Integer status;
-
     @Column(name = "tipo")
     private TypeUser type = TypeUser.DEFAULT;
 
@@ -61,7 +58,6 @@ public class Usuario {
         this.avatar = usuario.getAvatar();
         this.banner = usuario.getBanner();
         this.dataNasc = usuario.getDataNasc();
-        this.status = 1;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -136,14 +132,6 @@ public class Usuario {
 
     public void setBanner(String banner) {
         this.banner = banner;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {
