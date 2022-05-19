@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface ContaRepository extends JpaRepository<Conta, Integer> {
+import java.util.List;
 
-    @Transactional // do pacote org.spring....
+public interface ContaRepository extends JpaRepository<Conta, Integer> {
+    @Query("select c from Conta c WHERE c.status = 1 order by c.progresso desc")
+    List<Conta> findAllActiveAccount();
+
+    @Transactional
     @Modifying
     @Query("update Conta c set c.progresso = ?2 where c.id = ?1")
     Conta atualizarProgresso(Integer id, double progresso);

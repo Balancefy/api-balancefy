@@ -29,8 +29,8 @@ public class MovimentacaoController {
     @Autowired
     private TokenService tokenService;
 
-    @GetMapping()
-    public List<Movimentacao> getList(Integer id) {
+    @GetMapping("/{id}")
+    public List<Movimentacao> getList(@PathVariable Integer id) {
         return movimentacaoService.getAllMovimentacao(id);
     }
 
@@ -44,7 +44,7 @@ public class MovimentacaoController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
         try {
             movimentacaoService.deleteMovimentacao(id);

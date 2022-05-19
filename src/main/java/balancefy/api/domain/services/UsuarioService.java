@@ -24,28 +24,6 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<UsuarioResponseDto> getUsuarios() throws NotFoundException{
-        try {
-            List<UsuarioResponseDto> list = usuarioRepository.findAllActiveUsuarioDto();
-
-            if(list.isEmpty()) {
-                throw new NotFoundException("Não existe usuários cadastrados");
-            }
-
-            return list;
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    public Usuario getUsuarioById(Integer id){
-        try {
-            return usuarioRepository.findById(id).get();
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
     public Usuario create(Usuario usuario) throws AlreadyExistsException {
         try {
             Optional<Usuario> foundUser = usuarioRepository.findByEmail(usuario.getEmail());
@@ -109,19 +87,6 @@ public class UsuarioService {
 
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
-                return;
-            }
-
-            throw new NotFoundException("Usuário não encontrado");
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    public void delete(Integer id) throws NotFoundException {
-        try {
-            if(usuarioRepository.existsById(id)) {
-                usuarioRepository.deactiveUser(id);
                 return;
             }
 
