@@ -52,7 +52,7 @@ public class ObjetivoService {
         );
 
          newObjetivo = objetivoRepository.save(newObjetivo);
-         initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getId()), newObjetivo);
+         initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo);
 
         return newObjetivo;
     }
