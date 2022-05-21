@@ -42,6 +42,10 @@ public class Topico {
         return this.liked++;
     }
 
+    public Integer removerLike() {
+        return this.liked--;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

@@ -1,7 +1,6 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.TopicoRequestDto;
-import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Topico;
@@ -54,7 +53,20 @@ public class TopicoService {
         try {
             Optional<Topico> topico = topicoRepository.findById(tpc.getId());
             if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)) {
-                return topicoRepository.addLike(tpc.getId(), tpc.adicionarLike());
+                return topicoRepository.updateLike(tpc.getId(), tpc.adicionarLike());
+            }
+            throw new NotFoundException("Tópico não encontrada");
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public Topico removeLike(Topico tpc, Integer id) throws NotFoundException {
+        try {
+            Optional<Topico> topico = topicoRepository.findById(tpc.getId());
+            if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)) {
+                return topicoRepository.updateLike(tpc.getId(), tpc.removerLike());
             }
             throw new NotFoundException("Tópico não encontrada");
 

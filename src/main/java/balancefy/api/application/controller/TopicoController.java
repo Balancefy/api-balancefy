@@ -61,4 +61,18 @@ public class TopicoController {
             return ResponseEntity.status(400).body(new TopicoResponseDto(ex));
         }
     }
+
+    @PatchMapping
+    public ResponseEntity<TopicoResponseDto> removeLike(@RequestBody Topico tpc,
+                                                     @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            TopicoResponseDto account = new TopicoResponseDto(topicoService.removeLike(tpc,id));
+            return ResponseEntity.status(200).body(account);
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new TopicoResponseDto(ex));
+        }
+    }
 }
