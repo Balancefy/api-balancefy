@@ -28,6 +28,14 @@ public class Conta {
     @NotNull
     private Usuario fkUsuario;
 
+    public Conta(Integer id, Double renda, Double progresso, Integer status, Usuario fkUsuario) {
+        this.id = id;
+        this.renda = renda;
+        this.progresso = progresso;
+        this.status = status;
+        this.fkUsuario = fkUsuario;
+    }
+
     public Usuario getFkUsuario() {
         return fkUsuario;
     }
