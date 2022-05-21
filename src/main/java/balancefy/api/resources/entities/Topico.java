@@ -38,6 +38,10 @@ public class Topico {
         this.fkConta = conta;
     }
 
+    public Integer adicionarLike() {
+        return this.liked++;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

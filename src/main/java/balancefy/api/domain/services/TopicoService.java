@@ -50,4 +50,17 @@ public class TopicoService {
         }
     }
 
+    public Topico addLike(Topico tpc, Integer id) throws NotFoundException {
+        try {
+            Optional<Topico> topico = topicoRepository.findById(tpc.getId());
+            if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)) {
+                return topicoRepository.addLike(tpc.getId(), tpc.adicionarLike());
+            }
+            throw new NotFoundException("Tópico não encontrada");
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
 }

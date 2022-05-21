@@ -4,6 +4,7 @@ import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.request.TopicoRequestDto;
 import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.services.TopicoService;
+import balancefy.api.resources.entities.Topico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,20 @@ public class TopicoController {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
             TopicoResponseDto account = new TopicoResponseDto(topicoService.update(topico, id));
+            return ResponseEntity.status(200).body(account);
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new TopicoResponseDto(ex));
+        }
+    }
+
+    @PatchMapping
+    public ResponseEntity<TopicoResponseDto> addLike(@RequestBody Topico tpc,
+                                                     @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            TopicoResponseDto account = new TopicoResponseDto(topicoService.addLike(tpc,id));
             return ResponseEntity.status(200).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
