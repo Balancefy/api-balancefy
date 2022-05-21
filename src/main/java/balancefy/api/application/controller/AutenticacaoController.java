@@ -51,7 +51,7 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/social")
-    public ResponseEntity<LoginResponseDto> autenticarGoogle(@RequestBody LoginSocialDto login) {
+    public ResponseEntity<LoginResponseDto> autenticarSocial(@RequestBody LoginSocialDto login) {
         try {
             String token = tokenService.gerarTokenRedeSocial(authService.loadUserByUsername(login.getEmail()));
 

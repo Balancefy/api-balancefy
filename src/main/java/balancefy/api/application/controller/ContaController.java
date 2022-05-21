@@ -1,6 +1,7 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.RankResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.ContaResponseDto;
 import balancefy.api.resources.entities.Conta;
@@ -25,6 +26,20 @@ public class ContaController {
     public ResponseEntity<ContaResponseDto> findById(@RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            ContaResponseDto account = new ContaResponseDto(contaService.getContaById(id));
+            return ResponseEntity.status(200).body(account);
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ContaResponseDto(ex));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ContaResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ContaResponseDto(ex));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ContaResponseDto> findById(@PathVariable Integer id) {
+        try {
             ContaResponseDto account = new ContaResponseDto(contaService.getContaById(id));
             return ResponseEntity.status(200).body(account);
         } catch (NotFoundException ex) {
@@ -90,6 +105,17 @@ public class ContaController {
             return ResponseEntity.status(500).body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/rank")
+    public ResponseEntity<RankResponseDto> rank() {
+        try {
+            return ResponseEntity.status(200).body(new RankResponseDto(contaService.getRank()));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new RankResponseDto(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new RankResponseDto(ex));
         }
     }
 }

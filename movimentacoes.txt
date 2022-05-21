@@ -1,0 +1,20 @@
+00MOVIMENTACAO04-05-2022 14:42:2301
+0200001Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200002EntradaLazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200003Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+010000300150.00
+00MOVIMENTACAO04-05-2022 14:42:4501
+0200001Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200002EntradaLazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200003Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+010000300150.00
+00MOVIMENTACAO04-05-2022 14:43:2601
+0200001Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200002EntradaLazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200003Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+010000300150.00
+00MOVIMENTACAO04-05-2022 14:43:3501
+0200001Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200002EntradaLazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+0200003Saida  Lazer               Kart                                              0000050.0004-05-202200001Compra              Carro Gol                                         0013000.0002000.0000
+010000300150.00

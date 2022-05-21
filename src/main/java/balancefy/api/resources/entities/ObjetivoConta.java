@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 public class ObjetivoConta {
 
     @Id
-    @Column(name = "id_objetivo_conta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_objetivo_conta", unique = true, nullable = false)
     private Integer id;
 
     @ManyToOne
@@ -40,6 +41,19 @@ public class ObjetivoConta {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    public ObjetivoConta() { }
+
+    public ObjetivoConta(Conta conta, Objetivo objetivo, String descricao, Integer done, Double valorTotal, Double valorInicial, Instant tempoEstimado, Double pontuacao) {
+        this.conta = conta;
+        this.objetivo = objetivo;
+        this.descricao = descricao;
+        this.done = done;
+        this.valorTotal = valorTotal;
+        this.valorInicial = valorInicial;
+        this.tempoEstimado = tempoEstimado;
+        this.pontuacao = pontuacao;
+    }
 
     public Integer getId() {
         return id;
@@ -111,5 +125,13 @@ public class ObjetivoConta {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Double getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
     }
 }

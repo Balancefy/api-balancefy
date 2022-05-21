@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
-
+@RestController
+@RequestMapping("/transactionFixed")
 public class MovimentacaoFixaController {
 
     @Autowired
     private MovimentacaoFixaService movimentacaoFixaService;
 
 
-    @GetMapping()
-    public List<MovimentacaoFixa> getList(Integer id) {
+    @GetMapping("/{id}")
+    public List<MovimentacaoFixa> getList(@PathVariable Integer id) {
         return movimentacaoFixaService.getAllMovimentacaoFixa(id);
     }
 
