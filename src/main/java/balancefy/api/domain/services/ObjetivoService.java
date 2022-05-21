@@ -22,7 +22,10 @@ import java.util.zip.DataFormatException;
 public class ObjetivoService {
 
     @Autowired
-    ObjetivoContaRepository objetivoRepository;
+    ObjetivoContaRepository objetivoContaRepository;
+
+    @Autowired
+    ObjetivoRepository objetivoRepository;
 
     @Autowired
     ContaRepository contaRepository;
@@ -56,7 +59,7 @@ public class ObjetivoService {
             );
 
             Double valor = calculateValues(newObjetivo);
-            newObjetivo = objetivoRepository.save(newObjetivo);
+            newObjetivo = objetivoContaRepository.save(newObjetivo);
             initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo, valor);
             return newObjetivo;
         } catch (DataFormatException e) {
@@ -105,18 +108,18 @@ public class ObjetivoService {
     }
 
     public ObjetivoConta accomplish(Integer id) {
-        ObjetivoConta objetivo = objetivoRepository.getById(id);
+        ObjetivoConta objetivo = objetivoContaRepository.getById(id);
         List<TaskObjetivoConta >tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.getId());
         tasks.forEach(task -> task.setDone(1));
         taskObjetivoContaRepository.saveAll(tasks);
         objetivo.setDone(1);
-        objetivoRepository.save(objetivo);
+        objetivoContaRepository.save(objetivo);
 
         return objetivo;
     }
 
     public ObjetivoResponseDto getObjetivoById(Integer id) {
-        ObjetivoContaResponseDto objetivo = objetivoRepository.findObjetivoContaById(id);
+        ObjetivoContaResponseDto objetivo = objetivoContaRepository.findObjetivoContaById(id);
         List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.getId());
         List<TaskResponseDto> tasksResponse = new ArrayList<>();
         tasks.forEach((it) -> tasksResponse.add(new TaskResponseDto(
@@ -146,6 +149,10 @@ public class ObjetivoService {
         ));
 
        return taskObjetivoContaRepository.saveAll(tasks);
+    }
+
+    public List<Objetivo> listPreMade() {
+        return objetivoRepository.findAll();
     }
 
 
