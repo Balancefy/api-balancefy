@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ObjetivoContaResponseDto {
@@ -19,7 +20,7 @@ public class ObjetivoContaResponseDto {
     private Integer done;
     private Double valorTotal;
     private Double valorInicial;
-    private Instant tempoEstimado;
+    private LocalDate tempoEstimado;
     private Double pontuacao;
     private LocalDateTime createdAt;
 
@@ -84,11 +85,11 @@ public class ObjetivoContaResponseDto {
         this.valorInicial = valorInicial;
     }
 
-    public Instant getTempoEstimado() {
+    public LocalDate getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(Instant tempoEstimado) {
+    public void setTempoEstimado(LocalDate tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 

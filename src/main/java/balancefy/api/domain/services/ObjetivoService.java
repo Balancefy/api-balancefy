@@ -4,17 +4,18 @@ import balancefy.api.application.dto.request.ObjetivoDto;
 import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.application.dto.response.TaskResponseDto;
-import balancefy.api.resources.entities.Conta;
-import balancefy.api.resources.entities.ObjetivoConta;
-import balancefy.api.resources.entities.TaskObjetivo;
-import balancefy.api.resources.entities.TaskObjetivoConta;
+import balancefy.api.domain.exceptions.AmountException;
+import balancefy.api.resources.entities.*;
 import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
 import balancefy.api.resources.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 
 @Service
@@ -30,31 +31,77 @@ public class ObjetivoService {
     MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
+    MovimentacaoFixaRepository movimentacaoFixaRepository;
+
+    @Autowired
     TaskObjetivoContaRepository taskObjetivoContaRepository;
 
     @Autowired
     TaskObjetivoRepository taskObjetivoRepository;
 
+    public ObjetivoConta create(ObjetivoDto objetivoDto, Integer id) throws AmountException, DataFormatException {
+        try {
+            Conta conta = contaRepository.getById(id);
+            Double pontuacao = (conta.getRenda() * 0.3) + 10000;
 
-    public ObjetivoConta create(ObjetivoDto objetivoDto, Integer id) {
-        Conta conta = contaRepository.getById(id);
-        Double pontuacao = (conta.getRenda() * 0.3) + 10000;
+            ObjetivoConta newObjetivo = new ObjetivoConta(
+                    conta,
+                    objetivoDto.getObjetivo(),
+                    objetivoDto.getDescricao(),
+                    0,
+                    objetivoDto.getValorTotal(),
+                    objetivoDto.getValorInicial(),
+                    objetivoDto.getTempoEstimado(),
+                    pontuacao
+            );
 
-        ObjetivoConta newObjetivo = new ObjetivoConta(
-                conta,
-                objetivoDto.getObjetivo(),
-                objetivoDto.getDescricao(),
-                0,
-                objetivoDto.getValorTotal(),
-                objetivoDto.getValorInicial(),
-                objetivoDto.getTempoEstimado(),
-                pontuacao
-        );
+            Double valor = calculateValues(newObjetivo);
+            newObjetivo = objetivoRepository.save(newObjetivo);
+            initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo, valor);
+            return newObjetivo;
+        } catch (DataFormatException e) {
+            throw e;
+        } catch (AmountException e) {
+            throw e;
+        }
 
-         newObjetivo = objetivoRepository.save(newObjetivo);
-         initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo);
+    }
 
-        return newObjetivo;
+    private Double calculateValues(ObjetivoConta objConta) throws DataFormatException, AmountException {
+        Conta conta = objConta.getConta();
+        Double valorRestante = 0.0;
+        Double valorObjetivo = objConta.getValorTotal() - objConta.getValorInicial();
+        Double entradas = conta.getRenda();
+        Double saidas = 0.0;
+        long months = Period.between(LocalDate.now(), objConta.getTempoEstimado()).getMonths();
+
+        List<MovimentacaoFixa> list = movimentacaoFixaRepository.findAllByFkConta(conta);
+
+        for(MovimentacaoFixa movimentacaoFixa: list) {
+            if(movimentacaoFixa.getTipo().equals("ENTRADA")) {
+                entradas+= movimentacaoFixa.getValor();
+            } else {
+                saidas+= movimentacaoFixa.getValor();
+            }
+        }
+
+        List<TaskObjetivoConta> listTask = taskObjetivoContaRepository.findAllByObjetivoContaIdAndTaskTaskCategoria(conta.getId(), "Economizar");
+
+        for(TaskObjetivoConta task: listTask) {
+            saidas+=task.getValor();
+        }
+
+        valorRestante = entradas - saidas;
+
+        if(valorRestante < 0) {
+            throw new AmountException("Receita insuficiente para planejar mais objetivos");
+        }
+
+        if((valorObjetivo / (valorRestante * 0.3)) > months) {
+            throw new DataFormatException("Intervalo de tempo muito curto");
+        }
+
+        return valorRestante * 0.3;
     }
 
     public ObjetivoConta accomplish(Integer id) {
@@ -77,22 +124,24 @@ public class ObjetivoService {
                 it.getTask().getOrdem(),
                 it.getDescricao(),
                 it.getDone(),
-                it.getPontuacao()
+                it.getPontuacao(),
+                it.getValor(),
+                it.getCreatedAt()
         )));
 
         return new ObjetivoResponseDto(objetivo, tasksResponse);
     }
 
-
-    private List<TaskObjetivoConta> initializeTasks(List<TaskObjetivo> tasksToInitialize, ObjetivoConta objetivoConta) {
+    private List<TaskObjetivoConta> initializeTasks(List<TaskObjetivo> tasksToInitialize, ObjetivoConta objetivoConta, Double valor) {
         List<TaskObjetivoConta> tasks =  new ArrayList<>();
         tasksToInitialize.forEach(taskObjetivo -> tasks.add(new TaskObjetivoConta(
-                new TaskObjetivoContaKey(taskObjetivo.getTask().getId(), objetivoConta.getId()),
-                taskObjetivo,
-                objetivoConta,
-                taskObjetivo.getTask().getCategoria(),
-                0,
-                objetivoConta.getPontuacao()
+                    new TaskObjetivoContaKey(taskObjetivo.getTask().getId(), objetivoConta.getId()),
+                    taskObjetivo,
+                    objetivoConta,
+                    taskObjetivo.getTask().getCategoria(),
+                    0,
+                    objetivoConta.getPontuacao(),
+                    taskObjetivo.getTask().getId() == 1 ? valor : 0.0
                 )
         ));
 

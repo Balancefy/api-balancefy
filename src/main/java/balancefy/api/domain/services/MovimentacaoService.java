@@ -163,7 +163,7 @@ public class MovimentacaoService {
         return movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
     }
 
-    public Movimentacao create(Movimentacao movimentacao) throws AlreadyExistsException {
+    public Movimentacao create(Movimentacao movimentacao) {
         try {
             return movimentacaoRepository.save(movimentacao);
         } catch (Exception ex) {
@@ -182,5 +182,4 @@ public class MovimentacaoService {
             throw ex;
         }
     }
-
 }
