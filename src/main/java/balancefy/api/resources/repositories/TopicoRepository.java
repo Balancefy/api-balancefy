@@ -22,14 +22,4 @@ public interface TopicoRepository extends JpaRepository<Topico, Integer> {
     List<Topico> findAllByOrderByLikedDesc();
 
     List<Topico> findByFkConta(Conta conta);
-
-    @Transactional // do pacote org.spring....
-    @Modifying
-    @Query("update Topico t set t.titulo = ?2, t.conteudo = ?3 where t.id = ?1")
-    Topico updateTopic(Integer id, String titulo, String conteudo);
-
-    @Transactional
-    @Modifying
-    @Query("update Topico t set t.liked = ?2 where t.id = ?1")
-    Topico updateLike(Integer id, Integer liked);
 }

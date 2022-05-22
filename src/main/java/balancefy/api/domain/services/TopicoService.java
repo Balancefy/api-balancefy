@@ -25,6 +25,10 @@ public class TopicoService {
         return topicoRepository.findAll();
     }
 
+    public Topico getTopicoById(int id) {
+        return topicoRepository.findById(id).get();
+    }
+
     public Topico create(TopicoRequestDto topico, Integer id) {
         try {
             Conta conta = contaRepository.getById(id);
@@ -40,8 +44,13 @@ public class TopicoService {
         try {
             Optional<Topico> topico = topicoRepository.findById(topicoRequest.getId());
             if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)){
-                return topicoRepository.updateTopic(topicoRequest.getId(), topicoRequest.getTitulo(), topicoRequest.getConteudo());
+                Topico presentTopic = topico.get();
+                presentTopic.setConteudo(topicoRequest.getConteudo());
+                presentTopic.setTitulo(topicoRequest.getTitulo());
+
+                return topicoRepository.save(presentTopic);
             }
+
             throw new NotFoundException("Tópico não encontrada");
 
         } catch (Exception ex) {
@@ -49,12 +58,17 @@ public class TopicoService {
         }
     }
 
-    public Topico addLike(Topico tpc, Integer id) throws NotFoundException {
+    public Topico addLike(Integer id) throws NotFoundException {
         try {
-            Optional<Topico> topico = topicoRepository.findById(tpc.getId());
-            if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)) {
-                return topicoRepository.updateLike(tpc.getId(), tpc.adicionarLike());
+            Optional<Topico> topico = topicoRepository.findById(id);
+            if (topico.isPresent()) {
+
+                Topico presentTopic = topico.get();
+                presentTopic.adicionarLike();
+
+                return topicoRepository.save(presentTopic);
             }
+
             throw new NotFoundException("Tópico não encontrada");
 
         } catch (Exception ex) {
@@ -62,11 +76,14 @@ public class TopicoService {
         }
     }
 
-    public Topico removeLike(Topico tpc, Integer id) throws NotFoundException {
+    public Topico removeLike(Integer id) throws NotFoundException {
         try {
-            Optional<Topico> topico = topicoRepository.findById(tpc.getId());
-            if (topico.isPresent() && topico.get().getFkConta().getId().equals(id)) {
-                return topicoRepository.updateLike(tpc.getId(), tpc.removerLike());
+            Optional<Topico> topico = topicoRepository.findById(id);
+            if (topico.isPresent()) {
+                Topico presentTopic = topico.get();
+                presentTopic.removerLike();
+
+                return topicoRepository.save(presentTopic);
             }
             throw new NotFoundException("Tópico não encontrada");
 

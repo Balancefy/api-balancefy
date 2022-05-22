@@ -26,6 +26,22 @@ public class TopicoResponseDto extends ResponseDto {
         this.fkConta = topico.getFkConta();
     }
 
+    public Integer getLiked() {
+        return liked;
+    }
+
+    public void setLiked(Integer liked) {
+        this.liked = liked;
+    }
+
+    public Integer getViewed() {
+        return viewed;
+    }
+
+    public void setViewed(Integer viewed) {
+        this.viewed = viewed;
+    }
+
     public TopicoResponseDto(Exception ex) {
         super(ex.getMessage());
     }

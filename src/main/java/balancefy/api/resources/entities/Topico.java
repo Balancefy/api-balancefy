@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Table(name = "topico")
 public class Topico {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_topico", nullable = false)
     private Integer id;
 
@@ -38,12 +39,15 @@ public class Topico {
         this.fkConta = conta;
     }
 
-    public Integer adicionarLike() {
-        return this.liked++;
+    public Topico() {
     }
 
-    public Integer removerLike() {
-        return this.liked--;
+    public void adicionarLike() {
+        this.liked = this.liked+1;
+    }
+
+    public void removerLike() {
+        this.liked = this.liked-1;
     }
 
     public LocalDateTime getCreatedAt() {
