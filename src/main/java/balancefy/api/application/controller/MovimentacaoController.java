@@ -39,7 +39,7 @@ public class MovimentacaoController {
         try {
             movimentacaoService.create(movimentacao);
             return ResponseEntity.status(201).build();
-        } catch (AlreadyExistsException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }

@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface TaskObjetivoContaRepository extends JpaRepository<TaskObjetivoConta, Integer> {
     public List<TaskObjetivoConta> findAllByObjetivoContaId(Integer id);
+    public List<TaskObjetivoConta> findAllByObjetivoContaIdAndTaskTaskCategoria(Integer id, String categoria);
 }

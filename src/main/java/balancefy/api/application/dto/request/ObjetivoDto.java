@@ -1,8 +1,9 @@
 package balancefy.api.application.dto.request;
 
 import balancefy.api.resources.entities.Objetivo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 public class ObjetivoDto {
 
@@ -14,7 +15,8 @@ public class ObjetivoDto {
 
     private Double valorInicial;
 
-    private Instant tempoEstimado;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate tempoEstimado;
 
     public Objetivo getObjetivo() {
         return objetivo;
@@ -48,11 +50,11 @@ public class ObjetivoDto {
         this.valorInicial = valorInicial;
     }
 
-    public Instant getTempoEstimado() {
+    public LocalDate getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(Instant tempoEstimado) {
+    public void setTempoEstimado(LocalDate tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 }

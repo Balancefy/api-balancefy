@@ -11,14 +11,17 @@ public class TaskResponseDto {
     private String descricao;
     private Integer done;
     private Double pontuacao;
+    private Double valor;
     private LocalDateTime createdAt;
 
-    public TaskResponseDto(TaskObjetivoContaKey id, Integer ordem, String descricao, Integer done, Double pontuacao) {
+    public TaskResponseDto(TaskObjetivoContaKey id, Integer ordem, String descricao, Integer done, Double pontuacao, Double valor, LocalDateTime createdAt) {
         this.id = id;
         this.ordem = ordem;
         this.descricao = descricao;
         this.done = done;
         this.pontuacao = pontuacao;
+        this.valor = valor;
+        this.createdAt = createdAt;
     }
 
     public TaskObjetivoContaKey getId() {
@@ -59,6 +62,14 @@ public class TaskResponseDto {
 
     public void setPontuacao(Double pontuacao) {
         this.pontuacao = pontuacao;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
     public LocalDateTime getCreatedAt() {

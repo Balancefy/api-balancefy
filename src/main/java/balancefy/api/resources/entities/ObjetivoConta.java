@@ -2,6 +2,7 @@ package balancefy.api.resources.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,17 +35,17 @@ public class ObjetivoConta {
     private Double valorInicial;
 
     @Column(name = "tempo_estimado")
-    private Instant tempoEstimado;
+    private LocalDate tempoEstimado;
 
     @Column(name= "pontuacao")
     private Double pontuacao;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public ObjetivoConta() { }
 
-    public ObjetivoConta(Conta conta, Objetivo objetivo, String descricao, Integer done, Double valorTotal, Double valorInicial, Instant tempoEstimado, Double pontuacao) {
+    public ObjetivoConta(Conta conta, Objetivo objetivo, String descricao, Integer done, Double valorTotal, Double valorInicial, LocalDate tempoEstimado, Double pontuacao) {
         this.conta = conta;
         this.objetivo = objetivo;
         this.descricao = descricao;
@@ -111,11 +112,11 @@ public class ObjetivoConta {
         this.valorInicial = valorInicial;
     }
 
-    public Instant getTempoEstimado() {
+    public LocalDate getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(Instant tempoEstimado) {
+    public void setTempoEstimado(LocalDate tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 

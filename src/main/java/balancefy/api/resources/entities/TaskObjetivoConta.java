@@ -31,11 +31,22 @@ public class TaskObjetivoConta {
     @Column(name = "pontuacao")
     private Double pontuacao;
 
+    @Column(name = "valor")
+    private Double valor;
+
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public TaskObjetivoConta() {
 
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
     public TaskObjetivoContaKey getId() {
@@ -94,12 +105,13 @@ public class TaskObjetivoConta {
         this.createdAt = createdAt;
     }
 
-    public TaskObjetivoConta(TaskObjetivoContaKey id, TaskObjetivo task, ObjetivoConta objetivoConta, String descricao, Integer done, Double pontuacao) {
+    public TaskObjetivoConta(TaskObjetivoContaKey id, TaskObjetivo task, ObjetivoConta objetivoConta, String descricao, Integer done, Double pontuacao, Double valor) {
         this.id = id;
         this.task = task;
         this.objetivoConta = objetivoConta;
         this.descricao = descricao;
         this.done = done;
         this.pontuacao = pontuacao;
+        this.valor = valor;
     }
 }
