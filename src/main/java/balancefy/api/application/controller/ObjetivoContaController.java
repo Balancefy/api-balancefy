@@ -30,12 +30,10 @@ public class ObjetivoContaController {
       Integer userId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
         try{
             return ResponseEntity.status(200).body(objetivoService.create(objetivo, userId));
-        }catch (HttpServerErrorException.InternalServerError ex){
-            return ResponseEntity.status(500).body("f");
-        } catch (DataFormatException e) {
-            return ResponseEntity.status(500).body(e.getMessage());
-        } catch (AmountException e) {
-            return ResponseEntity.status(500).body(e.getMessage());
+        }catch (HttpServerErrorException.InternalServerError | DataFormatException ex){
+            return ResponseEntity.status(500).body(ex.getMessage());
+        }catch( AmountException ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
 
