@@ -5,6 +5,7 @@ import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.application.dto.response.TaskResponseDto;
 import balancefy.api.domain.exceptions.AmountException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.*;
 import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
 import balancefy.api.resources.repositories.*;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.zip.DataFormatException;
 
 
@@ -118,21 +120,24 @@ public class ObjetivoService {
         return objetivo;
     }
 
-    public ObjetivoResponseDto getObjetivoById(Integer id) {
-        ObjetivoContaResponseDto objetivo = objetivoContaRepository.findObjetivoContaById(id);
-        List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.getId());
-        List<TaskResponseDto> tasksResponse = new ArrayList<>();
-        tasks.forEach((it) -> tasksResponse.add(new TaskResponseDto(
-                it.getId(),
-                it.getTask().getOrdem(),
-                it.getDescricao(),
-                it.getDone(),
-                it.getPontuacao(),
-                it.getValor(),
-                it.getCreatedAt()
-        )));
+    public ObjetivoResponseDto getObjetivoById(Integer id) throws NotFoundException {
+        Optional<ObjetivoContaResponseDto> objetivo = objetivoContaRepository.findObjetivoContaById(id);
+        if(objetivo.isPresent()) {
+            List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.get().getId());
+            List<TaskResponseDto> tasksResponse = new ArrayList<>();
+            tasks.forEach((it) -> tasksResponse.add(new TaskResponseDto(
+                    it.getId(),
+                    it.getTask().getOrdem(),
+                    it.getDescricao(),
+                    it.getDone(),
+                    it.getPontuacao(),
+                    it.getValor(),
+                    it.getCreatedAt()
+            )));
+            return new ObjetivoResponseDto(objetivo.get(), tasksResponse);
 
-        return new ObjetivoResponseDto(objetivo, tasksResponse);
+        }
+        throw new NotFoundException("Objetivo não encontrado");
     }
 
     private List<TaskObjetivoConta> initializeTasks(List<TaskObjetivo> tasksToInitialize, ObjetivoConta objetivoConta, Double valor) {

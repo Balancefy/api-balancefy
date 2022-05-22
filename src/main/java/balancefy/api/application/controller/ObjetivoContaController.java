@@ -4,6 +4,7 @@ import balancefy.api.application.dto.request.ObjetivoDto;
 
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.domain.exceptions.AmountException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.ObjetivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,8 @@ public class ObjetivoContaController {
            return ResponseEntity.status(200).body(objetivo);
         }catch(HttpServerErrorException.InternalServerError ex){
             return ResponseEntity.status(500).body(new ObjetivoResponseDto(ex));
+        }catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ObjetivoResponseDto(ex));
         }
     }
 }
