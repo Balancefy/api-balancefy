@@ -61,6 +61,33 @@ public class Usuario {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Usuario(Integer id, String nome, String email, String senha, String avatar, String banner, LocalDate dataNasc, TypeUser type, LocalDateTime createdAt) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.avatar = avatar;
+        this.banner = banner;
+        this.dataNasc = dataNasc;
+        this.type = type;
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", banner='" + banner + '\'' +
+                ", dataNasc=" + dataNasc +
+                ", type=" + type +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
     public TypeUser getType() {
         return type;
     }

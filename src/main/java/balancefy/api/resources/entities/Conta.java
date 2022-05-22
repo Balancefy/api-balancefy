@@ -1,9 +1,7 @@
 package balancefy.api.resources.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -37,6 +35,21 @@ public class Conta {
         this.progresso = progresso;
         this.status = status;
         this.fkUsuario = fkUsuario;
+    }
+
+    public Conta() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Conta{" +
+                "id=" + id +
+                ", renda=" + renda +
+                ", progresso=" + progresso +
+                ", status=" + status +
+                ", fkUsuario=" + fkUsuario +
+                '}';
     }
 
     public Usuario getFkUsuario() {

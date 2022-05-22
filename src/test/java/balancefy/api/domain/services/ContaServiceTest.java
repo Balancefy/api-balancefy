@@ -1,53 +1,52 @@
 package balancefy.api.domain.services;
 
-import balancefy.api.application.dto.request.UsuarioRequest;
 import balancefy.api.resources.entities.Conta;
+import balancefy.api.resources.entities.TypeUser;
 import balancefy.api.resources.entities.Usuario;
+import balancefy.api.resources.repositories.ContaRepository;
 import org.junit.jupiter.api.Test;
-
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@RunWith(MockitoJUnitRunner.class)
 class ContaServiceTest {
+
+    @Mock
+    private ContaRepository contaRepository;
+
+    @InjectMocks
+    private ContaService contaService = new ContaService();
 
     @Test
     void create() {
-        ContaService contaService = new ContaService();
+        Conta c1 = getConta();
+        Mockito.when(contaService.create(c1)).thenReturn(getConta());
 
-//        contaService.create()
     }
 
-    private Conta getConta(){
-        Conta c1 = new Conta(1,1000.00, 0.0, 1 , 1);
+    private Conta getConta() {
+        Conta c1 = new Conta(1, 1000.00, 0.0, 1, getUsuario());
         return c1;
     }
 
-    private Usuario getUsuario(){
+    private Usuario getUsuario() {
         Usuario u1 = new Usuario(
-                1,
-                "Verdinha",
-                "aaaa@gmail.com",
-                "verdiner123",
-                "foto.jpeg",
-                "fundo.jpeg",
-                "2000/05/24",
-                1,
-                "2022/03/03"
-        );
+                    1,
+                    "Verdinha",
+                    "aaaa@gmail.com",
+                    "verdiner123",
+                    "foto.jpeg",
+                    "fundo.jpeg",
+                    LocalDate.of(2000, 5, 24) ,
+                    TypeUser.DEFAULT,
+                    LocalDateTime.now()
+            );
         return u1;
-    }
-
-    public Usuario(UsuarioRequest usuario) {
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-        this.senha = usuario.getSenha();
-        this.avatar = usuario.getAvatar();
-        this.banner = usuario.getBanner();
-        this.dataNasc = usuario.getDataNasc();
-        this.status = 1;
-        this.createdAt = LocalDateTime.now();
     }
 
     @Test

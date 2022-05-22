@@ -19,6 +19,7 @@ public class UsuarioRequest {
     @PastOrPresent
     private LocalDate dataNasc;
 
+
     public String getNome() {
         return nome;
     }
