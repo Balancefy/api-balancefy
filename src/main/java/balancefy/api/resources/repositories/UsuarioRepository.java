@@ -11,16 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-    @Query("select new balancefy.api.application.dto.response.UsuarioResponseDto(u) from Usuario u WHERE u.status = 1")
-    List<UsuarioResponseDto> findAllActiveUsuarioDto();
-
     Usuario findByEmailAndSenha(String email, String senha);
-    Optional<Usuario> findByEmail(String email);
 
-    @Transactional
-    @Modifying
-    @Query("update Usuario u set u.status = 0 where u.id = ?1")
-    void deactiveUser(Integer idUsuario);
+    Optional<Usuario> findByEmail(String email);
 
     @Transactional
     @Modifying

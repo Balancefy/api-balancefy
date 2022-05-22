@@ -3,9 +3,12 @@ package balancefy.api.resources.entities;
 import javax.persistence.*;
 
 @Entity
-public class TaskObjetivo {
+@Table(name = "taskobjetivo")
+public class   TaskObjetivo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_task_objetivo")
     Integer id;
 
     @ManyToOne

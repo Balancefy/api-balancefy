@@ -1,12 +1,13 @@
 package balancefy.api.resources.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "conta")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Conta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,29 @@ public class Conta {
     @JoinColumn(name = "fk_usuario", nullable = false)
     @NotNull
     private Usuario fkUsuario;
+
+    public Conta(Integer id, Double renda, Double progresso, Integer status, Usuario fkUsuario) {
+        this.id = id;
+        this.renda = renda;
+        this.progresso = progresso;
+        this.status = status;
+        this.fkUsuario = fkUsuario;
+    }
+
+    public Conta() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "Conta{" +
+                "id=" + id +
+                ", renda=" + renda +
+                ", progresso=" + progresso +
+                ", status=" + status +
+                ", fkUsuario=" + fkUsuario +
+                '}';
+    }
 
     public Usuario getFkUsuario() {
         return fkUsuario;

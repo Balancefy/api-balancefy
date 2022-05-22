@@ -27,19 +27,6 @@ public class UsuarioController {
     @Autowired
     private TokenService tokenService;
 
-    @GetMapping
-    public ResponseEntity<ListaUsuarioResponseDto> getList() {
-        try {
-            return ResponseEntity.status(200).body(new ListaUsuarioResponseDto(usuarioService.getUsuarios()));
-        } catch (NotFoundException ex) {
-            return ResponseEntity.status(204).body(new ListaUsuarioResponseDto(ex));
-        } catch (HttpServerErrorException.InternalServerError ex) {
-            return ResponseEntity.status(500).body(new ListaUsuarioResponseDto(ex));
-        } catch (Exception ex) {
-            return ResponseEntity.status(400).body(new ListaUsuarioResponseDto(ex));
-        }
-    }
-
     @PostMapping
     public ResponseEntity<UsuarioResponseDto> create(@RequestBody @Valid Usuario usuario) {
         try {
@@ -67,20 +54,6 @@ public class UsuarioController {
             return ResponseEntity.status(500).body(new UsuarioResponseDto(ex));
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(new UsuarioResponseDto(ex));
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
-        try {
-            usuarioService.delete(id);
-            return ResponseEntity.status(200).build();
-        } catch (NotFoundException ex) {
-            return ResponseEntity.status(404).body(ex.getMessage());
-        } catch (HttpServerErrorException.InternalServerError ex) {
-            return ResponseEntity.status(500).body(ex.getMessage());
-        } catch (Exception ex) {
-            return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
 

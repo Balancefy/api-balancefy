@@ -1,19 +1,24 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.UsuarioResponseDto;
+import balancefy.api.domain.exceptions.AlreadyExistsException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoService;
+import balancefy.api.resources.entities.Movimentacao;
+import balancefy.api.resources.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transaction")
@@ -23,6 +28,35 @@ public class MovimentacaoController {
 
     @Autowired
     private TokenService tokenService;
+
+    @GetMapping("/{id}")
+    public List<Movimentacao> getList(@PathVariable Integer id) {
+        return movimentacaoService.getAllMovimentacao(id);
+    }
+
+    @PostMapping
+    public ResponseEntity create(@RequestBody Movimentacao movimentacao) {
+        try {
+            movimentacaoService.create(movimentacao);
+            return ResponseEntity.status(201).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Integer id) {
+        try {
+            movimentacaoService.deleteMovimentacao(id);
+            return ResponseEntity.status(200).build();
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(ex.getMessage());
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
 
     @GetMapping("/report")
     public ResponseEntity exportCsv(@RequestHeader(value = "Authorization") String token) {
@@ -46,4 +80,6 @@ public class MovimentacaoController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+
 }

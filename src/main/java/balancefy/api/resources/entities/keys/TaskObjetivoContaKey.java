@@ -26,4 +26,17 @@ public class TaskObjetivoContaKey implements Serializable {
     public void setObjetivoContaId(Integer objetivoContaId) {
         this.objetivoContaId = objetivoContaId;
     }
+
+    public TaskObjetivoContaKey(Integer taskId, Integer objetivoContaId) {
+        this.taskId = taskId;
+        this.objetivoContaId = objetivoContaId;
+    }
+
+    public TaskObjetivoContaKey(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public TaskObjetivoContaKey() {}
+
+    
 }

@@ -2,6 +2,7 @@ package balancefy.api.resources.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,7 +10,8 @@ import java.time.LocalDateTime;
 public class ObjetivoConta {
 
     @Id
-    @Column(name = "id_objetivo_conta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_objetivo_conta", unique = true, nullable = false)
     private Integer id;
 
     @ManyToOne
@@ -33,13 +35,26 @@ public class ObjetivoConta {
     private Double valorInicial;
 
     @Column(name = "tempo_estimado")
-    private Instant tempoEstimado;
+    private LocalDate tempoEstimado;
 
     @Column(name= "pontuacao")
     private Double pontuacao;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public ObjetivoConta() { }
+
+    public ObjetivoConta(Conta conta, Objetivo objetivo, String descricao, Integer done, Double valorTotal, Double valorInicial, LocalDate tempoEstimado, Double pontuacao) {
+        this.conta = conta;
+        this.objetivo = objetivo;
+        this.descricao = descricao;
+        this.done = done;
+        this.valorTotal = valorTotal;
+        this.valorInicial = valorInicial;
+        this.tempoEstimado = tempoEstimado;
+        this.pontuacao = pontuacao;
+    }
 
     public Integer getId() {
         return id;
@@ -97,11 +112,11 @@ public class ObjetivoConta {
         this.valorInicial = valorInicial;
     }
 
-    public Instant getTempoEstimado() {
+    public LocalDate getTempoEstimado() {
         return tempoEstimado;
     }
 
-    public void setTempoEstimado(Instant tempoEstimado) {
+    public void setTempoEstimado(LocalDate tempoEstimado) {
         this.tempoEstimado = tempoEstimado;
     }
 
@@ -111,5 +126,13 @@ public class ObjetivoConta {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Double getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Double pontuacao) {
+        this.pontuacao = pontuacao;
     }
 }

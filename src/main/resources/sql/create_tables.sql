@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     avatar VARCHAR(255),
     banner VARCHAR(255),
     data_nasc DATE,
-    status INT,
     tipo INT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -53,9 +52,10 @@ CREATE TABLE IF NOT EXISTS Task (
 );
 
 CREATE TABLE IF NOT EXISTS TaskObjetivo (
-    id_task_objetivo INT PRIMARY KEY,
+    id_task_objetivo SERIAL PRIMARY KEY,
     fk_task INT NOT NULL,
     fk_objetivo INT NOT NULL,
+    ordem INT NOT NULL,
     FOREIGN KEY(fk_task) REFERENCES Task (id_task),
     FOREIGN KEY(fk_objetivo) REFERENCES Objetivo (id_objetivo)
 );
@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS TaskObjetivoConta (
     descricao VARCHAR(100),
     done INT,
     pontuacao DECIMAL(10,2),
+    valor DECIMAL(10,2),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_objetivo_conta INT NOT NULL,
     fk_task_objetivo INT NOT NULL,
@@ -127,14 +128,19 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, status, tipo)
-VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 1, 0);
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo,banner)
+VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 0, '');
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, status, tipo)
-VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '2009-03-22', 1, 0);
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo)
+VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '1999-03-22', '../../Images/user2.jpg', 0);
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
 VALUES(50, 0, 1, 1);
+
+INSERT INTO Conta (renda, progresso, status,fk_usuario)
+VALUES(50, 10, 1, 2);
+
+
 
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
@@ -142,11 +148,6 @@ VALUES(50, 0, 1, 1);
 -- INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
 -- VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
 --
--- INSERT INTO Task (nome, descricao, done, pontuacao, fk_objetivo)
--- VALUES('JuntarDinDin', 'Comprar a roda', 0, 0.0, 1);
---
--- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
--- VALUES(50.0, 'Lazer', 'Kart','Saida', 1);
 --
 -- INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
 --     VALUES ('Lazer', 'Kart', 50.0, 'Saida', 1),
@@ -170,4 +171,40 @@ VALUES ('Viagem Internacional'),
        ('Comprar carro'),
        ('Faculdade'),
        ('Quitação de Dívida'),
-       ('Compras Gerais')
+       ('Compras Gerais');
+
+
+INSERT INTO Task(categoria)
+VALUES ('Economizar'),
+       ('Procurar Hotel'),
+       ('Comprar Malas de Viagem');
+
+INSERT INTO TaskObjetivo(fk_task, fk_objetivo, ordem)
+VALUES (1, 1, 1),
+       (1, 2, 1),
+       (1, 3, 1),
+       (1, 4, 1),
+       (1, 5, 1),
+       (1, 6, 1),
+       (1, 7, 1),
+       (2, 1, 2),
+       (3, 1, 3);
+
+INSERT INTO ObjetivoConta ( fk_conta, fk_objetivo, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao)
+VALUES(1, 1, 'Viagem Australia', 0, 200.0, 10.0, current_timestamp, 1000.0);
+
+INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo)
+VALUES('Economizar', 0, 300.0, 1, 1),
+    ('Procurar Hotel', 0, 500.0, 1, 8),
+    ('Comprar Malas de Viagem', 0, 700.0, 1, 9);
+
+INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo_conta)
+VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
+    (30.0, 'Lazer', 'Futebol','Saida', 1),
+    (80.0, 'Comida', 'Japa','Saida', 1),
+    (550.0, 'Lazer', 'Roupas','Saida', 1),
+    (250.0, 'Dinheiro', 'Dinheiro da Vó','Entrada', 1),
+    (375.0, 'Lazer', 'Cartas de Magic','Saida', 1),
+    (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entradas', 1),
+    (320.0, 'Lazer', '13000 de RP','Saida', 1),
+    (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "taskobjetivoconta")
 public class TaskObjetivoConta {
 
     @EmbeddedId
@@ -14,7 +15,7 @@ public class TaskObjetivoConta {
     @ManyToOne
     @MapsId("taskId")
     @JoinColumn(name = "fk_task_objetivo")
-    Task task;
+    TaskObjetivo task;
 
     @ManyToOne
     @MapsId("objetivoContaId")
@@ -30,8 +31,23 @@ public class TaskObjetivoConta {
     @Column(name = "pontuacao")
     private Double pontuacao;
 
+    @Column(name = "valor")
+    private Double valor;
+
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public TaskObjetivoConta() {
+
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
 
     public TaskObjetivoContaKey getId() {
         return id;
@@ -41,11 +57,11 @@ public class TaskObjetivoConta {
         this.id = id;
     }
 
-    public Task getTask() {
+    public TaskObjetivo getTask() {
         return task;
     }
 
-    public void setTask(Task task) {
+    public void setTask(TaskObjetivo task) {
         this.task = task;
     }
 
@@ -87,5 +103,15 @@ public class TaskObjetivoConta {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public TaskObjetivoConta(TaskObjetivoContaKey id, TaskObjetivo task, ObjetivoConta objetivoConta, String descricao, Integer done, Double pontuacao, Double valor) {
+        this.id = id;
+        this.task = task;
+        this.objetivoConta = objetivoConta;
+        this.descricao = descricao;
+        this.done = done;
+        this.pontuacao = pontuacao;
+        this.valor = valor;
     }
 }

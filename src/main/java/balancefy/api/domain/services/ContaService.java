@@ -1,15 +1,23 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.response.ContaRankResponseDto;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.repositories.ContaRepository;
+import balancefy.api.resources.repositories.ObjetivoContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContaService {
     @Autowired
     private ContaRepository contaRepository;
+
+    @Autowired
+    private ObjetivoContaRepository objetivoContaRepository;
 
     public Conta create(Conta conta) {
         try {
@@ -62,6 +70,20 @@ public class ContaService {
                 return contaRepository.atualizarProgresso(id, progValue);
             }
             throw new NotFoundException("Conta não encontrada");
+
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<ContaRankResponseDto> getRank() {
+        try {
+            List<Conta> rank = contaRepository.findAllActiveAccount();
+
+            return rank.stream().map(it -> {
+                    int objetivosConcluido = objetivoContaRepository.countByDoneAndConta(1, it);
+                    return new ContaRankResponseDto(it, objetivosConcluido);
+                }).collect(Collectors.toList());
 
         } catch (Exception ex) {
             throw ex;
