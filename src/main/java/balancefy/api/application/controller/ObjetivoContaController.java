@@ -4,6 +4,7 @@ import balancefy.api.application.dto.request.ObjetivoDto;
 
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.domain.exceptions.AmountException;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.ObjetivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,10 @@ public class ObjetivoContaController {
       Integer userId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
         try{
             return ResponseEntity.status(200).body(objetivoService.create(objetivo, userId));
-        }catch (HttpServerErrorException.InternalServerError ex){
-            return ResponseEntity.status(500).body("f");
-        } catch (DataFormatException e) {
-            return ResponseEntity.status(500).body(e.getMessage());
-        } catch (AmountException e) {
-            return ResponseEntity.status(500).body(e.getMessage());
+        }catch (HttpServerErrorException.InternalServerError | DataFormatException ex){
+            return ResponseEntity.status(500).body(ex.getMessage());
+        }catch( AmountException ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
         }
     }
 
@@ -45,6 +44,8 @@ public class ObjetivoContaController {
            return ResponseEntity.status(200).body(objetivo);
         }catch(HttpServerErrorException.InternalServerError ex){
             return ResponseEntity.status(500).body(new ObjetivoResponseDto(ex));
+        }catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ObjetivoResponseDto(ex));
         }
     }
 }

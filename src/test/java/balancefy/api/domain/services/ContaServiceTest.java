@@ -10,23 +10,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 @RunWith(MockitoJUnitRunner.class)
+@SpringBootTest
 class ContaServiceTest {
 
-    @Mock
-    private ContaRepository contaRepository;
+    @MockBean
+    private ContaRepository repository;
 
-    @InjectMocks
-    private ContaService contaService = new ContaService();
+    @MockBean
+    private ContaService contaService;
 
     @Test
     void create() {
-        Conta c1 = getConta();
-        Mockito.when(contaService.create(c1)).thenReturn(getConta());
+        when(contaService.create(Mockito.any(Conta.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
 
+        Conta conta = contaService.create(getConta());
+        assertTrue(conta.getId() > 0);
     }
 
     private Conta getConta() {

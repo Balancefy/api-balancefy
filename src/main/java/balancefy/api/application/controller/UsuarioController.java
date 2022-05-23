@@ -1,6 +1,7 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.request.UsuarioSenhaRequestDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.ListaUsuarioResponseDto;
@@ -96,7 +97,19 @@ public class UsuarioController {
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(ex.getMessage());
         }
-
     }
 
+    @PutMapping("/senha")
+    public ResponseEntity updatePassword(@RequestBody UsuarioSenhaRequestDto request,
+                                              @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+            usuarioService.updatePassword(id,request);
+            return ResponseEntity.status(200).build();
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
 }
