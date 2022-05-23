@@ -1,17 +1,12 @@
 package balancefy.api.resources.entities;
 
 import balancefy.api.application.dto.request.UsuarioRequest;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Entity
 @Table(name = "usuario")
@@ -33,17 +28,17 @@ public class Usuario {
     private String senha;
 
     @Column(name = "avatar", length = 100)
-    private String avatar;
+    private String avatar = "";
 
     @Column(name = "banner", length = 100)
-    private String banner;
+    private String banner = "";
 
     @Column(name = "data_nasc")
     @PastOrPresent
     private LocalDate dataNasc;
 
     @Column(name = "tipo")
-    private TypeUser type = TypeUser.DEFAULT;
+    private TypeUser tipo = TypeUser.DEFAULT;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -69,7 +64,7 @@ public class Usuario {
         this.avatar = avatar;
         this.banner = banner;
         this.dataNasc = dataNasc;
-        this.type = type;
+        this.tipo = type;
         this.createdAt = createdAt;
     }
 
@@ -83,17 +78,17 @@ public class Usuario {
                 ", avatar='" + avatar + '\'' +
                 ", banner='" + banner + '\'' +
                 ", dataNasc=" + dataNasc +
-                ", type=" + type +
+                ", tipo=" + tipo +
                 ", createdAt=" + createdAt +
                 '}';
     }
 
-    public TypeUser getType() {
-        return type;
+    public TypeUser getTipo() {
+        return tipo;
     }
 
-    public void setType(TypeUser type) {
-        this.type = type;
+    public void setTipo(TypeUser type) {
+        this.tipo = type;
     }
 
     public LocalDate getDataNasc() {

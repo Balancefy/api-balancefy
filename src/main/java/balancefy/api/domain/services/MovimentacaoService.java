@@ -104,7 +104,7 @@ public class MovimentacaoService {
 
             body += String.format("%05d", m.getId());
             body += String.format("%-7s", m.getTipo());
-            body += String.format("%-20s", m.getTopico());
+            body += String.format("%-20s", m.getCategoria());
             body += String.format("%-50s", m.getDescricao());
             body += String.format("%010.2f", m.getValor());
             body += String.format("%-10s", m.getCreatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));

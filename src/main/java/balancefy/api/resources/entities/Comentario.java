@@ -12,12 +12,6 @@ public class Comentario {
     @Column(name = "id_comentario", nullable = false)
     private Integer id;
 
-    @Column(name = "liked")
-    private Integer liked;
-
-    @Column(name = "viewed")
-    private Integer viewed;
-
     @Column(name = "conteudo")
     private String conteudo;
 
@@ -31,7 +25,6 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name = "fk_topico")
     private Topico fkTopico;
-
 
     @ManyToOne
     @JoinColumn(name = "fk_comentario")
@@ -74,22 +67,6 @@ public class Comentario {
 
     public LocalDateTime getData() {
         return createdAt;
-    }
-
-    public Integer getViewed() {
-        return viewed;
-    }
-
-    public void setViewed(Integer qtdVisualizacoes) {
-        this.viewed = qtdVisualizacoes;
-    }
-
-    public Integer getLiked() {
-        return liked;
-    }
-
-    public void setLiked(Integer qtdCurtidas) {
-        this.liked = qtdCurtidas;
     }
 
     public Integer getId() {

@@ -13,8 +13,8 @@ public class Movimentacao {
     @Column(name = "valor")
     private Double valor;
 
-    @Column(name = "topico")
-    private String topico;
+    @Column(name = "categoria")
+    private String categoria;
 
     @Column(name = "descricao")
     private String descricao;
@@ -37,12 +37,12 @@ public class Movimentacao {
         this.valor = valor;
     }
 
-    public String getTopico() {
-        return topico;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setTopico(String topico) {
-        this.topico = topico;
+    public void setCategoria(String topico) {
+        this.categoria = topico;
     }
 
     public String getDescricao() {

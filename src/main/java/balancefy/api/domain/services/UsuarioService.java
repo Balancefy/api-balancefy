@@ -29,9 +29,8 @@ public class UsuarioService {
     public Usuario create(Usuario usuario) throws AlreadyExistsException {
         try {
             Optional<Usuario> foundUser = usuarioRepository.findByEmail(usuario.getEmail());
-
-            if (foundUser.isEmpty()) {
-                if (usuario.getType() == TypeUser.DEFAULT) {
+            if(foundUser.isEmpty()) {
+                if(usuario.getTipo() == TypeUser.DEFAULT) {
                     usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
                 }
 
