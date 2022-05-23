@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class MovimentacaoController {
     @Autowired
     private MovimentacaoService movimentacaoService;
@@ -32,6 +32,11 @@ public class MovimentacaoController {
     @GetMapping("/{id}")
     public List<Movimentacao> getList(@PathVariable Integer id) {
         return movimentacaoService.getAllMovimentacao(id);
+    }
+
+    @GetMapping({"/goal/{id}"})
+    public List<Movimentacao> getListByGoal(@PathVariable Integer id) {
+        return movimentacaoService.getAllByObjetivo(id);
     }
 
     @PostMapping

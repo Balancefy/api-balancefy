@@ -12,4 +12,5 @@ import java.util.List;
 
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Integer> {
     List<Movimentacao> findAllByFkObjetivoContaConta(Conta conta);
+    List<Movimentacao> findAllByFkObjetivoContaId(Integer id);
 }

@@ -163,6 +163,12 @@ public class MovimentacaoService {
         return movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
     }
 
+    public List<Movimentacao> getAllByObjetivo(Integer id){
+        return movimentacaoRepository.findAllByFkObjetivoContaId(id);
+    }
+
+
+
     public Movimentacao create(Movimentacao movimentacao) {
         try {
             return movimentacaoRepository.save(movimentacao);
@@ -182,4 +188,6 @@ public class MovimentacaoService {
             throw ex;
         }
     }
+
+
 }
