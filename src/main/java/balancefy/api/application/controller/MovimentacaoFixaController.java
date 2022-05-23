@@ -1,5 +1,6 @@
 package balancefy.api.application.controller;
 
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoFixaService;
@@ -19,7 +20,7 @@ public class MovimentacaoFixaController {
 
 
     @GetMapping("/{id}")
-    public List<MovimentacaoFixa> getList(@PathVariable Integer id) {
+    public List<MovimentacaoFixaDto> getList(@PathVariable Integer id) {
         return movimentacaoFixaService.getAllMovimentacaoFixa(id);
     }
 

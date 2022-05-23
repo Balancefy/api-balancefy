@@ -1,6 +1,7 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.ObjetivoDto;
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.application.dto.response.TaskResponseDto;
@@ -80,9 +81,9 @@ public class ObjetivoService {
         Double saidas = 0.0;
         long months = Period.between(LocalDate.now(), objConta.getTempoEstimado()).getMonths();
 
-        List<MovimentacaoFixa> list = movimentacaoFixaRepository.findAllByFkConta(conta);
+        List<MovimentacaoFixaDto> list = movimentacaoFixaRepository.findAllByFkContaId(conta.getId());
 
-        for(MovimentacaoFixa movimentacaoFixa: list) {
+        for(MovimentacaoFixaDto movimentacaoFixa: list) {
             if(movimentacaoFixa.getTipo().equals("ENTRADA")) {
                 entradas+= movimentacaoFixa.getValor();
             } else {

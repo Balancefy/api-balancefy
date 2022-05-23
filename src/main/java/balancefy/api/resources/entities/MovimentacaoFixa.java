@@ -29,6 +29,7 @@ public class MovimentacaoFixa {
     @JoinColumn(name = "fk_conta", nullable = false)
     private Conta fkConta;
 
+
     public Double getValor() {
         return valor;
     }

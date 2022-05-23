@@ -1,5 +1,6 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.MovimentacaoFixa;
@@ -19,8 +20,8 @@ public class MovimentacaoFixaService {
     @Autowired
     private ContaRepository contaRepository;
 
-    public List<MovimentacaoFixa> getAllMovimentacaoFixa(Integer id) {
-        return movimentacaoFixaRepository.findAllByFkConta(contaRepository.findById(id).get());
+    public List<MovimentacaoFixaDto> getAllMovimentacaoFixa(Integer id) {
+        return movimentacaoFixaRepository.findAllByFkContaId(id);
     }
 
     public MovimentacaoFixa create(MovimentacaoFixa movimentacaoFixa) throws AlreadyExistsException {
