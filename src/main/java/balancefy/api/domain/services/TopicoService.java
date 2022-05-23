@@ -1,6 +1,8 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.TopicoRequestDto;
+import balancefy.api.application.dto.response.FeedTopicoResponseDto;
+import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Like;
@@ -12,6 +14,7 @@ import balancefy.api.resources.repositories.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +34,22 @@ public class TopicoService {
         return topicoRepository.findAll();
     }
 
+    public List<FeedTopicoResponseDto> getTopicoFeed(int id) {
+        List<Topico> list = topicoRepository.findAll();
+        List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
+
+        for(Topico t: list) {
+            listFeed.add(
+                    new FeedTopicoResponseDto(
+                            new TopicoResponseDto(t, getTopicoLikes(t)),
+                            isLikedByAccountId(t.getId(), id)
+                    )
+            );
+        }
+
+        return listFeed;
+    }
+
     public Topico getTopicoById(int id) {
         return topicoRepository.findById(id).get();
     }
@@ -41,6 +60,10 @@ public class TopicoService {
 
     public int getTopicoLikes(Topico topico) {
         return likesRepository.countByTopico(topico);
+    }
+
+    public boolean isLikedByAccountId(int topicId, int id) {
+        return likesRepository.findById(new LikesKey(topicId, id)).isPresent();
     }
 
     public Topico create(TopicoRequestDto topico, Integer id) {

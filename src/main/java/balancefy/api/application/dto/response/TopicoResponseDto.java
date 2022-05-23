@@ -10,7 +10,7 @@ public class TopicoResponseDto extends ResponseDto {
     private Integer id;
     private String titulo;
     private String descricao;
-    private Integer liked;
+    private Integer likes;
     private LocalDateTime createdAt;
     private Conta fkConta;
 
@@ -19,17 +19,17 @@ public class TopicoResponseDto extends ResponseDto {
         this.id = topico.getId();
         this.titulo = topico.getTitulo();
         this.descricao = topico.getConteudo();
-        this.liked = likes;
+        this.likes = likes;
         this.createdAt = topico.getCreatedAt();
         this.fkConta = topico.getFkConta();
     }
 
-    public Integer getLiked() {
-        return liked;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setLiked(Integer liked) {
-        this.liked = liked;
+    public void setLikes(Integer liked) {
+        this.likes = liked;
     }
 
     public TopicoResponseDto(Exception ex) {
