@@ -29,7 +29,7 @@ public class UsuarioService {
             Optional<Usuario> foundUser = usuarioRepository.findByEmail(usuario.getEmail());
 
             if(foundUser.isEmpty()) {
-                if(usuario.getType() == TypeUser.DEFAULT) {
+                if(usuario.getTipo() == TypeUser.DEFAULT) {
                     usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
                 }
 

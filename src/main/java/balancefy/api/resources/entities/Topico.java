@@ -17,12 +17,6 @@ public class Topico {
     @Column(name = "conteudo")
     private String conteudo;
 
-    @Column(name = "liked")
-    private Integer liked;
-
-    @Column(name = "viewed")
-    private Integer viewed;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -31,8 +25,6 @@ public class Topico {
     private Conta fkConta;
 
     public Topico(String titulo, String conteudo, Conta conta) {
-        this.liked = 0;
-        this.viewed = 0;
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.createdAt = LocalDateTime.now();
@@ -40,14 +32,6 @@ public class Topico {
     }
 
     public Topico() {
-    }
-
-    public void adicionarLike() {
-        this.liked = this.liked+1;
-    }
-
-    public void removerLike() {
-        this.liked = this.liked-1;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -80,22 +64,6 @@ public class Topico {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getLiked() {
-        return liked;
-    }
-
-    public void setLiked(Integer liked) {
-        this.liked = liked;
-    }
-
-    public Integer getViewed() {
-        return viewed;
-    }
-
-    public void setViewed(Integer viewed) {
-        this.viewed = viewed;
     }
 
     public Conta getFkConta() {

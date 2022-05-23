@@ -14,12 +14,9 @@ import java.util.List;
 
 @Repository
 public interface TopicoRepository extends JpaRepository<Topico, Integer> {
-    @Query("select new balancefy.api.application.dto.response.TopicoResponseDto(t) from Topico t WHERE t.titulo = ?1")
-    List<TopicoResponseDto> findByTitulo(String titulo);
+    List<Topico> findByTituloContains(String titulo);
 
     List<Topico> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
-
-    List<Topico> findAllByOrderByLikedDesc();
 
     List<Topico> findByFkConta(Conta conta);
 }

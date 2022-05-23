@@ -3,8 +3,11 @@ package balancefy.api.domain.services;
 import balancefy.api.application.dto.request.TopicoRequestDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Conta;
+import balancefy.api.resources.entities.Like;
 import balancefy.api.resources.entities.Topico;
+import balancefy.api.resources.entities.keys.LikesKey;
 import balancefy.api.resources.repositories.ContaRepository;
+import balancefy.api.resources.repositories.LikesRepository;
 import balancefy.api.resources.repositories.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,9 @@ public class TopicoService {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    @Autowired
+    private LikesRepository likesRepository;
+
     public List<Topico> getTopico() {
         return topicoRepository.findAll();
     }
@@ -29,10 +35,19 @@ public class TopicoService {
         return topicoRepository.findById(id).get();
     }
 
+    public List<Topico> getTopicosByTitulo(String titulo) {
+        return topicoRepository.findByTituloContains(titulo);
+    }
+
+    public int getTopicoLikes(Topico topico) {
+        return likesRepository.countByTopico(topico);
+    }
+
     public Topico create(TopicoRequestDto topico, Integer id) {
         try {
             Conta conta = contaRepository.getById(id);
             Topico topicoDto = new Topico(topico.getTitulo(), topico.getConteudo(), conta);
+
             return topicoRepository.save(topicoDto);
 
         } catch (Exception ex) {
@@ -58,32 +73,37 @@ public class TopicoService {
         }
     }
 
-    public Topico addLike(Integer id) throws NotFoundException {
+    public void addLike(Integer topicId, Integer accountId) throws NotFoundException {
         try {
-            Optional<Topico> topico = topicoRepository.findById(id);
+            Optional<Topico> topico = topicoRepository.findById(topicId);
             if (topico.isPresent()) {
-
                 Topico presentTopic = topico.get();
-                presentTopic.adicionarLike();
 
-                return topicoRepository.save(presentTopic);
+                likesRepository.save(
+                        new Like(
+                                new LikesKey(presentTopic.getId(), accountId),
+                                presentTopic,
+                                contaRepository.findById(accountId).get()
+                        )
+                );
+                return;
             }
 
-            throw new NotFoundException("Tópico não encontrada");
+            throw new NotFoundException("Tópico não encontrado");
 
         } catch (Exception ex) {
             throw ex;
         }
     }
 
-    public Topico removeLike(Integer id) throws NotFoundException {
+    public void removeLike(Integer id, Integer accountId) throws NotFoundException {
         try {
             Optional<Topico> topico = topicoRepository.findById(id);
             if (topico.isPresent()) {
                 Topico presentTopic = topico.get();
-                presentTopic.removerLike();
 
-                return topicoRepository.save(presentTopic);
+                likesRepository.deleteByTopicoAndConta(presentTopic, contaRepository.findById(accountId).get());
+                return;
             }
             throw new NotFoundException("Tópico não encontrada");
 

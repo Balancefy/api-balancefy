@@ -3,7 +3,7 @@ package balancefy.api.application.controller;
 import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.request.TopicoRequestDto;
 import balancefy.api.application.dto.response.TopicoResponseDto;
-import balancefy.api.application.dto.response.TopicoSimpleResponseDto;
+import balancefy.api.domain.services.ComentarioService;
 import balancefy.api.domain.services.TopicoService;
 import balancefy.api.resources.entities.Topico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping("/forum")
-public class TopicoController {
+public class ForumController {
 
     @Autowired
     private TokenService tokenService;
@@ -21,10 +21,14 @@ public class TopicoController {
     @Autowired
     private TopicoService topicoService;
 
+    @Autowired
+    private ComentarioService comentarioService;
+
     @GetMapping("/{id}")
     public ResponseEntity<TopicoResponseDto> get(@PathVariable int id) {
         try {
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.getTopicoById(id));
+            Topico foundTopico = topicoService.getTopicoById(id);
+            TopicoResponseDto account = new TopicoResponseDto(foundTopico, topicoService.getTopicoLikes(foundTopico));
             return ResponseEntity.status(201).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
@@ -38,7 +42,9 @@ public class TopicoController {
                                                     @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.create(topico, id));
+            Topico savedTopico = topicoService.create(topico, id);
+
+            TopicoResponseDto account = new TopicoResponseDto(savedTopico, topicoService.getTopicoLikes(savedTopico));
             return ResponseEntity.status(201).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
@@ -52,7 +58,8 @@ public class TopicoController {
                                                     @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.update(topico, id));
+            Topico updatedTopico = topicoService.update(topico, id);
+            TopicoResponseDto account = new TopicoResponseDto(updatedTopico, topicoService.getTopicoLikes(updatedTopico));
             return ResponseEntity.status(200).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
@@ -62,9 +69,15 @@ public class TopicoController {
     }
 
     @PatchMapping("/like/{topicId}")
-    public ResponseEntity<TopicoResponseDto> addLike(@PathVariable int topicId) {
+    public ResponseEntity<TopicoResponseDto> addLike(@PathVariable int topicId, @RequestHeader(value = "Authorization") String token) {
         try {
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.addLike(topicId));
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            topicoService.addLike(topicId, id);
+
+            Topico topico = topicoService.getTopicoById(topicId);
+
+            TopicoResponseDto account = new TopicoResponseDto(topico, topicoService.getTopicoLikes(topico));
             return ResponseEntity.status(200).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
@@ -74,9 +87,14 @@ public class TopicoController {
     }
 
     @PatchMapping("/unlike/{topicId}")
-    public ResponseEntity<TopicoResponseDto> removeLike(@PathVariable int topicId) {
+    public ResponseEntity<TopicoResponseDto> removeLike(@PathVariable int topicId, @RequestHeader(value = "Authorization") String token) {
         try {
-            TopicoResponseDto account = new TopicoResponseDto(topicoService.removeLike(topicId));
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            topicoService.removeLike(topicId, id);
+            Topico topico = topicoService.getTopicoById(topicId);
+
+            TopicoResponseDto account = new TopicoResponseDto(topico, topicoService.getTopicoLikes(topico));
             return ResponseEntity.status(200).body(account);
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new TopicoResponseDto(ex));

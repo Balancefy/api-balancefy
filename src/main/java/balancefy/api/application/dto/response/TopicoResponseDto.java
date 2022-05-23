@@ -11,17 +11,15 @@ public class TopicoResponseDto extends ResponseDto {
     private String titulo;
     private String descricao;
     private Integer liked;
-    private Integer viewed;
     private LocalDateTime createdAt;
     private Conta fkConta;
 
-    public TopicoResponseDto(Topico topico) {
+    public TopicoResponseDto(Topico topico, int likes) {
         super("Sucesso");
         this.id = topico.getId();
         this.titulo = topico.getTitulo();
         this.descricao = topico.getConteudo();
-        this.liked = topico.getLiked();
-        this.viewed = topico.getViewed();
+        this.liked = likes;
         this.createdAt = topico.getCreatedAt();
         this.fkConta = topico.getFkConta();
     }
@@ -32,14 +30,6 @@ public class TopicoResponseDto extends ResponseDto {
 
     public void setLiked(Integer liked) {
         this.liked = liked;
-    }
-
-    public Integer getViewed() {
-        return viewed;
-    }
-
-    public void setViewed(Integer viewed) {
-        this.viewed = viewed;
     }
 
     public TopicoResponseDto(Exception ex) {

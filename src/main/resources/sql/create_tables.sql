@@ -10,13 +10,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS Rank (
-    id_rank SERIAL PRIMARY KEY,
-    posicao INT,
-    fk_usuario INT NOT NULL,
-    FOREIGN KEY (fk_usuario) REFERENCES Usuario (id_usuario)
-);
-
 CREATE TABLE IF NOT EXISTS Conta (
     id_conta SERIAL PRIMARY KEY,
     renda DECIMAL(10,2) NOT NULL,
@@ -107,8 +100,6 @@ CREATE TABLE IF NOT EXISTS Topico (
     id_topico SERIAL PRIMARY KEY,
     titulo VARCHAR(45) NULL,
     conteudo VARCHAR(255) NULL,
-    liked INT NULL,
-    viewed INT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta)
@@ -116,8 +107,6 @@ CREATE TABLE IF NOT EXISTS Topico (
 
 CREATE TABLE IF NOT EXISTS Comentario (
     id_comentario SERIAL PRIMARY KEY,
-    liked INT,
-    viewed INT NULL,
     conteudo VARCHAR(255),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
@@ -128,7 +117,15 @@ CREATE TABLE IF NOT EXISTS Comentario (
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
 );
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo,banner)
+CREATE TABLE IF NOT EXISTS Likes (
+    fk_topico INT NOT NULL,
+    fk_conta INT NOT NULL,
+    FOREIGN KEY(fk_topico) REFERENCES Topico (id_topico),
+    FOREIGN KEY(fk_conta) REFERENCES Conta (id_conta),
+    PRIMARY KEY (fk_topico, fk_conta)
+);
+
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo, banner)
 VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 0, '');
 
 INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo)
@@ -139,7 +136,6 @@ VALUES(50, 0, 1, 1);
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
 VALUES(50, 10, 1, 2);
-
 
 
 -- INSERT INTO Dica (titulo, descricao, tema)
