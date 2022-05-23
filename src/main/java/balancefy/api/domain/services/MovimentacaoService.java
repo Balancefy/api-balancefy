@@ -1,5 +1,6 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.FileException;
 import balancefy.api.domain.exceptions.NotFoundException;
@@ -104,7 +105,7 @@ public class MovimentacaoService {
 
             body += String.format("%05d", m.getId());
             body += String.format("%-7s", m.getTipo());
-            body += String.format("%-20s", m.getCategoria());
+            body += String.format("%-20s", m.getTopico());
             body += String.format("%-50s", m.getDescricao());
             body += String.format("%010.2f", m.getValor());
             body += String.format("%-10s", m.getCreatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -163,7 +164,7 @@ public class MovimentacaoService {
         return movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
     }
 
-    public List<Movimentacao> getAllByObjetivo(Integer id){
+    public List<MovimentacaoResponseDto> getAllByObjetivo(Integer id){
         return movimentacaoRepository.findAllByFkObjetivoContaId(id);
     }
 

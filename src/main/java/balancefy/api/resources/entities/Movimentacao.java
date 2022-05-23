@@ -12,15 +12,14 @@ public class Movimentacao {
 
     @Column(name = "valor")
     private Double valor;
-
-    @Column(name = "categoria")
-    private String categoria;
-
     @Column(name = "descricao")
     private String descricao;
 
     @Column(name = "tipo", length = 100)
     private String tipo;
+
+    @Column(name ="topico")
+    private String topico;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -37,12 +36,12 @@ public class Movimentacao {
         this.valor = valor;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getTopico() {
+        return topico;
     }
 
-    public void setCategoria(String topico) {
-        this.categoria = topico;
+    public void setTopico(String topico) {
+        this.topico = topico;
     }
 
     public String getDescricao() {

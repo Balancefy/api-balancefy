@@ -1,6 +1,7 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.application.dto.response.UsuarioResponseDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
@@ -35,7 +36,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping({"/goal/{id}"})
-    public List<Movimentacao> getListByGoal(@PathVariable Integer id) {
+    public List<MovimentacaoResponseDto> getListByGoal(@PathVariable Integer id) {
         return movimentacaoService.getAllByObjetivo(id);
     }
 
