@@ -135,7 +135,6 @@ public class ObjetivoService {
                     it.getCreatedAt()
             )));
             return new ObjetivoResponseDto(objetivo.get(), tasksResponse);
-
         }
         throw new NotFoundException("Objetivo não encontrado");
     }
