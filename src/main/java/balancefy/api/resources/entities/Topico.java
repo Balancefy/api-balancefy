@@ -31,6 +31,14 @@ public class Topico {
         this.fkConta = conta;
     }
 
+    public Topico(Integer id, String titulo, String conteudo, Conta conta) {
+        this.id = id;
+        this.titulo = titulo;
+        this.conteudo = conteudo;
+        this.createdAt = LocalDateTime.now();
+        this.fkConta = conta;
+    }
+
     public Topico() {
     }
 
