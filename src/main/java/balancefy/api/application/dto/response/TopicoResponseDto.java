@@ -24,16 +24,16 @@ public class TopicoResponseDto extends ResponseDto {
         this.fkConta = topico.getFkConta();
     }
 
+    public TopicoResponseDto(Exception ex) {
+        super(ex.getMessage());
+    }
+
     public Integer getLikes() {
         return likes;
     }
 
     public void setLikes(Integer liked) {
         this.likes = liked;
-    }
-
-    public TopicoResponseDto(Exception ex) {
-        super(ex.getMessage());
     }
 
     public Integer getId() {

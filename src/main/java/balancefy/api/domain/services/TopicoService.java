@@ -1,6 +1,7 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.TopicoRequestDto;
+import balancefy.api.application.dto.response.ExpensesDto;
 import balancefy.api.application.dto.response.FeedTopicoResponseDto;
 import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
@@ -14,9 +15,8 @@ import balancefy.api.resources.repositories.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicoService {
@@ -42,7 +42,8 @@ public class TopicoService {
             listFeed.add(
                     new FeedTopicoResponseDto(
                             new TopicoResponseDto(t, getTopicoLikes(t)),
-                            isLikedByAccountId(t.getId(), id)
+                            isLikedByAccountId(t.getId(), id),
+                            t.getFkConta()
                     )
             );
         }
@@ -54,12 +55,48 @@ public class TopicoService {
         return topicoRepository.findById(id).get();
     }
 
-    public List<Topico> getTopicosByTitulo(String titulo) {
-        return topicoRepository.findByTituloContains(titulo);
+    public List<FeedTopicoResponseDto> getTopicosByTitulo(String titulo, int id) {
+        List<Topico> list = topicoRepository.findByTituloContains(titulo);
+        List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
+
+        for(Topico t: list) {
+            listFeed.add(
+                    new FeedTopicoResponseDto(
+                            new TopicoResponseDto(t, getTopicoLikes(t)),
+                            isLikedByAccountId(t.getId(), id),
+                            t.getFkConta()
+                    )
+            );
+        }
+
+        return listFeed;
     }
 
     public int getTopicoLikes(Topico topico) {
         return likesRepository.countByTopico(topico);
+    }
+
+    public List<FeedTopicoResponseDto> getMostLike(int id) {
+        List<Topico> list = likesRepository.getTop3Topicos();
+        List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
+
+        for(Topico t: list) {
+            listFeed.add(
+                    new FeedTopicoResponseDto(
+                            new TopicoResponseDto(t, getTopicoLikes(t)),
+                            isLikedByAccountId(t.getId(), id),
+                            t.getFkConta()
+                    )
+            );
+        }
+
+        listFeed = listFeed.stream()
+                        .sorted(Comparator.comparing(topico -> topico.getTopico().getLikes()))
+                        .collect(Collectors.toList()).subList(0, 2);
+
+        Collections.reverse(listFeed);
+
+        return listFeed;
     }
 
     public boolean isLikedByAccountId(int topicId, int id) {

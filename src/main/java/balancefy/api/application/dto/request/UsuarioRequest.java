@@ -12,7 +12,7 @@ public class UsuarioRequest {
     private String nome;
     @NotBlank
     private String email;
-    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[$&@#])[0-9a-zA-Z$&@#]{8,}$", message = "Senha inválida")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$", message = "Senha inválida")
     private String senha;
     private String avatar;
     private String banner;

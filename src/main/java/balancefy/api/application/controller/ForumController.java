@@ -54,6 +54,32 @@ public class ForumController {
         }
     }
 
+    @GetMapping("/topics/{title}")
+    public ResponseEntity<ListaFeedTopicoResponse> get(@PathVariable String title, @RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            return ResponseEntity.status(201).body(new ListaFeedTopicoResponse(topicoService.getTopicosByTitulo(title, id)));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ListaFeedTopicoResponse(ex));
+        }
+    }
+
+    @GetMapping("/mostLike")
+    public ResponseEntity<ListaFeedTopicoResponse> getMostLike(@RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            return ResponseEntity.status(201).body(new ListaFeedTopicoResponse(topicoService.getMostLike(id)));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ListaFeedTopicoResponse(ex));
+        }
+    }
+
     @PostMapping
     public ResponseEntity<TopicoResponseDto> create(@RequestBody TopicoRequestDto topico,
                                                     @RequestHeader(value = "Authorization") String token) {
