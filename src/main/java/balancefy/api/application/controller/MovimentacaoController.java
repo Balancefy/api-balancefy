@@ -40,7 +40,7 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/goal/{id}/expenses")
-    public ResponseEntity<ListBiggestExpensesDto> getBiggerExpenses(@PathVariable Integer id){
+    public ResponseEntity<ListBiggestExpensesDto> getBiggestExpenses(@PathVariable Integer id){
         try{
             return ResponseEntity.status(200).body( new ListBiggestExpensesDto("Sucesso",movimentacaoService.getBiggestExpenses(id)));
         }catch(Exception e){
