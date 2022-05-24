@@ -1,20 +1,18 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.BiggestExpensesDto;
+import balancefy.api.application.dto.response.ExpensesDto;
 import balancefy.api.application.dto.response.MovimentacaoResponseDto;
-import balancefy.api.application.dto.response.UsuarioResponseDto;
-import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoService;
 import balancefy.api.resources.entities.Movimentacao;
-import balancefy.api.resources.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,6 +36,11 @@ public class MovimentacaoController {
     @GetMapping({"/goal/{id}"})
     public List<MovimentacaoResponseDto> getListByGoal(@PathVariable Integer id) {
         return movimentacaoService.getAllByObjetivo(id);
+    }
+
+    @GetMapping("/goal/{id}/expenses")
+    public ResponseEntity getBiggerExpenses(@PathVariable Integer id){
+        return ResponseEntity.ok(movimentacaoService.getBiggestExpenses(id));
     }
 
     @PostMapping
@@ -86,6 +89,8 @@ public class MovimentacaoController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+
 
 
 }

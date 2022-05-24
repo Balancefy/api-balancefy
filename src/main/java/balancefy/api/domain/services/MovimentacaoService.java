@@ -1,16 +1,15 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.response.BiggestExpensesDto;
+import balancefy.api.application.dto.response.ExpensesDto;
 import balancefy.api.application.dto.response.MovimentacaoResponseDto;
-import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.FileException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.ListaObj;
-import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Movimentacao;
 import balancefy.api.resources.entities.MovimentacaoFixa;
 import balancefy.api.resources.entities.Usuario;
 import balancefy.api.resources.repositories.ContaRepository;
-import balancefy.api.resources.repositories.MovimentacaoFixaRepository;
 import balancefy.api.resources.repositories.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MovimentacaoService {
@@ -164,10 +162,31 @@ public class MovimentacaoService {
         return movimentacaoRepository.findAllByFkObjetivoContaConta(contaRepository.findById(id).get());
     }
 
-    public List<MovimentacaoResponseDto> getAllByObjetivo(Integer id){
+    public List<MovimentacaoResponseDto> getAllByObjetivo(Integer id) {
         return movimentacaoRepository.findAllByFkObjetivoContaId(id);
     }
 
+    public List<BiggestExpensesDto> getBiggestExpenses(Integer id) {
+        List<ExpensesDto> expenses = movimentacaoRepository.getExpensesByObjetivo(id);
+
+        List<ExpensesDto> ordered = expenses.stream()
+                .sorted(Comparator.comparing(ExpensesDto::getTotalGasto).reversed())
+                .collect(Collectors.toList()).subList(0, 2);
+
+        Double tempSum = 0.;
+        for (ExpensesDto e : expenses) {
+            tempSum += e.getTotalGasto();
+        }
+        final Double totalExpenses = tempSum;
+        List<BiggestExpensesDto> biggestExpenses = new ArrayList<>();
+        expenses.forEach(e -> biggestExpenses.add(
+                new BiggestExpensesDto(Math.floor((e.getTotalGasto() * 100) / totalExpenses), e.getTipo())
+        ));
+
+        Collections.reverse(biggestExpenses);
+
+        return biggestExpenses;
+    }
 
 
     public Movimentacao create(Movimentacao movimentacao) {
