@@ -9,5 +9,4 @@ public class ApiBalancefyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiBalancefyApplication.class, args);
 	}
-
 }
