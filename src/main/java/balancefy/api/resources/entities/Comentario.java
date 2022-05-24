@@ -33,28 +33,23 @@ public class Comentario {
     @OneToMany(mappedBy = "fkComentario")
     private List<Comentario> comentarios = new ArrayList<>();
 
-    public Comentario getFkComentario() {
-        return fkComentario;
+    public Comentario() {
     }
 
-    public void setFkComentario(Comentario comentario) {
+    public Comentario(String conteudo, Conta conta, Topico topico, Comentario comentario) {
+        this.conteudo = conteudo;
+        this.createdAt = LocalDateTime.now();
+        this.fkConta = conta;
+        this.fkTopico = topico;
         this.fkComentario = comentario;
     }
 
-    public Topico getFkTopico() {
-        return fkTopico;
+    public Integer getId() {
+        return id;
     }
 
-    public void setFkTopico(Topico topico) {
-        this.fkTopico = topico;
-    }
-
-    public Conta getFkConta() {
-        return fkConta;
-    }
-
-    public void setFkConta(Conta fkConta) {
-        this.fkConta = fkConta;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getConteudo() {
@@ -65,15 +60,43 @@ public class Comentario {
         this.conteudo = conteudo;
     }
 
-    public LocalDateTime getData() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public Integer getId() {
-        return id;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Conta getFkConta() {
+        return fkConta;
+    }
+
+    public void setFkConta(Conta fkConta) {
+        this.fkConta = fkConta;
+    }
+
+    public Topico getFkTopico() {
+        return fkTopico;
+    }
+
+    public void setFkTopico(Topico fkTopico) {
+        this.fkTopico = fkTopico;
+    }
+
+    public Comentario getFkComentario() {
+        return fkComentario;
+    }
+
+    public void setFkComentario(Comentario fkComentario) {
+        this.fkComentario = fkComentario;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 }
