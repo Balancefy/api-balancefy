@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
@@ -60,9 +61,9 @@ public class DicaController {
         try {
             dicaService.exportCsv();
 
-            var file = new File("dicas.csv");
-            var path = Paths.get(file.getAbsolutePath());
-            var resource = new ByteArrayResource(Files.readAllBytes(path));
+            File file = new File("dicas.csv");
+            Path path = Paths.get(file.getAbsolutePath());
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
             return ResponseEntity
                     .status(200)

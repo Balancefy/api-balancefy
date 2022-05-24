@@ -2,22 +2,19 @@ package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.response.MovimentacaoResponseDto;
-import balancefy.api.application.dto.response.UsuarioResponseDto;
-import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoService;
 import balancefy.api.resources.entities.Movimentacao;
-import balancefy.api.resources.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -71,9 +68,9 @@ public class MovimentacaoController {
 
             movimentacaoService.exportCsv(id);
 
-            var file = new File("movimentacoes");
-            var path = Paths.get(file.getAbsolutePath());
-            var resource = new ByteArrayResource(Files.readAllBytes(path));
+            File file = new File("movimentacoes");
+            Path path = Paths.get(file.getAbsolutePath());
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
             return ResponseEntity
                     .status(200)
