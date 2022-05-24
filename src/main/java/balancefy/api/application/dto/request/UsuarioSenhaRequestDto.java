@@ -7,7 +7,7 @@ public class UsuarioSenhaRequestDto {
 
     @NotBlank
     private String senhaAtual;
-    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[$&@#])[0-9a-zA-Z$&@#]{8,}$", message = "Senha inválida")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$", message = "Senha inválida")
     private String novaSenha;
 
     public String getSenhaAtual() {
