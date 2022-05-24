@@ -140,25 +140,12 @@ VALUES(50, 10, 1, 2);
 
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
---
--- INSERT INTO Objetivo (nome, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao, fk_conta)
--- VALUES('Carro', 'Quero comprar meu gol quadrado', 0, 13000, 2000, current_timestamp, 20, 1);
---
---
--- INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
---     VALUES ('Lazer', 'Kart', 50.0, 'Saida', 1),
---            ('Emergencia', 'Celular', 600.0, 'Saida', 1),
---            ('Renda', 'Salario', 2000.0, 'Entrada', 1),
---            ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 1);
---
+
 INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
 VALUES ('Lazer', 'Kart', 50.0, 'Saida', 2),
        ('Emergencia', 'Celular', 600.0, 'Saida', 2),
        ('Renda', 'Salario', 2000.0, 'Entrada', 2),
        ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 2);
---
--- INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo)
--- VALUES(50.0, 'Renda', 'Mesada', 'Entrada', 1);
 
 INSERT INTO Objetivo(categoria)
 VALUES ('Viagem Internacional'),
