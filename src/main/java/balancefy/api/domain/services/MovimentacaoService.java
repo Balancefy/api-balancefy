@@ -192,6 +192,7 @@ public class MovimentacaoService {
     }
 
 
+
     public Movimentacao create(Movimentacao movimentacao) {
         try {
             return movimentacaoRepository.save(movimentacao);
