@@ -1,10 +1,13 @@
 package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.response.ContaRankResponseDto;
+import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.domain.exceptions.NotFoundException;
+import balancefy.api.resources.entities.Usuario;
 import balancefy.api.resources.repositories.ContaRepository;
 import balancefy.api.resources.repositories.ObjetivoContaRepository;
+import balancefy.api.resources.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +20,15 @@ public class ContaService {
     private ContaRepository contaRepository;
 
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
     private ObjetivoContaRepository objetivoContaRepository;
 
-    public Conta create(Conta conta) {
+    public Conta create(Conta conta) throws AlreadyExistsException {
         try {
+            Usuario savedUsuer = usuarioService.create(conta.getFkUsuario());
+            conta.setFkUsuario(savedUsuer);
             return contaRepository.save(conta);
         } catch (Exception ex) {
             throw ex;
