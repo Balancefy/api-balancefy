@@ -2,7 +2,9 @@ package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.request.TopicoRequestDto;
+import balancefy.api.application.dto.response.FeedTopicoResponseDto;
 import balancefy.api.application.dto.response.ListaFeedTopicoResponse;
+import balancefy.api.application.dto.response.TopicDetailsResponse;
 import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.services.ComentarioService;
 import balancefy.api.domain.services.TopicoService;
@@ -33,7 +35,20 @@ public class ForumController {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
 
-            return ResponseEntity.status(201).body(new ListaFeedTopicoResponse(topicoService.getTopicoFeed(id)));
+            return ResponseEntity.status(200).body(new ListaFeedTopicoResponse(topicoService.getTopicoFeed(id)));
+        } catch (HttpServerErrorException.InternalServerError ex) {
+            return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
+        } catch (Exception ex) {
+            return ResponseEntity.status(400).body(new ListaFeedTopicoResponse(ex));
+        }
+    }
+
+    @GetMapping("/accounts/{accountId}")
+    public ResponseEntity<ListaFeedTopicoResponse> getByAccount(@PathVariable int accountId, @RequestHeader(value = "Authorization") String token) {
+        try {
+            int loggedId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            return ResponseEntity.status(200).body(new ListaFeedTopicoResponse(topicoService.getTopicoByIdAccount(accountId, loggedId)));
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
         } catch (Exception ex) {
@@ -42,15 +57,15 @@ public class ForumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TopicoResponseDto> get(@PathVariable int id) {
+    public ResponseEntity<TopicDetailsResponse> get(@PathVariable int id, @RequestHeader(value = "Authorization") String token) {
         try {
-            Topico foundTopico = topicoService.getTopicoById(id);
-            TopicoResponseDto account = new TopicoResponseDto(foundTopico, topicoService.getTopicoLikes(foundTopico));
-            return ResponseEntity.status(201).body(account);
+            int accountId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            return ResponseEntity.status(200).body(topicoService.getTopicoByIdDetails(id, accountId));
         } catch (HttpServerErrorException.InternalServerError ex) {
-            return ResponseEntity.status(500).body(new TopicoResponseDto(ex));
+            return ResponseEntity.status(500).body(new TopicDetailsResponse(ex));
         } catch (Exception ex) {
-            return ResponseEntity.status(400).body(new TopicoResponseDto(ex));
+            return ResponseEntity.status(400).body(new TopicDetailsResponse(ex));
         }
     }
 
@@ -59,7 +74,7 @@ public class ForumController {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
 
-            return ResponseEntity.status(201).body(new ListaFeedTopicoResponse(topicoService.getTopicosByTitulo(title, id)));
+            return ResponseEntity.status(200).body(new ListaFeedTopicoResponse(topicoService.getTopicosByTitulo(title, id)));
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
         } catch (Exception ex) {
@@ -72,7 +87,7 @@ public class ForumController {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
 
-            return ResponseEntity.status(201).body(new ListaFeedTopicoResponse(topicoService.getMostLike(id)));
+            return ResponseEntity.status(200).body(new ListaFeedTopicoResponse(topicoService.getMostLike(id)));
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ListaFeedTopicoResponse(ex));
         } catch (Exception ex) {
