@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import balancefy.api.application.config.security.TokenService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
+import java.util.List;
 
 import java.util.zip.DataFormatException;
 
@@ -39,7 +40,7 @@ public class ObjetivoContaController {
         }
     }
 
-    @GetMapping ResponseEntity getList(@RequestHeader(value = "Authorization") String token){
+    @GetMapping ResponseEntity<List<ObjetivoContaResponseDto>> getList(@RequestHeader(value = "Authorization") String token){
         Integer accountId = tokenService.getIdUsuario(token.replace("Bearer", ""));
         return ResponseEntity.status(200).body(objetivoService.getList(accountId));
     }
