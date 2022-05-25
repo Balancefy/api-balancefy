@@ -2,6 +2,7 @@ package balancefy.api.application.controller;
 
 import balancefy.api.application.dto.request.ObjetivoDto;
 
+import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
 import balancefy.api.application.dto.response.ObjetivoResponseDto;
 import balancefy.api.application.dto.response.ReachOutDto;
 import balancefy.api.domain.exceptions.AmountException;
@@ -38,6 +39,11 @@ public class ObjetivoContaController {
         }
     }
 
+    @GetMapping ResponseEntity getList(@RequestHeader(value = "Authorization") String token){
+        Integer accountId = tokenService.getIdUsuario(token.replace("Bearer", ""));
+        return ResponseEntity.status(200).body(objetivoService.getList(accountId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ObjetivoResponseDto> findById(@PathVariable Integer id) {
         try {
@@ -59,5 +65,9 @@ public class ObjetivoContaController {
         }
     }
 
+
     //TODO completar task
+    //Listar objetivos da conta
+
+
 }

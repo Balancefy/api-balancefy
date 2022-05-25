@@ -5,6 +5,8 @@ import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.ObjetivoConta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import java.util.List;
+
 
 import java.util.Optional;
 
@@ -12,4 +14,7 @@ public interface ObjetivoContaRepository extends JpaRepository<ObjetivoConta, In
     int countByDoneAndConta(Integer done, Conta conta);
     @Query("select new balancefy.api.application.dto.response.ObjetivoContaResponseDto(objetivo) from ObjetivoConta objetivo where objetivo.id = ?1")
     Optional<ObjetivoContaResponseDto> findObjetivoContaById(Integer id);
+
+    @Query("select new balancefy.api.application.dto.response.ObjetivoContaResponseDto(objetivo) from ObjetivoConta objetivo where objetivo.conta.id = ?1")
+    List<ObjetivoContaResponseDto> findAllByContaId(Integer id);
 }

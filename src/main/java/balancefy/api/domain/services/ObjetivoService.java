@@ -156,6 +156,11 @@ public class ObjetivoService {
         throw new NotFoundException("Objetivo não encontrado");
     }
 
+
+    public List<ObjetivoContaResponseDto> getList(Integer accountId) {
+        return objetivoContaRepository.findAllByContaId(accountId).stream().filter(it -> it.getDone() == 0).collect(Collectors.toList());
+    }
+
     private List<TaskObjetivoConta> initializeTasks(List<TaskObjetivo> tasksToInitialize, ObjetivoConta objetivoConta, Double valor) {
         List<TaskObjetivoConta> tasks = new ArrayList<>();
         tasksToInitialize.forEach(taskObjetivo -> tasks.add(new TaskObjetivoConta(
