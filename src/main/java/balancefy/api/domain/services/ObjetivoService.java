@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,8 +64,8 @@ public class ObjetivoService {
                     pontuacao
             );
 
-            newObjetivo = objetivoContaRepository.save(newObjetivo);
             Double valor = calculateValues(newObjetivo);
+            newObjetivo = objetivoContaRepository.save(newObjetivo);
             initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo, valor);
             return newObjetivo;
         } catch (DataFormatException e) {
@@ -79,29 +80,21 @@ public class ObjetivoService {
         Conta conta = objConta.getConta();
         Double valorRestante = 0.0;
         Double valorObjetivo = objConta.getValorTotal() - objConta.getValorInicial();
-        Double entradas = conta.getRenda();
-        Double saidas = 0.0;
-        long months = Period.between(LocalDate.now(), objConta.getTempoEstimado()).getMonths();
+        Double entradaInicial = conta.getRenda();
+        Double savings = 0.0;
+        long months = ChronoUnit.MONTHS.between(LocalDate.now(), objConta.getTempoEstimado());
 
         List<MovimentacaoFixaDto> list = movimentacaoFixaRepository.findAllByFkContaId(conta.getId());
 
-        for (MovimentacaoFixaDto movimentacaoFixa : list) {
-            if (movimentacaoFixa.getTipo().equals("ENTRADA")) {
-                entradas += movimentacaoFixa.getValor();
-            } else {
-                saidas += movimentacaoFixa.getValor();
-            }
-        }
-
-
+        Double fixedExpenses = list.stream().mapToDouble(MovimentacaoFixaDto::getValor).sum();
         List<TaskObjetivoConta> listTask = taskObjetivoContaRepository.findAllByObjetivoContaIdAndTaskTaskCategoria(conta.getId(), "Economizar");
 
+
         if (!listTask.isEmpty()) {
-            for (TaskObjetivoConta task : listTask) {
-                saidas += task.getValor();
-            }
+            savings = listTask.stream().mapToDouble(TaskObjetivoConta::getValor).sum();
         }
 
+        valorRestante = fixedExpenses + savings + entradaInicial;
 
         if (valorRestante < 0) {
             throw new AmountException("Receita insuficiente para planejar mais objetivos");

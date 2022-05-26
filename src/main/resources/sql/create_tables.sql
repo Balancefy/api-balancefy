@@ -132,18 +132,18 @@ INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo)
 VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '1999-03-22', '../../Images/user2.jpg', 0);
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
-VALUES(50, 0, 1, 1);
+VALUES(2000, 0, 1, 1);
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
-VALUES(50, 10, 1, 2);
+VALUES(2000, 10, 1, 2);
 
 
 -- INSERT INTO Dica (titulo, descricao, tema)
 -- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
 
 INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
-VALUES ('Lazer', 'Kart', 50.0, 'Saida', 2),
-       ('Emergencia', 'Celular', 600.0, 'Saida', 2),
+VALUES ('Lazer', 'Kart', -50.0, 'Saida', 2),
+       ('Emergencia', 'Celular', -600.0, 'Saida', 2),
        ('Renda', 'Salario', 2000.0, 'Entrada', 2),
        ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 2);
 
