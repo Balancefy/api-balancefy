@@ -18,5 +18,6 @@ public interface TopicoRepository extends JpaRepository<Topico, Integer> {
 
     List<Topico> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<Topico> findByFkConta(Conta conta);
+    List<Topico> findTop3ByFkContaIdOrderById(Integer id);
+
 }

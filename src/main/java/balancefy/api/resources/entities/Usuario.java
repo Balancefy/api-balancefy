@@ -133,7 +133,7 @@ public class Usuario {
 
     public String getAvatar() {
 
-        if (avatar.endsWith(".png") || avatar.endsWith(".jpeg") || banner.endsWith(".jpg")) {
+        if (avatar.endsWith(".png") || avatar.endsWith(".jpeg") || avatar.endsWith(".jpg")) {
             return "/user-photos/" + id + "/avatar/" + avatar;
         }
 

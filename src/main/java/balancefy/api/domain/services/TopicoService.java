@@ -3,6 +3,7 @@ package balancefy.api.domain.services;
 import balancefy.api.application.dto.request.TopicoRequestDto;
 import balancefy.api.application.dto.response.ExpensesDto;
 import balancefy.api.application.dto.response.FeedTopicoResponseDto;
+import balancefy.api.application.dto.response.TopicDetailsResponse;
 import balancefy.api.application.dto.response.TopicoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Conta;
@@ -51,8 +52,35 @@ public class TopicoService {
         return listFeed;
     }
 
+    public List<FeedTopicoResponseDto> getTopicoByIdAccount(int id, int loggedId) {
+        List<Topico> list = topicoRepository.findTop3ByFkContaIdOrderById(id);
+        List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
+
+        for(Topico t: list) {
+            listFeed.add(
+                    new FeedTopicoResponseDto(
+                            new TopicoResponseDto(t, getTopicoLikes(t)),
+                            isLikedByAccountId(t.getId(), id),
+                            t.getFkConta()
+                    )
+            );
+        }
+
+        return listFeed;
+    }
+
     public Topico getTopicoById(int id) {
         return topicoRepository.findById(id).get();
+    }
+
+    public TopicDetailsResponse getTopicoByIdDetails(int id, int accountId) {
+        Topico topico = topicoRepository.findById(id).get();
+
+        return new TopicDetailsResponse(
+                new TopicoResponseDto(topico, getTopicoLikes(topico)),
+                isLikedByAccountId(topico.getId(), accountId),
+                topico.getFkConta()
+        );
     }
 
     public List<FeedTopicoResponseDto> getTopicosByTitulo(String titulo, int id) {
