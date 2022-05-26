@@ -137,10 +137,6 @@ VALUES(2000, 0, 1, 1);
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
 VALUES(2000, 10, 1, 2);
 
-
--- INSERT INTO Dica (titulo, descricao, tema)
--- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
-
 INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
 VALUES ('Lazer', 'Kart', -50.0, 'Saida', 2),
        ('Emergencia', 'Celular', -600.0, 'Saida', 2),
@@ -191,3 +187,9 @@ VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
     (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entrada', 1),
     (320.0, 'Lazer', '13000 de RP','Saida', 1),
     (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);
+
+INSERT INTO Dica (titulo, descricao, tema)
+VALUES ('Invista em Renda Fixa', 'Você sabia que pode investir em renda fixa, se procura uma opção mais segura? É o tipo de investimento mais recomendado para os aspirantes!', 'Investientos');
+
+INSERT INTO Topico (titulo, conteudo, fk_conta)
+VALUES ('Economizar', 'Como vocês fazem para não gastar dinheiro com comida?', 1);
