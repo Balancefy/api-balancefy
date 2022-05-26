@@ -28,6 +28,18 @@ public class Movimentacao {
     @JoinColumn(name = "fk_objetivo_conta", nullable = false)
     private ObjetivoConta fkObjetivoConta;
 
+    public Movimentacao() {
+    }
+
+    public Movimentacao(TaskObjetivoConta taskObjetivoConta){
+        this.valor = taskObjetivoConta.getValor();
+        this.descricao = taskObjetivoConta.getDescricao();
+        this.tipo = "Saida";
+        this.topico = "Objetivo";
+        this.fkObjetivoConta = taskObjetivoConta.getObjetivoConta();
+        this.createdAt = LocalDateTime.now();
+    }
+
     public Double getValor() {
         return valor;
     }

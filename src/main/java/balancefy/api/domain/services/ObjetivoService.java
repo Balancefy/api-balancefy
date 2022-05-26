@@ -63,8 +63,8 @@ public class ObjetivoService {
                     pontuacao
             );
 
-            Double valor = calculateValues(newObjetivo);
             newObjetivo = objetivoContaRepository.save(newObjetivo);
+            Double valor = calculateValues(newObjetivo);
             initializeTasks(taskObjetivoRepository.findAllByObjetivoId(newObjetivo.getObjetivo().getId()), newObjetivo, valor);
             return newObjetivo;
         } catch (DataFormatException e) {
@@ -93,13 +93,15 @@ public class ObjetivoService {
             }
         }
 
+
         List<TaskObjetivoConta> listTask = taskObjetivoContaRepository.findAllByObjetivoContaIdAndTaskTaskCategoria(conta.getId(), "Economizar");
 
-        for (TaskObjetivoConta task : listTask) {
-            saidas += task.getValor();
+        if (!listTask.isEmpty()) {
+            for (TaskObjetivoConta task : listTask) {
+                saidas += task.getValor();
+            }
         }
 
-        valorRestante = entradas - saidas;
 
         if (valorRestante < 0) {
             throw new AmountException("Receita insuficiente para planejar mais objetivos");
@@ -148,7 +150,7 @@ public class ObjetivoService {
         if (objetivo.isPresent()) {
             List<TaskObjetivoConta> tasks = taskObjetivoContaRepository.findAllByObjetivoContaId(objetivo.get().getId());
 
-            Double totalTasks =  tasks.stream().filter(it -> it.getDone() == 1).mapToDouble(TaskObjetivoConta::getValor).sum();
+            Double totalTasks = tasks.stream().filter(it -> it.getDone() == 1).mapToDouble(TaskObjetivoConta::getValor).sum();
             Double goalValue = objetivo.get().getValorTotal() - objetivo.get().getValorInicial();
             return (goalValue - totalTasks);
         }

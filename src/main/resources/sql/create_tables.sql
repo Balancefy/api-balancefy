@@ -176,10 +176,10 @@ VALUES (1, 1, 1),
 INSERT INTO ObjetivoConta ( fk_conta, fk_objetivo, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao)
 VALUES(1, 1, 'Viagem Australia', 0, 200.0, 10.0, current_timestamp, 1000.0);
 
-INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo)
-VALUES('Economizar', 0, 300.0, 1, 1),
-    ('Procurar Hotel', 0, 500.0, 1, 8),
-    ('Comprar Malas de Viagem', 0, 700.0, 1, 9);
+INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo, valor)
+VALUES('Economizar', 0, 300.0, 1, 1, 10),
+    ('Procurar Hotel', 0, 500.0, 1, 8, 0),
+    ('Comprar Malas de Viagem', 0, 700.0, 1, 9, 100);
 
 INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo_conta)
 VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
@@ -188,6 +188,6 @@ VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
     (550.0, 'Lazer', 'Roupas','Saida', 1),
     (250.0, 'Dinheiro', 'Dinheiro da Vó','Entrada', 1),
     (375.0, 'Lazer', 'Cartas de Magic','Saida', 1),
-    (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entradas', 1),
+    (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entrada', 1),
     (320.0, 'Lazer', '13000 de RP','Saida', 1),
     (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);
