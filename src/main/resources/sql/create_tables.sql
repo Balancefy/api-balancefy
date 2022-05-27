@@ -175,7 +175,7 @@ VALUES(1, 1, 'Viagem Australia', 0, 200.0, 10.0, current_timestamp, 1000.0);
 INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo, valor)
 VALUES('Economizar', 0, 300.0, 1, 1, 10),
     ('Procurar Hotel', 0, 500.0, 1, 8, 0),
-    ('Comprar Malas de Viagem', 0, 700.0, 1, 9, 100);
+    ('Comprar Malas de Viagem', 0, 200.0, 1, 9, 100);
 
 INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo_conta)
 VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
