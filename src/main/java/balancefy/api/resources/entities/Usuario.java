@@ -1,6 +1,7 @@
 package balancefy.api.resources.entities;
 
 import balancefy.api.application.dto.request.UsuarioRequest;
+import balancefy.api.resources.enums.TypeUser;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

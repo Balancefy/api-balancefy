@@ -1,5 +1,6 @@
 package balancefy.api.application.controller;
 
+import balancefy.api.application.dto.request.MovimentacaoFixaRequestDto;
 import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
@@ -25,10 +26,9 @@ public class MovimentacaoFixaController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody MovimentacaoFixa movimentacaoFixa) {
+    public ResponseEntity create(@RequestBody MovimentacaoFixaRequestDto movimentacaoFixa) {
         try {
-            movimentacaoFixaService.create(movimentacaoFixa);
-            return ResponseEntity.status(201).build();
+            return ResponseEntity.status(201).body(movimentacaoFixaService.create(movimentacaoFixa));
         } catch (AlreadyExistsException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

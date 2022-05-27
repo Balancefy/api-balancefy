@@ -1,5 +1,8 @@
 package balancefy.api.resources.entities;
 
+import balancefy.api.application.dto.request.MovimentacaoFixaRequestDto;
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "movimentacaofixa")
 public class MovimentacaoFixa {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_movimentacao_fixa", nullable = false)
     private Integer id;
 
@@ -30,6 +34,13 @@ public class MovimentacaoFixa {
     private Conta fkConta;
 
 
+    public MovimentacaoFixa(MovimentacaoFixaRequestDto mov){
+        this.valor = mov.getValor();
+        this.categoria = mov.getCategoria();
+        this.descricao = mov.getDescricao();
+        this.createdAt = mov.getCreatedAt();
+        this.fkConta = mov.getFkConta();
+    }
     public Double getValor() {
         return valor;
     }

@@ -1,9 +1,8 @@
 package balancefy.api.application.dto.response;
 
-import balancefy.api.resources.entities.TypeUser;
+import balancefy.api.resources.enums.TypeUser;
 import balancefy.api.resources.entities.Usuario;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 
 public class UsuarioResponseDto extends ResponseDto {

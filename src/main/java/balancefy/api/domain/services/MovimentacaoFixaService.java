@@ -1,9 +1,11 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.request.MovimentacaoFixaRequestDto;
 import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.MovimentacaoFixa;
+import balancefy.api.resources.enums.TypeTransaction;
 import balancefy.api.resources.repositories.ContaRepository;
 import balancefy.api.resources.repositories.MovimentacaoFixaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,11 @@ public class MovimentacaoFixaService {
         return movimentacaoFixaRepository.findAllByFkContaId(id);
     }
 
-    public MovimentacaoFixa create(MovimentacaoFixa movimentacaoFixa) throws AlreadyExistsException {
+    public MovimentacaoFixa create(MovimentacaoFixaRequestDto movimentacaoFixa) throws AlreadyExistsException {
         try {
-            return movimentacaoFixaRepository.save(movimentacaoFixa);
+            MovimentacaoFixa mov = new MovimentacaoFixa(movimentacaoFixa);
+            mov.setTipo(movimentacaoFixa.getValor() < 0 ? TypeTransaction.OUT.type : TypeTransaction.IN.type);
+            return movimentacaoFixaRepository.save(mov);
         } catch (Exception ex) {
             throw ex;
         }
