@@ -23,7 +23,7 @@ public class Movimentacao {
     private String topico;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_objetivo_conta", nullable = false)

@@ -18,7 +18,7 @@ public class Topico {
     private String conteudo;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_conta")

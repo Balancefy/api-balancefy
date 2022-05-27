@@ -23,7 +23,7 @@ public class MovimentacaoFixa {
     private String tipo;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_conta", nullable = false)
