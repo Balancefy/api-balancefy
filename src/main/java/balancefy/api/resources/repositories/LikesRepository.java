@@ -1,5 +1,6 @@
 package balancefy.api.resources.repositories;
 
+import balancefy.api.resources.entities.Comentario;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Like;
 import balancefy.api.resources.entities.Topico;

@@ -191,3 +191,8 @@ VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
     (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entradas', 1),
     (320.0, 'Lazer', '13000 de RP','Saida', 1),
     (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);
+
+--INSERT INTO Comentario (conteudo, created_at, fk_conta, fk_topico, fk_comentario)
+--VALUES('aaaaaaaa', current_date, 2, 1, 1),
+  --     ('bbbbbbbb', current_date, 1, 1, 0),
+    --    ('bbbbbbbb', current_date, 1, 1, 1);

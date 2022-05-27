@@ -10,13 +10,14 @@ import java.util.List;
 public class Comentario {
     @Id
     @Column(name = "id_comentario", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "conteudo")
     private String conteudo;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_conta")
