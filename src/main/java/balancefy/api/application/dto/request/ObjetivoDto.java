@@ -3,6 +3,8 @@ package balancefy.api.application.dto.request;
 import balancefy.api.resources.entities.Objetivo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 public class ObjetivoDto {
@@ -16,6 +18,7 @@ public class ObjetivoDto {
     private Double valorInicial;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @Future
     private LocalDate tempoEstimado;
 
     public Objetivo getObjetivo() {

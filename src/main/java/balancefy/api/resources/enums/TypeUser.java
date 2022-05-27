@@ -1,4 +1,4 @@
-package balancefy.api.resources.entities;
+package balancefy.api.resources.enums;
 
 public enum TypeUser {
     DEFAULT,

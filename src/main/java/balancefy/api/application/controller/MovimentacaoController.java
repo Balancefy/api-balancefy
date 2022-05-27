@@ -3,6 +3,7 @@ package balancefy.api.application.controller;
 import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.response.BiggestExpensesDto;
 import balancefy.api.application.dto.response.ExpensesDto;
+import balancefy.api.application.dto.response.ListBiggestExpensesDto;
 import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoService;
@@ -39,8 +40,12 @@ public class MovimentacaoController {
     }
 
     @GetMapping("/goal/{id}/expenses")
-    public ResponseEntity getBiggerExpenses(@PathVariable Integer id){
-        return ResponseEntity.ok(movimentacaoService.getBiggestExpenses(id));
+    public ResponseEntity<ListBiggestExpensesDto> getBiggestExpenses(@PathVariable Integer id){
+        try{
+            return ResponseEntity.status(200).body( new ListBiggestExpensesDto("Sucesso",movimentacaoService.getBiggestExpenses(id)));
+        }catch(Exception e){
+            return ResponseEntity.status(404).body(new ListBiggestExpensesDto(e.getMessage()));
+        }
     }
 
     @PostMapping

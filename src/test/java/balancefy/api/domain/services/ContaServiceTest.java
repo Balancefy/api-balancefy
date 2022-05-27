@@ -1,13 +1,12 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.entities.Conta;
-import balancefy.api.resources.entities.TypeUser;
+import balancefy.api.resources.enums.TypeUser;
 import balancefy.api.resources.entities.Usuario;
 import balancefy.api.resources.repositories.ContaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +29,7 @@ class ContaServiceTest {
     private ContaService contaService;
 
     @Test
-    void create() {
+    void create() throws AlreadyExistsException {
         when(contaService.create(Mockito.any(Conta.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
 

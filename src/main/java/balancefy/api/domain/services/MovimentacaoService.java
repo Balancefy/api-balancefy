@@ -169,9 +169,13 @@ public class MovimentacaoService {
     public List<BiggestExpensesDto> getBiggestExpenses(Integer id) {
         List<ExpensesDto> expenses = movimentacaoRepository.getExpensesByObjetivo(id);
 
+        if(expenses.isEmpty() || expenses.size() < 3){
+            return new ArrayList<BiggestExpensesDto>();
+        }
+
         List<ExpensesDto> ordered = expenses.stream()
                 .sorted(Comparator.comparing(ExpensesDto::getTotalGasto).reversed())
-                .collect(Collectors.toList()).subList(0, 2);
+                .collect(Collectors.toList()).subList(0, 3);
 
         Double tempSum = 0.;
         for (ExpensesDto e : expenses) {
@@ -179,14 +183,14 @@ public class MovimentacaoService {
         }
         final Double totalExpenses = tempSum;
         List<BiggestExpensesDto> biggestExpenses = new ArrayList<>();
-        expenses.forEach(e -> biggestExpenses.add(
+        ordered.forEach(e -> biggestExpenses.add(
                 new BiggestExpensesDto(Math.floor((e.getTotalGasto() * 100) / totalExpenses), e.getTipo())
         ));
 
-        Collections.reverse(biggestExpenses);
 
         return biggestExpenses;
     }
+
 
 
     public Movimentacao create(Movimentacao movimentacao) {

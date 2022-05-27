@@ -1,6 +1,7 @@
 package balancefy.api.resources.entities;
 
 import balancefy.api.application.dto.request.UsuarioRequest;
+import balancefy.api.resources.enums.TypeUser;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,7 +42,7 @@ public class Usuario {
     private TypeUser tipo = TypeUser.DEFAULT;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public Usuario() {
     }
@@ -133,7 +134,7 @@ public class Usuario {
 
     public String getAvatar() {
 
-        if (avatar.endsWith(".png") || avatar.endsWith(".jpeg") || banner.endsWith(".jpg")) {
+        if (avatar.endsWith(".png") || avatar.endsWith(".jpeg") || avatar.endsWith(".jpg")) {
             return "/user-photos/" + id + "/avatar/" + avatar;
         }
 

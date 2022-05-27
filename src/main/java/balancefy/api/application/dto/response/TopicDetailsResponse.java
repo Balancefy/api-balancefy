@@ -2,15 +2,20 @@ package balancefy.api.application.dto.response;
 
 import balancefy.api.resources.entities.Conta;
 
-public class FeedTopicoResponseDto {
+public class TopicDetailsResponse extends ResponseDto {
     private TopicoResponseDto topico;
     private boolean liked;
     private Conta autor;
 
-    public FeedTopicoResponseDto(TopicoResponseDto topico, boolean liked, Conta autor) {
+    public TopicDetailsResponse(TopicoResponseDto topico, boolean liked, Conta autor) {
+        super("Sucesso");
         this.topico = topico;
         this.liked = liked;
         this.autor = autor;
+    }
+
+    public TopicDetailsResponse(Exception ex) {
+        super(ex.getMessage());
     }
 
     public TopicoResponseDto getTopico() {
