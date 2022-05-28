@@ -1,5 +1,6 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.request.UsuarioEditRequest;
 import balancefy.api.application.dto.request.UsuarioSenhaRequestDto;
 import balancefy.api.application.utils.FileUploadUtil;
 import balancefy.api.domain.exceptions.NotFoundException;
@@ -42,10 +43,18 @@ public class UsuarioService {
         }
     }
 
-    public Usuario update(Usuario usuario) throws NotFoundException {
+    public Usuario update(UsuarioEditRequest usuarioRequest, int id) throws NotFoundException {
         try {
-            if (usuarioRepository.existsById(usuario.getId())) {
-                usuario.setSenha(BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt()));
+            if (usuarioRepository.existsById(id)) {
+                Usuario usuario = usuarioRepository.findById(id).get();
+
+                if(!usuarioRequest.getEmail().equals("")) {
+                    usuario.setEmail(usuarioRequest.getEmail());
+                }
+
+                if(!usuarioRequest.getNome().equals("")) {
+                    usuario.setNome(usuarioRequest.getNome());
+                }
 
                 return usuarioRepository.save(usuario);
             }

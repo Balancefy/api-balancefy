@@ -2,6 +2,7 @@ package balancefy.api.resources.repositories;
 
 import balancefy.api.application.dto.response.ExpensesDto;
 import balancefy.api.application.dto.response.ObjetivoContaResponseDto;
+import balancefy.api.resources.entities.Comentario;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Like;
 import balancefy.api.resources.entities.Topico;
