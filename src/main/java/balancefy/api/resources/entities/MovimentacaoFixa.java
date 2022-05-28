@@ -38,8 +38,6 @@ public class MovimentacaoFixa {
         this.valor = mov.getValor();
         this.categoria = mov.getCategoria();
         this.descricao = mov.getDescricao();
-        this.createdAt = mov.getCreatedAt();
-        this.fkConta = mov.getFkConta();
     }
     public Double getValor() {
         return valor;

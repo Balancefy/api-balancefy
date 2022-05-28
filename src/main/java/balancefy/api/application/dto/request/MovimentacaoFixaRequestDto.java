@@ -8,9 +8,12 @@ public class MovimentacaoFixaRequestDto {
     private Double valor;
     private String categoria;
     private String descricao;
-    private LocalDateTime createdAt;
-    private Conta fkConta;
 
+    public MovimentacaoFixaRequestDto(Double valor, String categoria, String descricao) {
+        this.valor = valor;
+        this.categoria = categoria;
+        this.descricao = descricao;
+    }
 
     public Double getValor() {
         return valor;
@@ -34,21 +37,5 @@ public class MovimentacaoFixaRequestDto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Conta getFkConta() {
-        return fkConta;
-    }
-
-    public void setFkConta(Conta fkConta) {
-        this.fkConta = fkConta;
     }
 }
