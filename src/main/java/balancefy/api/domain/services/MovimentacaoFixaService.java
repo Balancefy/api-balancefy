@@ -30,7 +30,15 @@ public class MovimentacaoFixaService {
     public MovimentacaoFixa create(MovimentacaoFixaRequestDto movimentacaoFixa, Conta conta) throws AlreadyExistsException {
         try {
             MovimentacaoFixa mov = new MovimentacaoFixa(movimentacaoFixa);
-            mov.setTipo(movimentacaoFixa.getValor() < 0 ? TypeTransaction.OUT.type : TypeTransaction.IN.type);
+            Double valor = movimentacaoFixa.getValor();
+
+            if(movimentacaoFixa.getTipo() == "Saída") {
+                mov.setTipo(TypeTransaction.OUT.type);
+                mov.setValor(valor * -1);
+            } else if (movimentacaoFixa.getTipo() == "Entrada") {
+                mov.setTipo(TypeTransaction.IN.type);
+            }
+
             mov.setFkConta(conta);
             return movimentacaoFixaRepository.save(mov);
         } catch (Exception ex) {

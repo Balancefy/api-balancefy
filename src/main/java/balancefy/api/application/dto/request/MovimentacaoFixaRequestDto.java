@@ -8,11 +8,13 @@ public class MovimentacaoFixaRequestDto {
     private Double valor;
     private String categoria;
     private String descricao;
+    private String tipo;
 
-    public MovimentacaoFixaRequestDto(Double valor, String categoria, String descricao) {
+    public MovimentacaoFixaRequestDto(Double valor, String categoria, String descricao, String tipo) {
         this.valor = valor;
         this.categoria = categoria;
         this.descricao = descricao;
+        this.tipo = tipo;
     }
 
     public Double getValor() {
@@ -37,5 +39,13 @@ public class MovimentacaoFixaRequestDto {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

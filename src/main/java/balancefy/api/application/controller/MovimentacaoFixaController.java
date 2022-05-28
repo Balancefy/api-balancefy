@@ -53,11 +53,6 @@ public class MovimentacaoFixaController {
     public ResponseEntity create(@RequestBody MovimentacaoFixaRequestDto movimentacaoFixa, @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
-                    new MovimentacaoFixaRequestDto(
-                            movimentacaoFixa.getValor(),
-                            movimentacaoFixa.getCategoria(),
-                            movimentacaoFixa.getDescricao());
 
             Conta account = contaService.getContaById(id);
             return ResponseEntity.status(201).body(movimentacaoFixaService.create(movimentacaoFixa, account));
@@ -82,50 +77,52 @@ public class MovimentacaoFixaController {
         }
     }
 
-    @PostMapping("/uploadTxt")
-    public ResponseEntity uploadTxt(@RequestParam MultipartFile arquivo,
-                                       @RequestHeader(value = "Authorization") String token) {
-        try {
-            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            String setIdMovimentacaoFixa;
-            String setValor;
-            String setCategoria;
-            String setDescricao;
-            boolean createTxt = false;
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(arquivo.getInputStream()));
-            String registro = reader.readLine();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-            while (registro != null) {
-                String indice = registro.substring(0, 3);
-                if (indice.equals("000")) {
-
-                    setIdMovimentacaoFixa = registro.substring(0, 4); //4
-                    setCategoria = registro.substring(5, 25); //20
-                    setValor = registro.substring(26, 34); //8
-                    setDescricao = registro.substring(35, 85); //50
-
-                    Double valor = Double.valueOf(setValor);
-                    MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
-                            new MovimentacaoFixaRequestDto(valor, setCategoria, setDescricao);
-
-                    Conta account = contaService.getContaById(id);
-                    movimentacaoFixaService.create(movimentacaoFixaRequestDto, account);
-                    createTxt = true;
-                }
-                registro = reader.readLine();
-            }
-            if (createTxt){
-                return ResponseEntity.created(null).build();
-            }
-            return ResponseEntity.status(500).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ResponseEntity.badRequest().build();
-    }
+//    @PostMapping("/uploadTxt")
+//    public ResponseEntity uploadTxt(@RequestParam MultipartFile arquivo,
+//                                       @RequestHeader(value = "Authorization") String token) {
+//        try {
+//            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+//            String setIdMovimentacaoFixa;
+//            String setValor;
+//            String setCategoria;
+//            String setDescricao;
+//            String setTipo;
+//            boolean createTxt = false;
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(arquivo.getInputStream()));
+//            String registro = reader.readLine();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//
+//            while (registro != null) {
+//                String indice = registro.substring(0, 3);
+//                if (indice.equals("000")) {
+//
+//                    setIdMovimentacaoFixa = registro.substring(0, 4); //4
+//                    setCategoria = registro.substring(5, 25); //20
+//                    setValor = registro.substring(26, 34); //8
+//                    setDescricao = registro.substring(35, 85); //50
+//                    setTipo = registro.substring(85, 100); //50
+//
+//                    Double valor = Double.valueOf(setValor);
+//                    MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
+//                            new MovimentacaoFixaRequestDto(valor, setCategoria, setDescricao, setTipo);
+//
+//                    Conta account = contaService.getContaById(id);
+//                    movimentacaoFixaService.create(movimentacaoFixaRequestDto, account);
+//                    createTxt = true;
+//                }
+//                registro = reader.readLine();
+//            }
+//            if (createTxt){
+//                return ResponseEntity.created(null).build();
+//            }
+//            return ResponseEntity.status(500).build();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return ResponseEntity.badRequest().build();
+//    }
 
 
 }
