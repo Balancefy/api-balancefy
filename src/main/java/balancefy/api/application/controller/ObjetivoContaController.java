@@ -32,7 +32,7 @@ public class ObjetivoContaController {
     public ResponseEntity create(@RequestHeader(value = "Authorization") String token, @RequestBody ObjetivoDto objetivo) {
         Integer userId = tokenService.getIdUsuario(token.replace("Bearer ", ""));
         try {
-            return ResponseEntity.status(200).body(objetivoService.create(objetivo, userId));
+            return ResponseEntity.status(201).body(objetivoService.create(objetivo, userId));
         } catch (HttpServerErrorException.InternalServerError | DataFormatException ex) {
             return ResponseEntity.status(500).body(ex.getMessage());
         } catch (AmountException ex) {
