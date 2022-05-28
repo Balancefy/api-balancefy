@@ -87,14 +87,14 @@ public class MovimentacaoFixaController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
             while (registro != null) {
-                String indice = registro.substring(0, 3);
-                if (indice.equals("000")) {
+                String indice = registro.substring(0, 2);
+                if (indice.equals("02")) {
 
-                    setIdMovimentacaoFixa = registro.substring(0, 4); //4
-                    setCategoria = registro.substring(5, 20); //20
-                    setValor = registro.substring(21, 29); //8
-                    setTipo = registro.substring(30, 37);// 7
-                    setDescricao = registro.substring(38); //50
+                    setIdMovimentacaoFixa = registro.substring(3, 7); //4
+                    setCategoria = registro.substring(8, 23); //15
+                    setValor = registro.substring(24, 32); //8
+                    setTipo = registro.substring(33, 40);// 7
+                    setDescricao = registro.substring(41); //50
 
                     Double valor = Double.valueOf(setValor);
                     MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
