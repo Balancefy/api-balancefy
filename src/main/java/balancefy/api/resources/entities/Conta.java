@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 
 @Entity
 @Table(name = "conta")
@@ -83,4 +84,8 @@ public class Conta {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public void setStatus(Integer status) {this.status = status;}
+
+    public Integer getStatus() {return status;}
 }
