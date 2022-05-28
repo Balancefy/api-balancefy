@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS Comentario (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     fk_topico INT NOT NULL,
-    fk_comentario INT NOT NULL,
+    fk_comentario INT,
     FOREIGN KEY (fk_comentario) REFERENCES Comentario (id_comentario),
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta),
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
@@ -188,6 +188,10 @@ VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
     (320.0, 'Lazer', '13000 de RP','Saida', 1),
     (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);
 
+--INSERT INTO Comentario (conteudo, created_at, fk_conta, fk_topico, fk_comentario)
+--VALUES('aaaaaaaa', current_date, 2, 1, 1),
+  --     ('bbbbbbbb', current_date, 1, 1, 0),
+    --    ('bbbbbbbb', current_date, 1, 1, 1);
 INSERT INTO Dica (titulo, descricao, tema)
 VALUES ('Invista em Renda Fixa', 'Você sabia que pode investir em renda fixa, se procura uma opção mais segura? É o tipo de investimento mais recomendado para os aspirantes!', 'Investientos');
 
