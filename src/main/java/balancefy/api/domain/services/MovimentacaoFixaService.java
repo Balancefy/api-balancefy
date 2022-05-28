@@ -32,10 +32,10 @@ public class MovimentacaoFixaService {
             MovimentacaoFixa mov = new MovimentacaoFixa(movimentacaoFixa);
             Double valor = movimentacaoFixa.getValor();
 
-            if(movimentacaoFixa.getTipo() == "Saída") {
+            if(movimentacaoFixa.getTipo().equals("Saída")) {
                 mov.setTipo(TypeTransaction.OUT.type);
                 mov.setValor(valor * -1);
-            } else if (movimentacaoFixa.getTipo() == "Entrada") {
+            } else if (movimentacaoFixa.getTipo().equals("Entrada")) {
                 mov.setTipo(TypeTransaction.IN.type);
             }
 

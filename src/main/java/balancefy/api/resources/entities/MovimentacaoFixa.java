@@ -39,6 +39,11 @@ public class MovimentacaoFixa {
         this.categoria = mov.getCategoria();
         this.descricao = mov.getDescricao();
     }
+
+    public MovimentacaoFixa() {
+
+    }
+
     public Double getValor() {
         return valor;
     }

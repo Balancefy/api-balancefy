@@ -91,14 +91,14 @@ public class MovimentacaoFixaController {
                 if (indice.equals("000")) {
 
                     setIdMovimentacaoFixa = registro.substring(0, 4); //4
-                    setCategoria = registro.substring(5, 25); //20
-                    setValor = registro.substring(26, 34); //8
-                    setDescricao = registro.substring(35, 80); //50
-                    setTipo = registro.substring(80, 90);
+                    setCategoria = registro.substring(5, 20); //20
+                    setValor = registro.substring(21, 29); //8
+                    setTipo = registro.substring(30, 37);// 7
+                    setDescricao = registro.substring(38); //50
 
                     Double valor = Double.valueOf(setValor);
                     MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
-                            new MovimentacaoFixaRequestDto(valor, setCategoria, setDescricao, setTipo);
+                            new MovimentacaoFixaRequestDto(valor, setCategoria.trim(), setDescricao, setTipo.trim());
 
                     Conta account = contaService.getContaById(id);
                     movimentacaoFixaService.create(movimentacaoFixaRequestDto, account);
