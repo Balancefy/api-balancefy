@@ -28,7 +28,7 @@ public class ComentarioController {
     @Autowired
     private ComentarioService comentarioService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{idTopico}")
     public ResponseEntity<ListaComentarioResponseDto> get(@PathVariable Integer idTopico) {
         try {
             Topico foundTopico = topicoService.getTopicoById(idTopico);

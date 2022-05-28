@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaComentarioResponseDto extends ResponseDto{
-    private List<Comentario> list;
+    private List<ComentarioCurtoResponseDto> list;
 
-    public ListaComentarioResponseDto(String message, List<Comentario> list) {
+    public ListaComentarioResponseDto(String message, List<ComentarioCurtoResponseDto> list) {
         super(message);
         this.list = list;
     }
@@ -18,11 +18,11 @@ public class ListaComentarioResponseDto extends ResponseDto{
         super(message);
     }
 
-    public void setList(List<Comentario> list) {
+    public void setList(List<ComentarioCurtoResponseDto> list) {
         this.list = list;
     }
 
-    public List<Comentario> getList() {
+    public List<ComentarioCurtoResponseDto> getList() {
         return list;
     }
 }

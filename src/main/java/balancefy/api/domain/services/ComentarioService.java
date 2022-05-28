@@ -2,8 +2,10 @@ package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.ComentarioRequestDto;
 import balancefy.api.application.dto.request.TopicoRequestDto;
+import balancefy.api.application.dto.response.ComentarioCurtoResponseDto;
 import balancefy.api.application.dto.response.ComentarioDto;
 import balancefy.api.application.dto.response.ComentarioResponseDto;
+import balancefy.api.application.dto.response.ContaResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Comentario;
 import balancefy.api.resources.entities.Conta;
@@ -15,6 +17,7 @@ import balancefy.api.resources.repositories.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +37,19 @@ public class ComentarioService {
         return comentarioRepository.findAll();
     }
 
-    public List<Comentario> getByFkTopico(Topico topico) {
-        return comentarioRepository.findByFkTopico(topico);
+    public List<ComentarioCurtoResponseDto> getByFkTopico(Topico topico) {
+        List<Comentario> comentarios = comentarioRepository.findByFkTopico(topico);
+        return changeComentario(comentarios);
+    }
+
+    public List<ComentarioCurtoResponseDto> changeComentario(List<Comentario> comentarios) {
+        List<ComentarioCurtoResponseDto> comentariosCurtos = new ArrayList<>();
+        for(Comentario c: comentarios) {
+            comentariosCurtos.add(
+                    new ComentarioCurtoResponseDto(c.getId(), c.getConteudo(), c.getCreatedAt(), new ContaResponseDto(c.getFkConta()), changeComentario(c.getComentarios()))
+            );
+        }
+        return comentariosCurtos;
     }
 
     public ComentarioDto create(ComentarioRequestDto comentario, Integer idConta) throws NotFoundException {
