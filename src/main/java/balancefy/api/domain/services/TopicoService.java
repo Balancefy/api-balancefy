@@ -108,21 +108,23 @@ public class TopicoService {
         List<Topico> list = likesRepository.getTop3Topicos();
         List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
 
-        for(Topico t: list) {
-            listFeed.add(
-                    new FeedTopicoResponseDto(
-                            new TopicoResponseDto(t, getTopicoLikes(t)),
-                            isLikedByAccountId(t.getId(), id),
-                            t.getFkConta()
-                    )
-            );
+        if(!list.isEmpty()) {
+            for(Topico t: list) {
+                listFeed.add(
+                        new FeedTopicoResponseDto(
+                                new TopicoResponseDto(t, getTopicoLikes(t)),
+                                isLikedByAccountId(t.getId(), id),
+                                t.getFkConta()
+                        )
+                );
+            }
+
+            listFeed = listFeed.stream()
+                    .sorted(Comparator.comparing(topico -> topico.getTopico().getLikes()))
+                    .collect(Collectors.toList()).subList(0, 2);
+
+            Collections.reverse(listFeed);
         }
-
-        listFeed = listFeed.stream()
-                        .sorted(Comparator.comparing(topico -> topico.getTopico().getLikes()))
-                        .collect(Collectors.toList()).subList(0, 2);
-
-        Collections.reverse(listFeed);
 
         return listFeed;
     }

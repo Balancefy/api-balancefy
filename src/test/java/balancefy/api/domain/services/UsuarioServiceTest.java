@@ -74,7 +74,7 @@ class UsuarioServiceTest {
 //        when(service.updateAvatar(Mockito.any(), getUsuario().getId()))
 //                .thenAnswer(i -> i.getArguments()[0]);
 //
-//        service.updateAvatar( , getUsuario().getId());
+//     Usuario usuario = service.updateAvatar(Mockito.any(), getUsuario().getAvatar(), getUsuario().getId());
 //        assertEquals(usuario.getId(), 1);
 //    }
 

@@ -12,7 +12,6 @@ public class MovimentacaoResponseDto {
     private String descricao;
     private String tipo;
     private LocalDateTime createdAt;
-
     public MovimentacaoResponseDto() {
     }
 
