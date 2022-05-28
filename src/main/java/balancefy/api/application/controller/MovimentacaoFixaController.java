@@ -104,7 +104,7 @@ public class MovimentacaoFixaController {
                     setIdMovimentacaoFixa = registro.substring(0, 4); //4
                     setCategoria = registro.substring(5, 25); //20
                     setValor = registro.substring(26, 34); //8
-                    setDescricao = registro.substring(35, 85); //50
+                    setDescricao = registro.substring(35); //50
 
                     Double valor = Double.valueOf(setValor);
                     MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
