@@ -8,22 +8,10 @@ import javax.validation.constraints.NotBlank;
 
 public class ComentarioRequestDto {
 
-    private Integer id;
-
     @NotBlank
     private String conteudo;
-
-    private Conta fkConta;
-    private Topico fkTopico;
-    private Comentario fkComentario;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Integer idTopico;
+    private Integer idComentario;
 
     public String getConteudo() {
         return conteudo;
@@ -33,27 +21,19 @@ public class ComentarioRequestDto {
         this.conteudo = conteudo;
     }
 
-    public Conta getFkConta() {
-        return fkConta;
+    public Integer getIdTopico() {
+        return idTopico;
     }
 
-    public void setFkConta(Conta fkConta) {
-        this.fkConta = fkConta;
+    public void setIdTopico(Integer idTopico) {
+        this.idTopico = idTopico;
     }
 
-    public Topico getFkTopico() {
-        return fkTopico;
+    public Integer getIdComentario() {
+        return idComentario;
     }
 
-    public void setFkTopico(Topico fkTopico) {
-        this.fkTopico = fkTopico;
-    }
-
-    public Comentario getFkComentario() {
-        return fkComentario;
-    }
-
-    public void setFkComentario(Comentario fkComentario) {
-        this.fkComentario = fkComentario;
+    public void setIdComentario(Integer idComentario) {
+        this.idComentario = idComentario;
     }
 }

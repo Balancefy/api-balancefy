@@ -11,16 +11,16 @@ public class ComentarioResponseDto extends ResponseDto {
     private Integer id;
     private String descricao;
     private LocalDateTime createdAt;
-    private Conta fkConta;
-    private Topico fkTopico;
-    private Comentario fkComentario;
+    private Integer fkConta;
+    private Integer fkTopico;
+    private Integer fkComentario;
 
-    public ComentarioResponseDto(Comentario comentario) {
+    public ComentarioResponseDto(ComentarioDto comentario) {
         super("Sucesso");
         this.id = comentario.getId();
         this.descricao = comentario.getConteudo();
         this.createdAt = comentario.getCreatedAt();
-        this.fkConta = comentario.getFkConta();
+        this.fkConta = comentario.getConta();
         this.fkTopico = comentario.getFkTopico();
         this.fkComentario = comentario.getFkComentario();
     }
@@ -53,27 +53,15 @@ public class ComentarioResponseDto extends ResponseDto {
         this.createdAt = createdAt;
     }
 
-    public Conta getFkConta() {
+    public Integer getFkConta() {
         return fkConta;
     }
 
-    public void setFkConta(Conta fkConta) {
-        this.fkConta = fkConta;
-    }
-
-    public Topico getFkTopico() {
+    public Integer getFkTopico() {
         return fkTopico;
     }
 
-    public void setFkTopico(Topico fkTopico) {
-        this.fkTopico = fkTopico;
-    }
-
-    public Comentario getFkComentario() {
+    public Integer getFkComentario() {
         return fkComentario;
-    }
-
-    public void setFkComentario(Comentario fkComentario) {
-        this.fkComentario = fkComentario;
     }
 }

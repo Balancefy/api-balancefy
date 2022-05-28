@@ -3,10 +3,8 @@ package balancefy.api.application.controller;
 import balancefy.api.application.config.security.TokenService;
 import balancefy.api.application.dto.request.ComentarioRequestDto;
 import balancefy.api.application.dto.request.TopicoRequestDto;
-import balancefy.api.application.dto.response.ComentarioResponseDto;
-import balancefy.api.application.dto.response.ListaComentarioResponseDto;
-import balancefy.api.application.dto.response.ListaFeedTopicoResponse;
-import balancefy.api.application.dto.response.TopicoResponseDto;
+import balancefy.api.application.dto.response.*;
+import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.ComentarioService;
 import balancefy.api.domain.services.TopicoService;
 import balancefy.api.resources.entities.Comentario;
@@ -48,21 +46,15 @@ public class ComentarioController {
                                                     @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            if(comentario.getFkComentario().getId() == null) {
-                Comentario savedComentario = comentarioService.create(comentario, id, comentario.getFkTopico().getId(),
-                        comentario.getFkComentario().getId());
-                ComentarioResponseDto account = new ComentarioResponseDto(savedComentario);
-                return ResponseEntity.status(201).body(account);
 
-            } else {
-                Comentario savedComentario = comentarioService.createComentario(comentario, id, comentario.getFkTopico().getId(),
-                        comentario.getFkComentario().getId());
-                ComentarioResponseDto account = new ComentarioResponseDto(savedComentario);
-                return ResponseEntity.status(201).body(account);
-            }
+            ComentarioDto savedComentario = comentarioService.create(comentario, id);
+
+            return ResponseEntity.status(201).body(new ComentarioResponseDto(savedComentario));
 
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(new ComentarioResponseDto(ex));
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(404).body(new ComentarioResponseDto(ex));
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(new ComentarioResponseDto(ex));
         }

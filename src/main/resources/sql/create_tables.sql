@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS Comentario (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     fk_topico INT NOT NULL,
-    fk_comentario INT NOT NULL,
+    fk_comentario INT,
     FOREIGN KEY (fk_comentario) REFERENCES Comentario (id_comentario),
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta),
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)

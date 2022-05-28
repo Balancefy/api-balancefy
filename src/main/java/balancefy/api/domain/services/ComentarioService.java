@@ -2,6 +2,8 @@ package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.request.ComentarioRequestDto;
 import balancefy.api.application.dto.request.TopicoRequestDto;
+import balancefy.api.application.dto.response.ComentarioDto;
+import balancefy.api.application.dto.response.ComentarioResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.Comentario;
 import balancefy.api.resources.entities.Conta;
@@ -36,12 +38,23 @@ public class ComentarioService {
         return comentarioRepository.findByFkTopico(topico);
     }
 
-    public Comentario create(ComentarioRequestDto comentario, Integer idConta, Integer idTopico, Integer idComentario) {
+    public ComentarioDto create(ComentarioRequestDto comentario, Integer idConta) throws NotFoundException {
         try {
             Conta conta = contaRepository.getById(idConta);
-            Topico topico = topicoRepository.getById(idTopico);
-            Comentario comentarioDto = new Comentario(comentario.getConteudo(), conta, topico, null);
-            return comentarioRepository.save(comentarioDto);
+            Topico topico = topicoRepository.getById(comentario.getIdTopico());
+            Comentario saveComentario = null;
+
+            if(comentario.getIdComentario() != null) {
+                if(comentarioRepository.existsById(comentario.getIdComentario())) {
+                    saveComentario = comentarioRepository.getById(comentario.getIdComentario());
+                } else {
+                    throw new NotFoundException("Comentário não existente");
+                }
+            }
+
+            Comentario comentarioDto = new Comentario(comentario.getConteudo(), conta, topico, saveComentario);
+
+            return new ComentarioDto(comentarioRepository.save(comentarioDto));
 
         } catch (Exception ex) {
             throw ex;
