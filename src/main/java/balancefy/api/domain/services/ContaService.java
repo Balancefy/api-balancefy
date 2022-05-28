@@ -1,13 +1,17 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.response.BalanceResponse;
 import balancefy.api.application.dto.response.ContaRankResponseDto;
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
+import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.resources.entities.Conta;
 import balancefy.api.domain.exceptions.NotFoundException;
+import balancefy.api.resources.entities.Movimentacao;
+import balancefy.api.resources.entities.MovimentacaoFixa;
 import balancefy.api.resources.entities.Usuario;
-import balancefy.api.resources.repositories.ContaRepository;
-import balancefy.api.resources.repositories.ObjetivoContaRepository;
-import balancefy.api.resources.repositories.UsuarioRepository;
+import balancefy.api.resources.enums.TypeTransaction;
+import balancefy.api.resources.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,12 @@ public class ContaService {
 
     @Autowired
     private ObjetivoContaRepository objetivoContaRepository;
+
+    @Autowired
+    private MovimentacaoRepository movimentacaoRepository;
+
+    @Autowired
+    private MovimentacaoFixaRepository movimentacaoFixaRepository;
 
     public Conta create(Conta conta) throws AlreadyExistsException {
         try {
@@ -96,5 +106,29 @@ public class ContaService {
         } catch (Exception ex) {
             throw ex;
         }
+    }
+
+    public BalanceResponse getBalance(int id) {
+        List<MovimentacaoFixaDto> listMovimentacaoFixa = movimentacaoFixaRepository.findAllByFkContaId(id);
+        List<MovimentacaoResponseDto> listMovimentacao = movimentacaoRepository.findAllByFkObjetivoContaId(id);
+        double entrada = 0.0, saida = 0.0;
+
+        for(MovimentacaoFixaDto m: listMovimentacaoFixa) {
+            if(m.getTipo().equals(TypeTransaction.IN.type)) {
+                entrada += m.getValor();
+            } else if (m.getTipo().equals(TypeTransaction.OUT.type)){
+                saida += (m.getValor() * -1);
+            }
+        }
+
+        for(MovimentacaoResponseDto m: listMovimentacao) {
+            if(m.getTipo().equals(TypeTransaction.IN.type)) {
+                entrada += m.getValor();
+            } else if (m.getTipo().equals(TypeTransaction.OUT.type)){
+                saida += m.getValor();
+            }
+        }
+
+        return new BalanceResponse((entrada - saida), entrada, saida);
     }
 }

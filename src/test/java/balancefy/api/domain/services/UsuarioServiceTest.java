@@ -49,26 +49,6 @@ class UsuarioServiceTest {
         );
     }
 
-    @Test
-    void updateValidCase() throws NotFoundException {
-        when(service.update(Mockito.any(Usuario.class)))
-                .thenAnswer(i -> i.getArguments()[0]);
-
-        Usuario usuario = service.update(getUsuario());
-        assertEquals(usuario.getId(), 1);
-    }
-
-    @Test
-    void updateInvalidCase() throws NotFoundException {
-        when(service.update(Mockito.any(Usuario.class)))
-                .thenThrow(NotFoundException.class);
-
-        assertThrows(
-                NotFoundException.class,
-                () -> service.update(getUsuario())
-        );
-    }
-
 //    @Test
 //    void updateAvatarValidCase() throws NotFoundException, IOException {
 //        when(service.updateAvatar(Mockito.any(), getUsuario().getId()))

@@ -109,7 +109,15 @@ public class TopicoService {
         List<FeedTopicoResponseDto> listFeed = new ArrayList<>();
 
         if(!list.isEmpty()) {
-            for(Topico t: list) {
+            list = list.stream()
+                    .sorted(Comparator.comparing(topico ->  getTopicoLikes(topico)))
+                    .collect(Collectors.toList());
+
+            Collections.reverse(list);
+
+            for(int i = 0; i < 3; i++) {
+                Topico t = list.get(i);
+
                 listFeed.add(
                         new FeedTopicoResponseDto(
                                 new TopicoResponseDto(t, getTopicoLikes(t)),
@@ -118,12 +126,6 @@ public class TopicoService {
                         )
                 );
             }
-
-            listFeed = listFeed.stream()
-                    .sorted(Comparator.comparing(topico -> topico.getTopico().getLikes()))
-                    .collect(Collectors.toList()).subList(0, 2);
-
-            Collections.reverse(listFeed);
         }
 
         return listFeed;

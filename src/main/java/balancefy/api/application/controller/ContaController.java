@@ -1,6 +1,7 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.BalanceResponse;
 import balancefy.api.application.dto.response.RankResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.application.dto.response.ContaResponseDto;
@@ -116,6 +117,17 @@ public class ContaController {
             return ResponseEntity.status(500).body(new RankResponseDto(ex));
         } catch (Exception ex) {
             return ResponseEntity.status(400).body(new RankResponseDto(ex));
+        }
+    }
+
+    @GetMapping("/balance")
+    public ResponseEntity<BalanceResponse> getBalance(@RequestHeader(value = "Authorization") String token) {
+        try {
+            int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
+
+            return ResponseEntity.status(200).body(contaService.getBalance(id));
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).body(new BalanceResponse(ex));
         }
     }
 }
