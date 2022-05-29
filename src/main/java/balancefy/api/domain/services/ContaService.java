@@ -85,7 +85,8 @@ public class ContaService {
     public Conta updateProgress(Integer id, Double progValue) throws NotFoundException{
         try {
             if (contaRepository.existsById(id)){
-                return contaRepository.atualizarProgresso(id, progValue);
+                contaRepository.atualizarProgresso(id, progValue);
+                return contaRepository.getById(id);
             }
             throw new NotFoundException("Conta não encontrada");
 
