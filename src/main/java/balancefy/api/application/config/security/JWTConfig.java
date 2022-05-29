@@ -57,6 +57,7 @@ public class JWTConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/user-photos/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
                 .antMatchers(HttpMethod.GET, "/transaction").permitAll()
+                .antMatchers(HttpMethod.GET, "/goals").permitAll()
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().csrf().disable()

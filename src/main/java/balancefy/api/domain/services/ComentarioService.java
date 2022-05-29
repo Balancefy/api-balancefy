@@ -38,7 +38,7 @@ public class ComentarioService {
     }
 
     public List<ComentarioCurtoResponseDto> getByFkTopico(Topico topico) {
-        List<Comentario> comentarios = comentarioRepository.findByFkTopico(topico);
+        List<Comentario> comentarios = comentarioRepository.findByFkTopicoAndFkComentarioNull(topico);
         return changeComentario(comentarios);
     }
 
