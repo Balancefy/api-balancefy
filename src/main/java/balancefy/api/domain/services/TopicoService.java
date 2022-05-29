@@ -10,6 +10,7 @@ import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Like;
 import balancefy.api.resources.entities.Topico;
 import balancefy.api.resources.entities.keys.LikesKey;
+import balancefy.api.resources.repositories.ComentarioRepository;
 import balancefy.api.resources.repositories.ContaRepository;
 import balancefy.api.resources.repositories.LikesRepository;
 import balancefy.api.resources.repositories.TopicoRepository;
@@ -31,6 +32,9 @@ public class TopicoService {
     @Autowired
     private LikesRepository likesRepository;
 
+    @Autowired
+    private ComentarioRepository comentarioRepository;
+
     public List<Topico> getTopico() {
         return topicoRepository.findAll();
     }
@@ -44,6 +48,7 @@ public class TopicoService {
                     new FeedTopicoResponseDto(
                             new TopicoResponseDto(t, getTopicoLikes(t)),
                             isLikedByAccountId(t.getId(), id),
+                            comentarioRepository.countByFkTopicoAndFkComentarioNull(t),
                             t.getFkConta()
                     )
             );
@@ -61,6 +66,7 @@ public class TopicoService {
                     new FeedTopicoResponseDto(
                             new TopicoResponseDto(t, getTopicoLikes(t)),
                             isLikedByAccountId(t.getId(), id),
+                            comentarioRepository.countByFkTopicoAndFkComentarioNull(t),
                             t.getFkConta()
                     )
             );
@@ -92,6 +98,7 @@ public class TopicoService {
                     new FeedTopicoResponseDto(
                             new TopicoResponseDto(t, getTopicoLikes(t)),
                             isLikedByAccountId(t.getId(), id),
+                            comentarioRepository.countByFkTopicoAndFkComentarioNull(t),
                             t.getFkConta()
                     )
             );
@@ -115,13 +122,16 @@ public class TopicoService {
 
             Collections.reverse(list);
 
-            for(int i = 0; i < 3; i++) {
+            Integer contador = list.size() < 3 ? list.size() : 3;
+
+            for(int i = 0; i < contador; i++) {
                 Topico t = list.get(i);
 
                 listFeed.add(
                         new FeedTopicoResponseDto(
                                 new TopicoResponseDto(t, getTopicoLikes(t)),
                                 isLikedByAccountId(t.getId(), id),
+                                comentarioRepository.countByFkTopicoAndFkComentarioNull(t),
                                 t.getFkConta()
                         )
                 );

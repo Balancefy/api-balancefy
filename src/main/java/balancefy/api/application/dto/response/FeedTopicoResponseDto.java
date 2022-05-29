@@ -5,11 +5,13 @@ import balancefy.api.resources.entities.Conta;
 public class FeedTopicoResponseDto {
     private TopicoResponseDto topico;
     private boolean liked;
+    private Integer commentSize;
     private Conta autor;
 
-    public FeedTopicoResponseDto(TopicoResponseDto topico, boolean liked, Conta autor) {
+    public FeedTopicoResponseDto(TopicoResponseDto topico, boolean liked, int commentSize, Conta autor) {
         this.topico = topico;
         this.liked = liked;
+        this.commentSize = commentSize;
         this.autor = autor;
     }
 
@@ -35,5 +37,13 @@ public class FeedTopicoResponseDto {
 
     public void setAutor(Conta autor) {
         this.autor = autor;
+    }
+
+    public Integer getCommentSize() {
+        return commentSize;
+    }
+
+    public void setCommentSize(Integer commentSize) {
+        this.commentSize = commentSize;
     }
 }

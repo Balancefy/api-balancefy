@@ -14,7 +14,6 @@ import java.util.List;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, Integer> {
 
-    List<Comentario> findByFkTopico(Topico topico);
-
-
+    List<Comentario> findByFkTopicoAndFkComentarioNull(Topico topico);
+    int countByFkTopicoAndFkComentarioNull(Topico topico);
 }

@@ -58,13 +58,11 @@ public class MovimentacaoController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity delete() {
         try {
-            movimentacaoService.deleteMovimentacao(id);
-            return ResponseEntity.status(200).build();
-        } catch (NotFoundException ex) {
-            return ResponseEntity.status(404).body(ex.getMessage());
+
+            return ResponseEntity.status(200).body(movimentacaoService.undo());
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(ex.getMessage());
         } catch (Exception ex) {

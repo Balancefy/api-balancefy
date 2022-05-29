@@ -65,4 +65,8 @@ public class PilhaObj<T> {
             push(aux.pop());
         }
     }
+
+    public int getTopo() {
+        return topo;
+    }
 }

@@ -6,6 +6,7 @@ import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.domain.exceptions.FileException;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.ListaObj;
+import balancefy.api.resources.PilhaObj;
 import balancefy.api.resources.entities.Movimentacao;
 import balancefy.api.resources.entities.MovimentacaoFixa;
 import balancefy.api.resources.entities.Usuario;
@@ -28,6 +29,8 @@ public class MovimentacaoService {
     private MovimentacaoRepository movimentacaoRepository;
     @Autowired
     private ContaRepository contaRepository;
+
+    private PilhaObj<Movimentacao> pilha = new PilhaObj<>(15);
 
     public void createCsv(String nomeArq, ListaObj<MovimentacaoFixa> lista) throws FileException {
         String message = "";
@@ -191,11 +194,24 @@ public class MovimentacaoService {
         return biggestExpenses;
     }
 
-
-
     public Movimentacao create(Movimentacao movimentacao) {
         try {
+            pilha.push(movimentacao);
             return movimentacaoRepository.save(movimentacao);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public int undo() {
+        try {
+            if(!pilha.isEmpty()) {
+                pilha.peek();
+                movimentacaoRepository.delete(pilha.pop());
+            }
+
+            return pilha.getTopo();
+
         } catch (Exception ex) {
             throw ex;
         }
