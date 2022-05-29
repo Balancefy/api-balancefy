@@ -99,22 +99,32 @@ public class MovimentacaoFixaController {
                     Double valor = Double.valueOf(setValor);
                     MovimentacaoFixaRequestDto movimentacaoFixaRequestDto =
                             new MovimentacaoFixaRequestDto(valor, setCategoria.trim(), setDescricao, setTipo.trim());
-
-                    Conta account = contaService.getContaById(id);
-                    movimentacaoFixaService.create(movimentacaoFixaRequestDto, account);
+                    fila.insert(movimentacaoFixaRequestDto);
                     createTxt = true;
                 }
                 registro = reader.readLine();
             }
             if (createTxt){
+                Conta account = contaService.getContaById(id);
+                insertFromQueue(account);
+
                 return ResponseEntity.created(null).build();
             }
             return ResponseEntity.status(500).build();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return ResponseEntity.badRequest().build();
+    }
+
+    private void insertFromQueue(Conta conta ) throws AlreadyExistsException {
+        do {
+            try{
+                movimentacaoFixaService.create(fila.poll(), conta);
+            }catch (Exception exception){
+                throw new AlreadyExistsException(exception.getMessage());
+            }
+        }while (!fila.isEmpty());
     }
 
 
