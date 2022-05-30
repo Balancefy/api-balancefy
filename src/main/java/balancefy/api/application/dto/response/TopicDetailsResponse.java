@@ -2,17 +2,20 @@ package balancefy.api.application.dto.response;
 
 import balancefy.api.resources.entities.Conta;
 
-public class FeedTopicoResponseDto {
+public class TopicDetailsResponse extends ResponseDto {
     private TopicoResponseDto topico;
     private boolean liked;
-    private Integer commentSize;
     private Conta autor;
 
-    public FeedTopicoResponseDto(TopicoResponseDto topico, boolean liked, int commentSize, Conta autor) {
+    public TopicDetailsResponse(TopicoResponseDto topico, boolean liked, Conta autor) {
+        super("Sucesso");
         this.topico = topico;
         this.liked = liked;
-        this.commentSize = commentSize;
         this.autor = autor;
+    }
+
+    public TopicDetailsResponse(Exception ex) {
+        super(ex.getMessage());
     }
 
     public TopicoResponseDto getTopico() {
@@ -37,13 +40,5 @@ public class FeedTopicoResponseDto {
 
     public void setAutor(Conta autor) {
         this.autor = autor;
-    }
-
-    public Integer getCommentSize() {
-        return commentSize;
-    }
-
-    public void setCommentSize(Integer commentSize) {
-        this.commentSize = commentSize;
     }
 }

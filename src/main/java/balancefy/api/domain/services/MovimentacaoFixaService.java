@@ -1,9 +1,12 @@
 package balancefy.api.domain.services;
 
+import balancefy.api.application.dto.request.MovimentacaoFixaRequestDto;
 import balancefy.api.application.dto.response.MovimentacaoFixaDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
 import balancefy.api.domain.exceptions.NotFoundException;
+import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.MovimentacaoFixa;
+import balancefy.api.resources.enums.TypeTransaction;
 import balancefy.api.resources.repositories.ContaRepository;
 import balancefy.api.resources.repositories.MovimentacaoFixaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,20 @@ public class MovimentacaoFixaService {
         return movimentacaoFixaRepository.findAllByFkContaId(id);
     }
 
-    public MovimentacaoFixa create(MovimentacaoFixa movimentacaoFixa) throws AlreadyExistsException {
+    public MovimentacaoFixa create(MovimentacaoFixaRequestDto movimentacaoFixa, Conta conta) throws AlreadyExistsException {
         try {
-            return movimentacaoFixaRepository.save(movimentacaoFixa);
+            MovimentacaoFixa mov = new MovimentacaoFixa(movimentacaoFixa);
+            Double valor = movimentacaoFixa.getValor();
+
+            if(movimentacaoFixa.getTipo().equals("Saída")) {
+                mov.setTipo(TypeTransaction.OUT.type);
+                mov.setValor(valor * -1);
+            } else if (movimentacaoFixa.getTipo().equals("Entrada")) {
+                mov.setTipo(TypeTransaction.IN.type);
+            }
+
+            mov.setFkConta(conta);
+            return movimentacaoFixaRepository.save(mov);
         } catch (Exception ex) {
             throw ex;
         }
@@ -39,6 +53,18 @@ public class MovimentacaoFixaService {
                 return;
             }
             throw new NotFoundException("Movimentação fixa não encontrada");
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public Conta getContaById(Integer id) throws NotFoundException {
+        try {
+            if (contaRepository.existsById(id)){
+                return contaRepository.findById(id).get();
+            }
+
+            throw new NotFoundException("Conta não encontrada");
         } catch (Exception ex) {
             throw ex;
         }

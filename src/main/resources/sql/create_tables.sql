@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS Comentario (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     fk_conta INT NOT NULL,
     fk_topico INT NOT NULL,
-    fk_comentario INT NOT NULL,
+    fk_comentario INT,
     FOREIGN KEY (fk_comentario) REFERENCES Comentario (id_comentario),
     FOREIGN KEY (fk_conta) REFERENCES Conta (id_conta),
     FOREIGN KEY (fk_topico) REFERENCES Topico (id_topico)
@@ -128,22 +128,18 @@ CREATE TABLE IF NOT EXISTS Likes (
 INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo, banner)
 VALUES('Tobias', 'a@gmail.com', '$2a$10$uEuUTkj3bdPfhHCgzCEi4ePIB5G9pnYORt9IlYwqdWUe72FSoKHpC', '1999-03-22', '../../Images/user2.jpg', 0, '');
 
-INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo)
-VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '1999-03-22', '../../Images/user2.jpg', 0);
+INSERT INTO Usuario (nome, email, senha, data_nasc, avatar, tipo, banner)
+VALUES('Verdinher', 'b@gmail.com', '$2a$10$5Ly35HJ3FacRf./o9vdci.IZpaevCR72cL4GHcEMIMMMoe.vPh8Wa', '1999-03-22', '../../Images/user2.jpg', 0, '');
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
-VALUES(50, 0, 1, 1);
+VALUES(2000, 0, 1, 1);
 
 INSERT INTO Conta (renda, progresso, status,fk_usuario)
-VALUES(50, 10, 1, 2);
-
-
--- INSERT INTO Dica (titulo, descricao, tema)
--- VALUES('EconomizeJA', 'Saiba como economizar 1 milhao', 'Economia');
+VALUES(2000, 10, 1, 2);
 
 INSERT INTO MovimentacaoFixa (categoria, descricao, valor, tipo, fk_conta)
-VALUES ('Lazer', 'Kart', 50.0, 'Saida', 2),
-       ('Emergencia', 'Celular', 600.0, 'Saida', 2),
+VALUES ('Lazer', 'Kart', -50.0, 'Saida', 2),
+       ('Emergencia', 'Celular', -600.0, 'Saida', 2),
        ('Renda', 'Salario', 2000.0, 'Entrada', 2),
        ('Renda', 'Ajudinha da Vo', 100.0, 'Entrada', 2);
 
@@ -176,10 +172,10 @@ VALUES (1, 1, 1),
 INSERT INTO ObjetivoConta ( fk_conta, fk_objetivo, descricao, done, valor_total, valor_inicial, tempo_estimado, pontuacao)
 VALUES(1, 1, 'Viagem Australia', 0, 200.0, 10.0, current_timestamp, 1000.0);
 
-INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo)
-VALUES('Economizar', 0, 300.0, 1, 1),
-    ('Procurar Hotel', 0, 500.0, 1, 8),
-    ('Comprar Malas de Viagem', 0, 700.0, 1, 9);
+INSERT INTO TaskObjetivoConta (descricao, done, pontuacao, fk_objetivo_conta, fk_task_objetivo, valor)
+VALUES('Economizar', 0, 300.0, 1, 1, 10),
+    ('Procurar Hotel', 0, 500.0, 1, 8, 0),
+    ('Comprar Malas de Viagem', 0, 200.0, 1, 9, 100);
 
 INSERT INTO Movimentacao (valor, topico, descricao, tipo, fk_objetivo_conta)
 VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
@@ -188,6 +184,16 @@ VALUES(50.0, 'Lazer', 'Kart','Saida', 1),
     (550.0, 'Lazer', 'Roupas','Saida', 1),
     (250.0, 'Dinheiro', 'Dinheiro da Vó','Entrada', 1),
     (375.0, 'Lazer', 'Cartas de Magic','Saida', 1),
-    (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entradas', 1),
+    (575.0, 'Dinheiro', 'Emprestimo para o jogo do Flamengo','Entrada', 1),
     (320.0, 'Lazer', '13000 de RP','Saida', 1),
     (45.0, 'Lazer', 'Pizza Marguerita','Saida', 1);
+
+--INSERT INTO Comentario (conteudo, created_at, fk_conta, fk_topico, fk_comentario)
+--VALUES('aaaaaaaa', current_date, 2, 1, 1),
+  --     ('bbbbbbbb', current_date, 1, 1, 0),
+    --    ('bbbbbbbb', current_date, 1, 1, 1);
+INSERT INTO Dica (titulo, descricao, tema)
+VALUES ('Invista em Renda Fixa', 'Você sabia que pode investir em renda fixa, se procura uma opção mais segura? É o tipo de investimento mais recomendado para os aspirantes!', 'Investientos');
+
+INSERT INTO Topico (titulo, conteudo, fk_conta)
+VALUES ('Economizar', 'Como vocês fazem para não gastar dinheiro com comida?', 1);

@@ -1,6 +1,7 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.request.UsuarioEditRequest;
 import balancefy.api.application.dto.request.UsuarioRequest;
 import balancefy.api.application.dto.request.UsuarioSenhaRequestDto;
 import balancefy.api.domain.exceptions.AlreadyExistsException;
@@ -44,11 +45,10 @@ public class UsuarioController {
     }
 
     @PutMapping
-    public ResponseEntity<UsuarioResponseDto> update(@RequestBody Usuario usuario, @RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<UsuarioResponseDto> update(@RequestBody UsuarioEditRequest usuario, @RequestHeader(value = "Authorization") String token) {
         try {
             int id = tokenService.getIdUsuario(token.replace("Bearer ", ""));
-            usuario.setId(id);
-            UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.update(usuario));
+            UsuarioResponseDto account = new UsuarioResponseDto(usuarioService.update(usuario, id));
             return ResponseEntity.status(200).body(account);
         } catch (NotFoundException ex) {
             return ResponseEntity.status(404).body(new UsuarioResponseDto(ex));

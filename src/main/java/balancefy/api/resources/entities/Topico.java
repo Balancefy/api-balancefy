@@ -1,10 +1,13 @@
 package balancefy.api.resources.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "topico")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +21,21 @@ public class Topico {
     private String conteudo;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_conta")
     private Conta fkConta;
 
     public Topico(String titulo, String conteudo, Conta conta) {
+        this.titulo = titulo;
+        this.conteudo = conteudo;
+        this.createdAt = LocalDateTime.now();
+        this.fkConta = conta;
+    }
+
+    public Topico(Integer id, String titulo, String conteudo, Conta conta) {
+        this.id = id;
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.createdAt = LocalDateTime.now();

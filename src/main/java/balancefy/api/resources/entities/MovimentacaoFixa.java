@@ -1,5 +1,8 @@
 package balancefy.api.resources.entities;
 
+import balancefy.api.application.dto.request.MovimentacaoFixaRequestDto;
+import balancefy.api.application.dto.response.MovimentacaoFixaDto;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "movimentacaofixa")
 public class MovimentacaoFixa {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_movimentacao_fixa", nullable = false)
     private Integer id;
 
@@ -23,12 +27,22 @@ public class MovimentacaoFixa {
     private String tipo;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "fk_conta", nullable = false)
     private Conta fkConta;
 
+
+    public MovimentacaoFixa(MovimentacaoFixaRequestDto mov){
+        this.valor = mov.getValor();
+        this.categoria = mov.getCategoria();
+        this.descricao = mov.getDescricao();
+    }
+
+    public MovimentacaoFixa() {
+
+    }
 
     public Double getValor() {
         return valor;

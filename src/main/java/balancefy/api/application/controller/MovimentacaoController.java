@@ -1,6 +1,9 @@
 package balancefy.api.application.controller;
 
 import balancefy.api.application.config.security.TokenService;
+import balancefy.api.application.dto.response.BiggestExpensesDto;
+import balancefy.api.application.dto.response.ExpensesDto;
+import balancefy.api.application.dto.response.ListBiggestExpensesDto;
 import balancefy.api.application.dto.response.MovimentacaoResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.domain.services.MovimentacaoService;
@@ -37,6 +40,15 @@ public class MovimentacaoController {
         return movimentacaoService.getAllByObjetivo(id);
     }
 
+    @GetMapping("/goal/{id}/expenses")
+    public ResponseEntity<ListBiggestExpensesDto> getBiggestExpenses(@PathVariable Integer id){
+        try{
+            return ResponseEntity.status(200).body( new ListBiggestExpensesDto("Sucesso",movimentacaoService.getBiggestExpenses(id)));
+        }catch(Exception e){
+            return ResponseEntity.status(404).body(new ListBiggestExpensesDto(e.getMessage()));
+        }
+    }
+
     @PostMapping
     public ResponseEntity create(@RequestBody Movimentacao movimentacao) {
         try {
@@ -47,13 +59,11 @@ public class MovimentacaoController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity delete() {
         try {
-            movimentacaoService.deleteMovimentacao(id);
-            return ResponseEntity.status(200).build();
-        } catch (NotFoundException ex) {
-            return ResponseEntity.status(404).body(ex.getMessage());
+
+            return ResponseEntity.status(200).body(movimentacaoService.undo());
         } catch (HttpServerErrorException.InternalServerError ex) {
             return ResponseEntity.status(500).body(ex.getMessage());
         } catch (Exception ex) {
@@ -83,6 +93,8 @@ public class MovimentacaoController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+
 
 
 }
