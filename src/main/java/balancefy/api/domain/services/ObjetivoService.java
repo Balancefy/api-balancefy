@@ -10,12 +10,10 @@ import balancefy.api.domain.exceptions.NotFoundException;
 import balancefy.api.resources.entities.*;
 import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
 import balancefy.api.resources.repositories.*;
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
