@@ -104,7 +104,7 @@ public class ObjetivoService {
             throw new DataFormatException("Intervalo de tempo muito curto");
         }
 
-        return valorRestante * 0.3;
+        return valorObjetivo / months;
     }
 
     public ObjetivoConta accomplish(Integer id) {
@@ -164,7 +164,7 @@ public class ObjetivoService {
                         objetivoConta,
                         taskObjetivo.getTask().getCategoria(),
                         0,
-                        objetivoConta.getPontuacao(),
+                        objetivoConta.getPontuacao() / tasksToInitialize.size(),
                         taskObjetivo.getTask().getId() == 1 ? valor : 0.0
                 )
         ));

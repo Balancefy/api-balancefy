@@ -56,6 +56,23 @@ public class MovimentacaoFixaController {
         }
     }
 
+    @PostMapping("/account/{id}")
+    public ResponseEntity create(@RequestBody List<MovimentacaoFixaRequestDto> movimentacaoFixa, @PathVariable int id) {
+        try {
+            Conta account = contaService.getContaById(id);
+
+            for(MovimentacaoFixaRequestDto m: movimentacaoFixa) {
+                movimentacaoFixaService.create(m, account);
+            }
+
+            return ResponseEntity.status(201).build();
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(204).body(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
         try {

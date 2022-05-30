@@ -40,6 +40,17 @@ public class ObjetivoContaController {
         }
     }
 
+    @PostMapping("/register/{id}")
+    public ResponseEntity create(@PathVariable int id, @RequestBody ObjetivoDto objetivo) {
+        try {
+            return ResponseEntity.status(201).body(objetivoService.create(objetivo, id));
+        } catch (HttpServerErrorException.InternalServerError | DataFormatException ex) {
+            return ResponseEntity.status(500).body(ex.getMessage());
+        } catch (AmountException ex) {
+            return ResponseEntity.status(400).body(ex.getMessage());
+        }
+    }
+
     @GetMapping ResponseEntity<List<ObjetivoContaResponseDto>> getList(@RequestHeader(value = "Authorization") String token){
         Integer accountId = tokenService.getIdUsuario(token.replace("Bearer", ""));
         return ResponseEntity.status(200).body(objetivoService.getList(accountId));
