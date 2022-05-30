@@ -2,6 +2,7 @@ package balancefy.api.domain.services;
 
 import balancefy.api.application.dto.response.TaskResponseDto;
 import balancefy.api.domain.exceptions.NotFoundException;
+import balancefy.api.resources.entities.Conta;
 import balancefy.api.resources.entities.Movimentacao;
 import balancefy.api.resources.entities.TaskObjetivoConta;
 import balancefy.api.resources.entities.keys.TaskObjetivoContaKey;
@@ -25,13 +26,18 @@ public class TaskObjetivoService {
     @Autowired
     MovimentacaoRepository movimentacaoRepository;
 
+    @Autowired
+    ContaService contaService;
+
     public TaskResponseDto accomplishTask(TaskObjetivoContaKey key) throws NotFoundException {
         Optional<TaskObjetivoConta> task = taskObjetivoContaRepository.findById(key);
         if(!task.isPresent()){
             throw new NotFoundException("Task not found");
         }
         task.get().setDone(1);
+
         movimentacaoRepository.save(new Movimentacao(task.get()));
+        contaService.updateProgress(task.get().getObjetivoConta().getConta().getId(), task.get().getPontuacao());
         TaskObjetivoConta updatedTask = taskObjetivoContaRepository.save(task.get());
 
         return new TaskResponseDto(

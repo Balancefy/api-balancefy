@@ -30,6 +30,9 @@ public class ContaService {
     private ObjetivoContaRepository objetivoContaRepository;
 
     @Autowired
+    private TaskObjetivoContaRepository taskObjetivoContaRepository;
+
+    @Autowired
     private MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
@@ -100,7 +103,7 @@ public class ContaService {
             List<Conta> rank = contaRepository.findAllActiveAccount();
 
             return rank.stream().map(it -> {
-                    int objetivosConcluido = objetivoContaRepository.countByDoneAndConta(1, it);
+                    int objetivosConcluido = taskObjetivoContaRepository.countByDoneAndObjetivoContaConta(1, it);
                     return new ContaRankResponseDto(it, objetivosConcluido);
                 }).collect(Collectors.toList());
 

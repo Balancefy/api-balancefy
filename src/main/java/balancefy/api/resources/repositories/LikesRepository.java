@@ -19,7 +19,7 @@ public interface LikesRepository extends JpaRepository<Like, Integer> {
     int countByTopico(Topico topico);
     @Transactional
     void deleteByTopicoAndConta(Topico topico, Conta conta);
-    @Query("select new balancefy.api.resources.entities.Topico(t.id, t.titulo, t.conteudo, t.fkConta) from Like l join l.topico t group by t.id ")
+    @Query("select new balancefy.api.resources.entities.Topico(t.id, max(t.titulo), max(t.conteudo), max(t.fkConta)) from Like l join l.topico t group by t.id ")
     List<Topico> getTop3Topicos();
 
 }
