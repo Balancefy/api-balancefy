@@ -85,7 +85,11 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>7.2.2.jre8</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.12.341</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

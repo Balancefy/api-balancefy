@@ -1,28 +1,31 @@
 package balancefy.api.application.utils;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 
 public class FileUploadUtil {
-    public static void saveFile(String uploadDir, String fileName,
-                                MultipartFile multipartFile) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
+    public static void saveFile( String fileName, MultipartFile multipartFile) throws IOException {
 
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
+        AmazonS3 s3Client = AmazonS3ClientBuilder.
+                standard()
+                .withEndpointConfiguration(
+                        new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1")
+                )
+                .enablePathStyleAccess()
+                .build();
 
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ioe) {
-            throw new IOException("Could not save image file: " + fileName, ioe);
-        }
+        ObjectMetadata data = new ObjectMetadata();
+        data.setContentType(multipartFile.getContentType());
+        data.setContentLength(multipartFile.getSize());
+
+       s3Client.putObject("balancefy-d", fileName, multipartFile.getInputStream(), data);
+
     }
 }

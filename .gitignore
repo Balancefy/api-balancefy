@@ -34,3 +34,7 @@ build/
 
 ### CSV ###
 .csv
+
+
+### LOCALSTACK ###
+/tmp_localstack

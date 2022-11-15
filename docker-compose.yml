@@ -12,5 +12,23 @@ services:
     volumes:
       - db:/var/lib/mysql
       - ./src/main/resources/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  localstack:
+    image: localstack/localstack
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=./localstack
+      - DATA_DIR=/tmp/localstack/data
+      - AWS_SECRET_ACCESS_KEY=123secret
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=123secret
+      - AWS_DEFAULT_OUTPUT=json
+    ports:
+      - "4566-4583:4566-4583"
+    volumes:
+      - ./localstack:/docker-entrypoint-initaws.d
+      - ./tmp_localstack:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
 volumes:
   db:

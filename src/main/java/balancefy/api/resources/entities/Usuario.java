@@ -135,10 +135,10 @@ public class Usuario {
     public String getAvatar() {
 
         if (avatar.endsWith(".png") || avatar.endsWith(".jpeg") || avatar.endsWith(".jpg")) {
-            return "/user-photos/" + id + "/avatar/" + avatar;
+            return avatar;
         }
 
-        return avatar;
+        return "default.png";
     }
 
     public void setAvatar(String avatar) {
